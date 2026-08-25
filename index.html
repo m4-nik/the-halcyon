@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Halcyon — A Murder Mystery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- LANDING SCREEN -->
+<section id="screen-landing" class="screen active">
+  <div class="landing-atmosphere" aria-hidden="true">
+    <div class="fog fog-a"></div>
+    <div class="fog fog-b"></div>
+    <svg class="compass-watermark" viewBox="0 0 400 400">
+      <circle cx="200" cy="200" r="180" fill="none" stroke="currentColor" stroke-width="1" />
+      <circle cx="200" cy="200" r="140" fill="none" stroke="currentColor" stroke-width="1" />
+      <line x1="200" y1="10" x2="200" y2="390" stroke="currentColor" stroke-width="1" />
+      <line x1="10" y1="200" x2="390" y2="200" stroke="currentColor" stroke-width="1" />
+      <line x1="60" y1="60" x2="340" y2="340" stroke="currentColor" stroke-width="0.5" />
+      <line x1="340" y1="60" x2="60" y2="340" stroke="currentColor" stroke-width="0.5" />
+      <path d="M200,40 L215,200 L200,360 L185,200 Z" fill="currentColor" />
+      <path d="M40,200 L200,185 L360,200 L200,215 Z" fill="currentColor" />
+    </svg>
+  </div>
+
+  <div class="landing-content">
+    <p class="eyebrow eyebrow-script">A Case Aboard The</p>
+    <h1 class="title-halcyon">THE HALCYON</h1>
+    <div class="title-rule" aria-hidden="true"></div>
+
+    <div class="case-brief">
+      <p class="case-brief-label">Confidential — For The Detective's Eyes Only</p>
+      <p>
+        Hours from harbor, the superyacht <em>Halcyon</em> drifts under a sky
+        that offers no help. Somewhere below deck, someone has already
+        begun: the crew disabled, the radios silenced, a course quietly
+        redrawn toward a payout no one aboard is supposed to know about.
+      </p>
+      <p>
+        Five people remain who could have done it. Four of them are innocent
+        — and every one of them has something to hide. Only one is lying
+        about the thing that actually matters.
+      </p>
+      <p class="case-brief-directive">
+        The Halcyon cannot save itself. <strong>It needs you.</strong>
+      </p>
+    </div>
+
+    <button id="btn-begin" class="btn-primary btn-begin"><span>Begin Investigation</span></button>
+  </div>
+</section>
+
+<!-- CASE FILE GATE -->
+<section id="screen-gate" class="screen">
+  <div class="landing-atmosphere" aria-hidden="true">
+    <div class="fog fog-a"></div>
+    <div class="fog fog-b"></div>
+    <svg class="compass-watermark" viewBox="0 0 400 400">
+      <circle cx="200" cy="200" r="180" fill="none" stroke="currentColor" stroke-width="1" />
+      <circle cx="200" cy="200" r="140" fill="none" stroke="currentColor" stroke-width="1" />
+      <line x1="200" y1="10" x2="200" y2="390" stroke="currentColor" stroke-width="1" />
+      <line x1="10" y1="200" x2="390" y2="200" stroke="currentColor" stroke-width="1" />
+      <line x1="60" y1="60" x2="340" y2="340" stroke="currentColor" stroke-width="0.5" />
+      <line x1="340" y1="60" x2="60" y2="340" stroke="currentColor" stroke-width="0.5" />
+      <path d="M200,40 L215,200 L200,360 L185,200 Z" fill="currentColor" />
+      <path d="M40,200 L200,185 L360,200 L200,215 Z" fill="currentColor" />
+    </svg>
+  </div>
+
+  <div class="gate-content">
+    <p class="eyebrow">Ship's Log — Access Restricted</p>
+    <h2>Case File Access</h2>
+    <p>Enter the case file code to unlock the Halcyon's log.</p>
+    <input type="text" id="gate-input" placeholder="Case file code" autocomplete="off" spellcheck="false" />
+    <button id="gate-submit" class="btn-primary">Unlock</button>
+    <p id="gate-error" class="gate-error" role="alert"></p>
+  </div>
+</section>
+
+<!-- MAIN GAME SHELL -->
+<section id="screen-game" class="screen">
+  <header id="top-bar">
+    <nav id="room-nav" aria-label="Room navigation"></nav>
+
+    <div id="status-cluster">
+      <div id="hint-counter">
+        Valid hints found: <span id="hint-count">0</span> / <span id="hint-total">0</span>
+      </div>
+      <div id="antagonist-plan">
+        <span class="plan-label">Antagonist's Plan</span>
+        <div class="plan-bar-track">
+          <div id="plan-bar-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="top-bar-actions">
+      <button id="btn-case-log" class="btn-secondary">Case Log</button>
+      <button id="btn-suspects" class="btn-secondary">Suspects</button>
+      <button id="btn-ai-assist" class="btn-secondary">AI Assist</button>
+      <button id="btn-accuse" class="btn-primary">Accuse</button>
+    </div>
+  </header>
+
+  <main id="room-view"></main>
+
+  <!-- Slide-out panels -->
+  <aside id="case-log-panel" class="panel">
+    <div class="panel-header">
+      <h2>Case Log</h2>
+      <button class="panel-close" data-close="case-log-panel" aria-label="Close">&times;</button>
+    </div>
+    <div id="case-log-list"></div>
+  </aside>
+
+  <aside id="suspects-panel" class="panel">
+    <div class="panel-header">
+      <h2>Suspects</h2>
+      <button class="panel-close" data-close="suspects-panel" aria-label="Close">&times;</button>
+    </div>
+    <div id="suspects-list"></div>
+  </aside>
+
+  <aside id="ai-assist-panel" class="panel">
+    <div class="panel-header">
+      <h2>AI Conclusion Assist</h2>
+      <button class="panel-close" data-close="ai-assist-panel" aria-label="Close">&times;</button>
+    </div>
+    <div id="ai-assist-content"></div>
+  </aside>
+
+  <aside id="accusation-panel" class="panel">
+    <div class="panel-header">
+      <h2>Make Your Accusation</h2>
+      <button class="panel-close" data-close="accusation-panel" aria-label="Close">&times;</button>
+    </div>
+    <div id="accusation-content"></div>
+  </aside>
+
+  <!-- Clue popup modal -->
+  <div id="clue-modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="clue-modal-close" class="modal-close" aria-label="Close">&times;</button>
+      <p id="clue-modal-text"></p>
+    </div>
+  </div>
+</section>
+
+<!-- GAME OVER: Antagonist's Plan hit 100% -->
+<section id="screen-game-over" class="screen">
+  <div class="end-content">
+    <p class="eyebrow">Time's Up</p>
+    <h1>The Antagonist Made Their Move</h1>
+    <p>
+      Communications go dark. The Halcyon changes course. Whatever you'd
+      found, it wasn't enough in time.
+    </p>
+    <button id="btn-restart-1" class="btn-primary">Restart Investigation</button>
+  </div>
+</section>
+
+<!-- RESULT SCREEN: after accusation -->
+<section id="screen-result" class="screen">
+  <div class="end-content" id="result-content"></div>
+  <button id="btn-restart-2" class="btn-primary">Restart Investigation</button>
+</section>
+
+<!-- LOCK TRANSITION: landing world -> case-file gate ("locking in") -->
+<div id="lock-transition" class="lock-transition" aria-hidden="true">
+  <div class="lock-iris"></div>
+  <svg class="anchor-glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="9" r="5" />
+    <line x1="32" y1="14" x2="32" y2="46" />
+    <line x1="21" y1="22" x2="43" y2="22" />
+    <path d="M13,30 a19,19 0 0 0 38,0" />
+    <path d="M13,30 l7,-3" />
+    <path d="M51,30 l-7,-3" />
+  </svg>
+</div>
+
+<!-- WATER TRANSITION: gate ("login") world -> investigation world -->
+<div id="water-transition" class="water-transition" aria-hidden="true">
+  <div class="dive-wave">
+    <svg class="wave-crest" viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path class="wave-fill" d="M0,60 C240,30 480,90 720,55 C960,20 1200,80 1440,50 L1440,120 L0,120 Z" />
+      <path class="wave-line" d="M0,60 C240,30 480,90 720,55 C960,20 1200,80 1440,50" />
+    </svg>
+  </div>
+  <div class="dive-bubble" style="left: 12%; width: 5px; height: 5px; animation-delay: 0.1s;"></div>
+  <div class="dive-bubble" style="left: 24%; width: 8px; height: 8px; animation-delay: 0.4s;"></div>
+  <div class="dive-bubble" style="left: 38%; width: 4px; height: 4px; animation-delay: 0s;"></div>
+  <div class="dive-bubble" style="left: 52%; width: 7px; height: 7px; animation-delay: 0.55s;"></div>
+  <div class="dive-bubble" style="left: 63%; width: 5px; height: 5px; animation-delay: 0.2s;"></div>
+  <div class="dive-bubble" style="left: 75%; width: 9px; height: 9px; animation-delay: 0.35s;"></div>
+  <div class="dive-bubble" style="left: 86%; width: 5px; height: 5px; animation-delay: 0.6s;"></div>
+  <div class="dive-flare"></div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

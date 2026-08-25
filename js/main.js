@@ -1,0 +1,315 @@
+// ---------------------------------------------------------------------------
+// APP ENTRY POINT
+// Wires the data files and engine modules to the DOM. Owns the game's
+// in-memory state (current room, clues found, plan progress). Nothing is
+// persisted between sessions on purpose — no accounts, no save/load.
+// ---------------------------------------------------------------------------
+
+import { ROOMS } from "../data/rooms.js";
+import { SUSPECTS } from "../data/suspects.js";
+import {
+  CASE_FILE_CODE,
+  REQUIRED_HINT_RATIO,
+  MIN_HINT_RATIO_TO_ACCUSE,
+} from "../data/config.js";
+import { renderRoom } from "./hotspotEngine.js";
+import {
+  addClueToLog,
+  countValidHints,
+  countTotalRealHotspots,
+  renderCaseLog,
+} from "./caseLog.js";
+import { renderSuspects } from "./suspects.js";
+import { getAISuggestion } from "./aiAssist.js";
+import { checkAccusation, renderAccusationForm, renderResult } from "./accusation.js";
+import { advancePlan, renderPlanBar } from "./antagonistPlan.js";
+
+const state = {
+  currentRoomId: ROOMS[0].id,
+  foundClues: [],
+  foundHotspotIds: new Set(),
+  planPercent: 0,
+  gameOver: false,
+};
+
+let transitioning = false;
+
+// Y in "X / Y needed" — derived from the room data itself, not hardcoded.
+const totalRealHotspots = countTotalRealHotspots(ROOMS);
+const hintTarget = Math.max(1, Math.ceil(totalRealHotspots * REQUIRED_HINT_RATIO));
+
+// Minimum valid clues required before the player is allowed to accuse
+// anyone — also derived from the data, never a fixed count.
+const minHintsToAccuse = Math.max(1, Math.ceil(hintTarget * MIN_HINT_RATIO_TO_ACCUSE));
+
+// --- Screen switching -------------------------------------------------
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+// --- Landing -> Case File Gate -----------------------------------------
+document.getElementById("btn-begin").addEventListener("click", () => {
+  if (transitioning) return;
+  playLockTransition(() => {
+    showScreen("screen-gate");
+    document.getElementById("gate-input").focus();
+  });
+});
+
+// Seals the current screen behind a closing iris (like a hatch locking
+// shut), swaps screens while sealed, then opens back up on the next one.
+function playLockTransition(onSealed) {
+  transitioning = true;
+  const overlay = document.getElementById("lock-transition");
+
+  overlay.classList.remove("active");
+  void overlay.offsetWidth; // force reflow so the animation restarts cleanly
+  overlay.classList.add("active");
+
+  window.setTimeout(onSealed, 1050); // fires while the iris is fully sealed shut
+  window.setTimeout(() => {
+    overlay.classList.remove("active");
+    transitioning = false;
+  }, 2350);
+}
+
+document.getElementById("gate-submit").addEventListener("click", attemptUnlock);
+document.getElementById("gate-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") attemptUnlock();
+});
+
+function attemptUnlock() {
+  if (transitioning) return;
+
+  const input = document.getElementById("gate-input");
+  const error = document.getElementById("gate-error");
+
+  if (input.value.trim().toUpperCase() === CASE_FILE_CODE.toUpperCase()) {
+    error.textContent = "";
+    playWaterTransition(startGame);
+  } else {
+    error.textContent =
+      "Access denied. That code doesn't match any log on file. Try again.";
+    input.value = "";
+    input.focus();
+  }
+}
+
+// Carries the player from the case-file gate into the investigation with a
+// rising dark tide (see .dive-wave in style.css). `onCovered` fires once
+// the screen is fully covered, which is where the underlying screen swaps.
+function playWaterTransition(onCovered) {
+  transitioning = true;
+  const overlay = document.getElementById("water-transition");
+
+  overlay.classList.remove("active");
+  void overlay.offsetWidth; // force reflow so the animation restarts cleanly
+  overlay.classList.add("active");
+
+  window.setTimeout(onCovered, 1000);
+  window.setTimeout(() => {
+    overlay.classList.remove("active");
+    transitioning = false;
+  }, 2500);
+}
+
+// --- Game start ---------------------------------------------------------
+function startGame() {
+  showScreen("screen-game");
+  document.getElementById("hint-total").textContent = hintTarget;
+  renderRoomNav();
+  goToRoom(state.currentRoomId);
+  updateHintCounter();
+  renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
+}
+
+// --- Room navigation -----------------------------------------------------
+function renderRoomNav() {
+  const nav = document.getElementById("room-nav");
+  nav.innerHTML = "";
+
+  ROOMS.forEach((room) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = room.name;
+    btn.className = "room-nav-btn";
+    btn.dataset.roomId = room.id;
+    btn.addEventListener("click", () => goToRoom(room.id));
+    nav.appendChild(btn);
+  });
+}
+
+function goToRoom(roomId) {
+  state.currentRoomId = roomId;
+  const room = ROOMS.find((r) => r.id === roomId);
+
+  document.querySelectorAll(".room-nav-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.roomId === roomId);
+  });
+
+  renderRoom(room, document.getElementById("room-view"), {
+    foundHotspotIds: state.foundHotspotIds,
+    onHotspotClick: (r, hotspot) => handleHotspotClick(r, hotspot),
+  });
+}
+
+// --- Hotspot click handling -----------------------------------------------
+function handleHotspotClick(room, hotspot) {
+  if (state.gameOver) return;
+
+  showClueModal(hotspot.clueText);
+
+  const alreadyFound = state.foundHotspotIds.has(hotspot.id);
+  if (alreadyFound) return; // reopening a checked hotspot doesn't re-count it
+
+  state.foundHotspotIds.add(hotspot.id);
+  state.foundClues = addClueToLog(state.foundClues, room, hotspot);
+  updateHintCounter();
+
+  state.planPercent = advancePlan(state.planPercent);
+  renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
+
+  goToRoom(state.currentRoomId); // re-render so this hotspot shows as checked
+
+  if (state.planPercent >= 100) {
+    triggerGameOver();
+  }
+}
+
+function updateHintCounter() {
+  document.getElementById("hint-count").textContent = countValidHints(state.foundClues);
+  updateAccuseButtonState();
+}
+
+// Keeps the Accuse button locked until the player has found enough real
+// evidence — stops an accusation with no proof behind it.
+function updateAccuseButtonState() {
+  const btn = document.getElementById("btn-accuse");
+  const validCount = countValidHints(state.foundClues);
+  const unlocked = validCount >= minHintsToAccuse;
+
+  btn.disabled = !unlocked;
+  btn.textContent = unlocked ? "Accuse" : `Accuse (${validCount}/${minHintsToAccuse} proof)`;
+  btn.title = unlocked
+    ? ""
+    : `You need at least ${minHintsToAccuse} pieces of real evidence before you can accuse anyone.`;
+}
+
+function triggerGameOver() {
+  state.gameOver = true;
+  closeAllPanels();
+  showScreen("screen-game-over");
+}
+
+// --- Clue popup modal -------------------------------------------------
+function showClueModal(text) {
+  document.getElementById("clue-modal-text").textContent = text;
+  document.getElementById("clue-modal").classList.remove("hidden");
+}
+document.getElementById("clue-modal-close").addEventListener("click", () => {
+  document.getElementById("clue-modal").classList.add("hidden");
+});
+
+// --- Slide-out panels -------------------------------------------------
+function closeAllPanels() {
+  document.querySelectorAll(".panel").forEach((p) => p.classList.remove("open"));
+}
+
+document.querySelectorAll(".panel-close").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.getElementById(btn.dataset.close).classList.remove("open");
+  });
+});
+
+document.getElementById("btn-case-log").addEventListener("click", () => {
+  renderCaseLog(document.getElementById("case-log-list"), state.foundClues);
+  document.getElementById("case-log-panel").classList.add("open");
+});
+
+document.getElementById("btn-suspects").addEventListener("click", () => {
+  renderSuspects(document.getElementById("suspects-list"), SUSPECTS);
+  document.getElementById("suspects-panel").classList.add("open");
+});
+
+document.getElementById("btn-ai-assist").addEventListener("click", () => {
+  const suggestion = getAISuggestion(state.foundClues);
+  const content = document.getElementById("ai-assist-content");
+
+  if (!suggestion.suspectId) {
+    content.innerHTML = `<p>${suggestion.reasoning}</p>`;
+  } else {
+    const suspect = SUSPECTS.find((s) => s.id === suggestion.suspectId);
+    content.innerHTML = `
+      <p class="ai-suggestion-name">Suggested suspect: <strong>${suspect.name}</strong></p>
+      <p>${suggestion.reasoning}</p>
+      <p class="ai-disclaimer">This is a rule-based suggestion built from the clues you've logged so far — not proof. Keep investigating, or make your own call.</p>
+    `;
+  }
+
+  document.getElementById("ai-assist-panel").classList.add("open");
+});
+
+document.getElementById("btn-accuse").addEventListener("click", () => {
+  if (state.gameOver) return;
+  if (countValidHints(state.foundClues) < minHintsToAccuse) return; // belt and suspenders — button is disabled anyway
+  renderAccusationForm(
+    document.getElementById("accusation-content"),
+    SUSPECTS,
+    handleAccusationSubmit
+  );
+  document.getElementById("accusation-panel").classList.add("open");
+});
+
+function handleAccusationSubmit(suspectId, reasoning) {
+  document.getElementById("accusation-panel").classList.remove("open");
+
+  const result = checkAccusation(SUSPECTS, suspectId);
+  const supportingRealClues = state.foundClues.filter(
+    (c) => c.isReal && c.pointsToSuspectId === result.antagonist.id
+  );
+
+  renderResult(document.getElementById("result-content"), result, reasoning, supportingRealClues);
+  showScreen("screen-result");
+}
+
+// --- Restart -------------------------------------------------------------
+function restart() {
+  state.currentRoomId = ROOMS[0].id;
+  state.foundClues = [];
+  state.foundHotspotIds = new Set();
+  state.planPercent = 0;
+  state.gameOver = false;
+  document.getElementById("gate-input").value = "";
+  document.getElementById("gate-error").textContent = "";
+  showScreen("screen-landing");
+}
+document.getElementById("btn-restart-1").addEventListener("click", restart);
+document.getElementById("btn-restart-2").addEventListener("click", restart);
+
+// --- Ambient background particles (landing + gate screens) ---------------
+// Quiet drifting dust/embers behind the compass watermark — reinforces a
+// tense, serious mood rather than being decoration for its own sake.
+function initAtmosphereParticles() {
+  document.querySelectorAll(".landing-atmosphere").forEach((container) => {
+    for (let i = 0; i < 18; i++) {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+      const size = (Math.random() * 2 + 1).toFixed(1);
+      const left = (Math.random() * 100).toFixed(1);
+      const duration = (Math.random() * 16 + 14).toFixed(1);
+      const delay = (Math.random() * -30).toFixed(1);
+      const driftX = (Math.random() * 40 - 20).toFixed(0);
+
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${left}%`;
+      particle.style.setProperty("--drift-x", `${driftX}px`);
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+
+      container.appendChild(particle);
+    }
+  });
+}
+initAtmosphereParticles();

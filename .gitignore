@@ -1,0 +1,18 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Dependencies (this project has none, but ignore if they ever get added)
+node_modules/
+
+# Local environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
