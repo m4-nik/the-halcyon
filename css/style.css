@@ -307,16 +307,20 @@ button {
 }
 
 .btn-secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--color-border);
   color: var(--color-text);
+  font-family: var(--font-heading);
+  letter-spacing: 0.03em;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  border-radius: 3px;
+  font-size: 0.78rem;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 .btn-secondary:hover {
   border-color: var(--color-gold-dim);
   color: var(--color-gold);
+  background: rgba(212, 175, 106, 0.06);
 }
 
 /* -------------------------------------------------------------------------
@@ -405,9 +409,10 @@ button {
   align-items: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  padding: 0.75rem 1.25rem;
-  background: var(--color-panel);
-  border-bottom: 1px solid var(--color-border);
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(180deg, rgba(15, 15, 18, 0.98), rgba(7, 7, 9, 0.98));
+  border-bottom: 1px solid var(--color-gold-dim);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -423,9 +428,13 @@ button {
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  font-family: var(--font-heading);
+  padding: 0.45rem 0.9rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 .room-nav-btn:hover {
   color: var(--color-text);
@@ -441,18 +450,23 @@ button {
 #status-cluster {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.5rem;
   margin-left: auto;
   flex-wrap: wrap;
 }
 
 #hint-counter {
-  font-size: 0.85rem;
+  font-family: var(--font-typewriter);
+  font-size: 0.8rem;
   color: var(--color-text-muted);
   white-space: nowrap;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.015);
 }
 #hint-counter span {
-  color: var(--color-gold);
+  color: var(--color-gold-bright);
   font-weight: 600;
 }
 
@@ -462,7 +476,10 @@ button {
   gap: 0.6rem;
 }
 .plan-label {
-  font-size: 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
   white-space: nowrap;
 }
@@ -473,11 +490,13 @@ button {
   border: 1px solid var(--color-border);
   border-radius: 4px;
   overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 #plan-bar-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #d46a6a, #e0895b);
+  background: linear-gradient(90deg, #8a2f2f, #d46a6a, #e0895b);
+  box-shadow: 0 0 8px rgba(212, 106, 106, 0.5);
   transition: width 0.3s ease;
 }
 
@@ -501,11 +520,22 @@ button {
   width: 100%;
   max-width: 1100px;
   aspect-ratio: 16 / 9;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-gold-dim);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(0, 0, 0, 0.4);
   background-size: cover;
   background-position: center;
+}
+/* A soft vignette over every room — keeps the frame moody and consistent
+   whether the scene is a placeholder color or real art, and never blocks
+   clicks on the hotspots beneath it. */
+.room-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.65);
 }
 
 .room-stage-placeholder {
@@ -523,30 +553,41 @@ button {
   pointer-events: none;
 }
 
+/* Hotspots are deliberately invisible until the player is right on top of
+   one — the point is to make them actually search the scene and reason
+   about what they're looking at, not click glowing markers. A crosshair
+   cursor is the only constant hint that something here is interactive.
+   Once a spot has been checked, it gets a small permanent gold tick so
+   the player has their own reference without it giving away anything
+   they haven't found yet. */
 .hotspot {
   position: absolute;
-  width: 26px;
-  height: 26px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(212, 175, 106, 0.35);
-  border: 2px solid rgba(212, 175, 106, 0.8);
-  box-shadow: 0 0 0 4px rgba(212, 175, 106, 0.12);
-  animation: hotspot-pulse 2.2s ease-in-out infinite;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: crosshair;
 }
-.hotspot:hover {
-  background: rgba(212, 175, 106, 0.6);
+.hotspot:not(.checked):hover {
+  background: radial-gradient(circle, rgba(212, 175, 106, 0.16), transparent 72%);
 }
 .hotspot.checked {
-  background: rgba(154, 168, 194, 0.25);
-  border-color: rgba(154, 168, 194, 0.7);
-  box-shadow: none;
-  animation: none;
+  cursor: pointer;
 }
-
-@keyframes hotspot-pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(212, 175, 106, 0.12); }
-  50% { box-shadow: 0 0 0 9px rgba(212, 175, 106, 0.03); }
+.hotspot.checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: rgba(212, 175, 106, 0.65);
+  box-shadow: 0 0 0 1px rgba(212, 175, 106, 0.3), 0 0 6px rgba(212, 175, 106, 0.4);
 }
 
 /* -------------------------------------------------------------------------
@@ -555,7 +596,8 @@ button {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(5, 8, 14, 0.7);
+  background: rgba(2, 2, 3, 0.78);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -566,21 +608,40 @@ button {
 }
 .modal-content {
   position: relative;
-  max-width: 460px;
+  max-width: 480px;
   width: 90%;
-  background: var(--color-panel);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 2rem 1.75rem;
+  background: linear-gradient(180deg, rgba(17, 17, 21, 0.98), rgba(7, 7, 9, 0.98));
+  border: 1px solid var(--color-gold-dim);
+  border-radius: 4px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+  animation: modal-reveal 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes modal-reveal {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-content::before {
+  content: "Evidence";
+  display: block;
+  font-family: var(--font-typewriter);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-gold-dim);
+  margin-bottom: 1rem;
 }
 .modal-content p {
   margin: 0;
-  line-height: 1.6;
+  font-family: var(--font-serif-body);
+  font-size: 1.25rem;
+  line-height: 1.65;
+  color: var(--color-text);
 }
 .modal-close {
   position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
+  top: 0.6rem;
+  right: 0.85rem;
   background: none;
   border: none;
   color: var(--color-text-muted);
@@ -588,7 +649,7 @@ button {
   line-height: 1;
 }
 .modal-close:hover {
-  color: var(--color-text);
+  color: var(--color-gold);
 }
 
 /* -------------------------------------------------------------------------
@@ -600,14 +661,15 @@ button {
   right: 0;
   height: 100%;
   width: min(400px, 90vw);
-  background: var(--color-panel);
-  border-left: 1px solid var(--color-border);
+  background: linear-gradient(180deg, rgba(14, 14, 17, 0.98), rgba(6, 6, 8, 0.99));
+  border-left: 1px solid var(--color-gold-dim);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
   transform: translateX(100%);
   transition: transform 0.25s ease;
   z-index: 40;
   display: flex;
   flex-direction: column;
-  padding: 1.25rem;
+  padding: 1.5rem;
   overflow-y: auto;
 }
 .panel.open {
@@ -618,11 +680,14 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--color-border);
 }
 .panel-header h2 {
   font-family: var(--font-heading);
-  color: var(--color-gold);
+  letter-spacing: 0.03em;
+  color: var(--color-gold-bright);
   margin: 0;
   font-size: 1.3rem;
 }
@@ -634,39 +699,46 @@ button {
   line-height: 1;
 }
 .panel-close:hover {
-  color: var(--color-text);
+  color: var(--color-gold);
 }
 
-/* Case log */
+/* Case log — each entry reads like a card pulled from a case file */
 .case-log-empty {
   color: var(--color-text-muted);
+  font-family: var(--font-serif-body);
+  font-style: italic;
 }
 .case-log-entry {
-  border-bottom: 1px solid var(--color-border);
-  padding: 0.75rem 0;
-}
-.case-log-entry:last-child {
-  border-bottom: none;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-left: 2px solid var(--color-gold-dim);
+  border-radius: 3px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.7rem;
 }
 .case-log-room {
   display: inline-block;
-  font-size: 0.7rem;
+  font-family: var(--font-typewriter);
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-gold);
-  margin-bottom: 0.3rem;
+  letter-spacing: 0.1em;
+  color: var(--color-gold-dim);
+  margin-bottom: 0.4rem;
 }
 .case-log-entry p {
   margin: 0;
-  line-height: 1.5;
-  font-size: 0.9rem;
+  font-family: var(--font-serif-body);
+  font-size: 1.05rem;
+  line-height: 1.55;
 }
 
-/* Suspects */
+/* Suspects — dossier-style cards */
 .suspect-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 1rem;
+  border-left: 2px solid var(--color-gold-dim);
+  border-radius: 4px;
+  padding: 1.1rem;
   margin-bottom: 1rem;
 }
 .suspect-portrait {
@@ -674,34 +746,47 @@ button {
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid var(--color-gold-dim);
 }
 .suspect-portrait-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-gold-dim);
   color: var(--color-gold);
   font-weight: 600;
   font-family: var(--font-heading);
 }
 .suspect-card h3 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
   margin: 0 0 0.15rem;
 }
 .suspect-role {
+  font-family: var(--font-typewriter);
   color: var(--color-text-muted);
-  font-size: 0.85rem;
-  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.7rem;
 }
 .suspect-card p {
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-family: var(--font-serif-body);
+  font-size: 1.02rem;
+  line-height: 1.55;
 }
 
 /* AI Assist */
 .ai-suggestion-name {
-  font-size: 1.05rem;
+  font-family: var(--font-serif-body);
+  font-size: 1.15rem;
+}
+#ai-assist-content p:not(.ai-suggestion-name):not(.ai-disclaimer) {
+  font-family: var(--font-serif-body);
+  font-size: 1.02rem;
+  line-height: 1.6;
 }
 .ai-disclaimer {
   color: var(--color-text-muted);
@@ -711,17 +796,26 @@ button {
 }
 
 /* Accusation form */
+#accusation-content p {
+  font-family: var(--font-serif-body);
+  font-size: 1.05rem;
+}
 #accusation-content select,
 #accusation-content textarea {
   width: 100%;
-  padding: 0.6rem;
+  padding: 0.65rem;
   margin: 0.5rem 0 1rem;
   background: var(--color-bg-alt);
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: 3px;
   color: var(--color-text);
-  font-family: inherit;
-  font-size: 0.9rem;
+  font-family: var(--font-serif-body);
+  font-size: 1rem;
+}
+#accusation-content select:focus,
+#accusation-content textarea:focus {
+  outline: none;
+  border-color: var(--color-gold-dim);
 }
 #accusation-content textarea {
   resize: vertical;
