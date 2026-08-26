@@ -28,4 +28,5 @@ export const REQUIRED_HINT_RATIO = 1.0;
 // this fraction of the hint target above — stops a blind guess from
 // ending the case with zero evidence. Also computed at runtime, same as
 // REQUIRED_HINT_RATIO, so it never depends on a hardcoded clue count.
-export const MIN_HINT_RATIO_TO_ACCUSE = 0.4;
+// (0.625 against the current 16 real clues works out to 10.)
+export const MIN_HINT_RATIO_TO_ACCUSE = 0.625;

@@ -56,7 +56,7 @@ export const ROOMS = [
         y: 55,
         isReal: true,
         clueText:
-          "The radio panel behind the helm has had three of its wires deliberately loosened, not frayed — the kind of clean, precise disconnection you'd only manage if you already knew this exact panel by heart. Marcus Reyes has spent years as first mate running comms drills on this very panel; anyone else aboard would have needed a manual and a flashlight just to find the right screws, let alone do it fast enough not to be noticed.",
+          "The radio panel behind the helm has had three of its wires deliberately loosened, not frayed — the kind of clean, precise disconnection you'd only manage if you already knew this exact panel by heart. Marcus Reyes has spent years as first mate running comms drills on this very panel; anyone else aboard would have needed a manual and a flashlight just to find the right screws, let alone do it fast enough not to be noticed. Bridge access outside working hours is restricted to the captain and first mate alone — no guest, and almost no other crew member, is supposed to be up here unescorted at all.",
         pointsToSuspectId: "marcus-reyes",
       },
       {
@@ -101,7 +101,7 @@ export const ROOMS = [
         y: 20,
         isReal: false,
         clueText:
-          "A porcelain cup sits abandoned near the chart table, the coffee inside gone cold, a faint lipstick mark on the rim. Priya Kapoor was seen coming up to the bridge earlier in the evening to ask about the ship's arrival time — an unusual errand for a business partner who normally keeps to the lower decks, though hardly proof of anything beyond restlessness.",
+          "A porcelain cup sits abandoned near the chart table, the coffee inside gone cold, a faint lipstick mark on the rim. Priya Kapoor was seen coming up to the bridge earlier in the evening to ask about the ship's arrival time — an unusual errand for a business partner who normally keeps to the lower decks and, strictly speaking, has no standing reason to be up here at all, though hardly proof of anything beyond restlessness.",
         pointsToSuspectId: null,
       },
       {
@@ -144,7 +144,7 @@ export const ROOMS = [
         y: 64,
         isReal: true,
         clueText:
-          "The toolbox sits open on the deck, mid-use, tools still scattered rather than racked back into their foam cutouts the way engineer Tomas Bell insists on leaving them. Whoever was working here clearly didn't plan on being interrupted — and left in enough of a hurry that this wasn't a routine repair.",
+          "The toolbox sits open on the deck, mid-use, tools still scattered rather than racked back into their foam cutouts the way engineer Tomas Bell insists on leaving them. Whoever was working here clearly didn't plan on being interrupted — and left in enough of a hurry that this wasn't a routine repair. Engine-room access is limited to Tomas Bell and the first mate; every other name on the crew roster needs a supervised escort just to walk through the hatch.",
         pointsToSuspectId: "marcus-reyes",
       },
       {
@@ -180,7 +180,7 @@ export const ROOMS = [
         y: 38,
         isReal: false,
         clueText:
-          "A coil of rope has been looped and tied off with the same tight, methodical wrap Ingrid Sorensen uses when she organizes the owner's luggage and supply crates — not the looser coil crew usually leave lying around down here. It suggests someone unfamiliar with engine-room habits was recently in this exact spot.",
+          "A coil of rope has been looped and tied off with the same tight, methodical wrap Ingrid Sorensen uses when she organizes the owner's luggage and supply crates — not the looser coil crew usually leave lying around down here. Ingrid has no standing reason to be down here at all; her duties never bring her below the guest deck, which makes this rope all the more curious.",
         pointsToSuspectId: "ingrid-sorensen",
       },
       {
@@ -205,7 +205,7 @@ export const ROOMS = [
         y: 58,
         isReal: true,
         clueText:
-          "A boarding chit tucked into the nightstand drawer is stamped for crew quarters, not this guest cabin — meaning whoever's been sleeping in here isn't supposed to be. The only crew member with any reason to quietly relocate into an empty guest cabin, away from the crew corridor where his comings and goings would be noticed, is the first mate.",
+          "A boarding chit tucked into the nightstand drawer is stamped for crew quarters, not this guest cabin — meaning whoever's been sleeping in here isn't supposed to be. Crew are strictly forbidden from occupying guest cabins without the owner's sign-off, and the only crew member with any reason to quietly relocate into an empty one, away from the corridor where his comings and goings would be noticed, is the first mate.",
         pointsToSuspectId: "marcus-reyes",
       },
       {
@@ -232,7 +232,7 @@ export const ROOMS = [
         y: 33,
         isReal: false,
         clueText:
-          "Wine and a spread of paperwork cover the desk, an open ledger showing figures well past what Priya Kapoor's business normally turns over in a season. Apparently even on a private cruise, with the owner's yacht drifting under a dark sky, her financial troubles don't take the night off.",
+          "Wine and a spread of paperwork cover the desk, an open ledger showing figures well past what Priya Kapoor's business normally turns over in a season. This is her own cabin, at least — nothing forbidden about being in it. Apparently even on a private cruise, with the owner's yacht drifting under a dark sky, her financial troubles don't take the night off.",
         pointsToSuspectId: "priya-kapoor",
       },
       {
@@ -285,7 +285,7 @@ export const ROOMS = [
         y: 35,
         isReal: true,
         clueText:
-          "A handwritten crew schedule is pinned to the corkboard by the pass-through window, and one line has been altered in ink darker than the rest: Marcus Reyes swapped himself onto the graveyard watch — the exact overnight shift when the diversion appears to have been set in motion. Nobody else on the schedule made any changes at all.",
+          "A handwritten crew schedule is pinned to the corkboard by the pass-through window, and one line has been altered in ink darker than the rest: Marcus Reyes swapped himself onto the graveyard watch — the exact overnight shift when the diversion appears to have been set in motion. Only the ship's cook has standing duty in the galley overnight; anyone else back here after hours needs a reason, which makes altering tonight's watch schedule from this exact spot even bolder. Nobody else on the schedule made any changes at all.",
         pointsToSuspectId: "marcus-reyes",
       },
       {
@@ -321,7 +321,7 @@ export const ROOMS = [
         y: 30,
         isReal: false,
         clueText:
-          "Ingrid Sorensen's dinner tray sits untouched by the door, the food gone cold under its cover. She's barely eaten since the yacht left harbor, by the cook's account — nerves, most likely, though nobody's pressed her on exactly what she's nervous about.",
+          "Ingrid Sorensen's dinner tray sits untouched by the door, the food gone cold under its cover. The galley's open to any crew member grabbing a meal, so her tray being back here isn't unusual on its own — only that she never touched it. She's barely eaten since the yacht left harbor, by the cook's account — nerves, most likely, though nobody's pressed her on exactly what she's nervous about.",
         pointsToSuspectId: "ingrid-sorensen",
       },
       {
@@ -347,7 +347,7 @@ export const ROOMS = [
         y: 40,
         isReal: true,
         clueText:
-          "The satellite antenna's feed cable has been severed with a single clean cut from a proper cutting tool — not the ragged, frayed tear you'd expect from wind or storm damage. Whoever did this knew exactly which cable fed the comms array and exactly how to disable it without leaving the antenna looking obviously tampered with from a casual glance.",
+          "The satellite antenna's feed cable has been severed with a single clean cut from a proper cutting tool — not the ragged, frayed tear you'd expect from wind or storm damage. Whoever did this knew exactly which cable fed the comms array and exactly how to disable it without leaving the antenna looking obviously tampered with from a casual glance. The upper deck is open to everyone aboard, guests included, so being up here draws no suspicion by itself — which is exactly why doing this in a spot anyone could wander past took real nerve.",
         pointsToSuspectId: "marcus-reyes",
       },
       {
@@ -374,7 +374,7 @@ export const ROOMS = [
         y: 30,
         isReal: false,
         clueText:
-          "A dropped earring glints where it caught between two deck planks near the railing — a distinctive gold piece several of the crew recognize as Priya Kapoor's. She was seen pacing out here late last night, by more than one account, though pacing the deck alone isn't exactly a confession.",
+          "A dropped earring glints where it caught between two deck planks near the railing — a distinctive gold piece several of the crew recognize as Priya Kapoor's. No restrictions on being up here, of course — everyone aboard was free to walk this deck tonight. She was seen pacing out here late last night, by more than one account, though pacing the deck alone isn't exactly a confession.",
         pointsToSuspectId: "priya-kapoor",
       },
       {
@@ -408,7 +408,7 @@ export const ROOMS = [
         y: 85,
         isReal: true,
         clueText:
-          "Boot prints track through the settled dust on the floor, leading in a straight, purposeful line to this crate and back again — recent enough that the dust hasn't had time to resettle over them. Whoever came down here knew exactly which crate they wanted and didn't waste time looking around at the others.",
+          "Boot prints track through the settled dust on the floor, leading in a straight, purposeful line to this crate and back again — recent enough that the dust hasn't had time to resettle over them. The cargo hold is locked to all but the first mate and a rotating logistics crew member; no guest, and almost no other crew, holds a key. Whoever came down here knew exactly which crate they wanted and didn't waste time looking around at the others.",
         pointsToSuspectId: "marcus-reyes",
       },
       {
@@ -435,7 +435,7 @@ export const ROOMS = [
         y: 38,
         isReal: false,
         clueText:
-          "Something bulky sits under a canvas tarp near the back wall, roughly crate-sized but unmarked. It could easily be spare medical supplies Dr. Elena Voss had moved down here to free up space in the guest cabin she's using as an examination room — though nobody's confirmed that's actually what's under there.",
+          "Something bulky sits under a canvas tarp near the back wall, roughly crate-sized but unmarked. Dr. Elena Voss has no standing reason to store anything down here herself — the guest cabins have more than enough room for medical supplies — but it could easily be something she had a crew member move for her to free up space in the cabin she's using as an examination room, though nobody's confirmed that's actually what's under there.",
         pointsToSuspectId: "elena-voss",
       },
       {

@@ -199,6 +199,7 @@ function goToRoom(roomId) {
   renderRoom(room, document.getElementById("room-view"), {
     foundHotspotIds: state.foundHotspotIds,
     onHotspotClick: (r, hotspot) => handleHotspotClick(r, hotspot),
+    planPercent: state.planPercent,
   });
 }
 

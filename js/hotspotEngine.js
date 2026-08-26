@@ -10,11 +10,22 @@
 //                            can be marked as "checked".
 // options.onHotspotClick   - callback(room, hotspot) fired on every click,
 //                            including re-clicks of an already-checked spot.
-export function renderRoom(room, container, { foundHotspotIds, onHotspotClick }) {
+// options.planPercent     - the Antagonist's Plan progress (0-100). The
+//                            room's atmosphere gets visibly more oppressive
+//                            as this climbs, so the danger closing in is
+//                            something the player can actually feel, not
+//                            just read off a bar in the top corner.
+export function renderRoom(room, container, { foundHotspotIds, onHotspotClick, planPercent = 0 }) {
   container.innerHTML = "";
 
   const stage = document.createElement("div");
   stage.className = "room-stage";
+
+  if (planPercent >= 75) {
+    stage.classList.add("urgency-critical");
+  } else if (planPercent >= 40) {
+    stage.classList.add("urgency-elevated");
+  }
 
   if (room.image) {
     stage.style.backgroundImage = `url('${room.image}')`;
@@ -49,16 +60,25 @@ export function renderRoom(room, container, { foundHotspotIds, onHotspotClick })
   container.appendChild(stage);
 }
 
-// A thin haze of drifting dust over the scene — purely atmospheric, never
-// blocks a click (pointer-events: none), but it's meant to make the room
-// feel uneasy and to make hotspots blend into the background a little
-// more, the same way a real search would never be perfectly clear-eyed.
+// A haze of drifting dust and two slow-moving fog wisps over the scene —
+// purely atmospheric, never blocks a click (pointer-events: none), but
+// meant to make the room feel uneasy and to make hotspots blend into the
+// background a little, the same way a real search would never be
+// perfectly clear-eyed.
 function buildRoomAtmosphere() {
   const atmosphere = document.createElement("div");
   atmosphere.className = "room-atmosphere";
   atmosphere.setAttribute("aria-hidden", "true");
 
-  for (let i = 0; i < 10; i++) {
+  const wispA = document.createElement("div");
+  wispA.className = "room-fog room-fog-a";
+  atmosphere.appendChild(wispA);
+
+  const wispB = document.createElement("div");
+  wispB.className = "room-fog room-fog-b";
+  atmosphere.appendChild(wispB);
+
+  for (let i = 0; i < 12; i++) {
     const mote = document.createElement("div");
     mote.className = "room-mote";
     mote.style.left = `${Math.random() * 100}%`;
