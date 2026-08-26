@@ -19,7 +19,7 @@
   --font-heading: "Cinzel", Georgia, "Times New Roman", serif;
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   --font-serif-body: "Cormorant Garamond", Georgia, serif;
-  --font-typewriter: "Special Elite", "Courier New", monospace;
+  --font-typewriter: "Courier Prime", "Courier New", monospace;
 }
 
 * {
@@ -397,6 +397,151 @@ button {
 }
 
 /* -------------------------------------------------------------------------
+   KNOW THE SUSPECTS — briefing carousel, "car selector" style
+------------------------------------------------------------------------- */
+#screen-suspect-intro {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 6%, rgba(212, 175, 106, 0.08), transparent 62%),
+    linear-gradient(180deg, #010101 0%, #08090a 45%, #010101 100%);
+}
+#screen-suspect-intro.active {
+  display: flex;
+}
+
+.suspect-intro-content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  width: 100%;
+  text-align: center;
+}
+
+.suspect-intro-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+  letter-spacing: 0.06em;
+  color: var(--color-gold-bright);
+  margin: 0 0 0.75rem;
+}
+
+.suspect-intro-subtitle {
+  font-family: var(--font-serif-body);
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  margin: 0 0 2rem;
+}
+
+.suspect-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.carousel-arrow {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  color: var(--color-gold);
+  font-size: 1.6rem;
+  line-height: 1;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.carousel-arrow:hover {
+  border-color: var(--color-gold-dim);
+  background: rgba(212, 175, 106, 0.08);
+}
+
+.suspect-card-large {
+  flex: 1;
+  min-width: 0;
+  background: linear-gradient(180deg, rgba(16, 16, 20, 0.85), rgba(6, 6, 8, 0.9));
+  border: 1px solid var(--color-border);
+  border-top: 2px solid var(--color-gold-dim);
+  border-radius: 6px;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+}
+.suspect-card-large.card-enter {
+  animation: reveal-up 0.35s ease-out;
+}
+.suspect-card-large h3 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.03em;
+  font-size: 1.5rem;
+  color: var(--color-gold-bright);
+  margin: 0 0 0.25rem;
+}
+.suspect-card-large .suspect-role {
+  font-family: var(--font-typewriter);
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 1.25rem;
+}
+.suspect-card-large p {
+  font-family: var(--font-serif-body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-align: left;
+  margin: 0 0 0.85rem;
+}
+.suspect-card-large p:last-child {
+  margin-bottom: 0;
+}
+
+.suspect-portrait-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-gold-dim);
+  margin: 0 auto 1.25rem;
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  background: var(--color-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suspect-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 2rem;
+}
+.suspect-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: none;
+  padding: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.suspect-dot:hover {
+  background: var(--color-gold-dim);
+}
+.suspect-dot.active {
+  background: var(--color-gold);
+  transform: scale(1.25);
+}
+
+/* -------------------------------------------------------------------------
    MAIN GAME SHELL
 ------------------------------------------------------------------------- */
 #screen-game.active {
@@ -536,6 +681,38 @@ button {
   inset: 0;
   pointer-events: none;
   box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.65);
+  animation: room-vignette-breathe 9s ease-in-out infinite;
+}
+/* Slow, deliberately gentle — never a strobe. Just enough to make a room
+   feel like it's watching you back. */
+@keyframes room-vignette-breathe {
+  0%, 100% { box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.65); }
+  50% { box-shadow: inset 0 0 190px rgba(0, 0, 0, 0.78); }
+}
+
+/* Ambient dust drifting through the scene — atmosphere only, never
+   intercepts clicks, sits above the art but below nothing that matters. */
+.room-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.room-mote {
+  position: absolute;
+  bottom: -4%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(212, 175, 106, 0.4);
+  opacity: 0;
+  animation: room-mote-drift linear infinite;
+}
+@keyframes room-mote-drift {
+  0% { opacity: 0; transform: translate(0, 0); }
+  10% { opacity: 0.35; }
+  90% { opacity: 0.15; }
+  100% { opacity: 0; transform: translate(12px, -105%); }
 }
 
 .room-stage-placeholder {
@@ -602,9 +779,16 @@ button {
   align-items: center;
   justify-content: center;
   z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
-.modal.hidden {
-  display: none;
+.modal.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.25s ease, visibility 0s linear 0s;
 }
 .modal-content {
   position: relative;
@@ -615,11 +799,11 @@ button {
   border-radius: 4px;
   padding: 2.25rem 2rem;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
-  animation: modal-reveal 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: scale(0.94) translateY(14px);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-@keyframes modal-reveal {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+.modal.open .modal-content {
+  transform: scale(1) translateY(0);
 }
 .modal-eyebrow {
   display: flex;

@@ -19,7 +19,7 @@ import {
   countTotalRealHotspots,
   renderCaseLog,
 } from "./caseLog.js";
-import { renderSuspects } from "./suspects.js";
+import { renderSuspects, renderSuspectCard } from "./suspects.js";
 import { getAISuggestion } from "./aiAssist.js";
 import { checkAccusation, renderAccusationForm, renderResult } from "./accusation.js";
 import { advancePlan, renderPlanBar } from "./antagonistPlan.js";
@@ -87,7 +87,9 @@ function attemptUnlock() {
 
   if (input.value.trim().toUpperCase() === CASE_FILE_CODE.toUpperCase()) {
     error.textContent = "";
-    playWaterTransition(startGame);
+    suspectIntroIndex = 0;
+    renderSuspectIntro();
+    showScreen("screen-suspect-intro");
   } else {
     error.textContent =
       "Access denied. That code doesn't match any log on file. Try again.";
@@ -113,6 +115,52 @@ function playWaterTransition(onCovered) {
     transitioning = false;
   }, 2500);
 }
+
+// --- Know the Suspects (briefing carousel) --------------------------------
+let suspectIntroIndex = 0;
+
+function renderSuspectIntro() {
+  const card = document.getElementById("suspect-card-large");
+  renderSuspectCard(card, SUSPECTS[suspectIntroIndex]);
+
+  // Restart the entrance animation on every swap, not just the first render.
+  card.classList.remove("card-enter");
+  void card.offsetWidth;
+  card.classList.add("card-enter");
+
+  renderSuspectDots();
+}
+
+function renderSuspectDots() {
+  const dotsContainer = document.getElementById("suspect-dots");
+  dotsContainer.innerHTML = "";
+
+  SUSPECTS.forEach((suspect, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "suspect-dot" + (i === suspectIntroIndex ? " active" : "");
+    dot.setAttribute("aria-label", `View ${suspect.name}`);
+    dot.addEventListener("click", () => {
+      suspectIntroIndex = i;
+      renderSuspectIntro();
+    });
+    dotsContainer.appendChild(dot);
+  });
+}
+
+document.getElementById("suspect-prev").addEventListener("click", () => {
+  suspectIntroIndex = (suspectIntroIndex - 1 + SUSPECTS.length) % SUSPECTS.length;
+  renderSuspectIntro();
+});
+document.getElementById("suspect-next").addEventListener("click", () => {
+  suspectIntroIndex = (suspectIntroIndex + 1) % SUSPECTS.length;
+  renderSuspectIntro();
+});
+
+document.getElementById("btn-begin-investigation").addEventListener("click", () => {
+  if (transitioning) return;
+  playWaterTransition(startGame);
+});
 
 // --- Game start ---------------------------------------------------------
 function startGame() {
@@ -205,10 +253,10 @@ function triggerGameOver() {
 // --- Clue popup modal -------------------------------------------------
 function showClueModal(text) {
   document.getElementById("clue-modal-text").textContent = text;
-  document.getElementById("clue-modal").classList.remove("hidden");
+  document.getElementById("clue-modal").classList.add("open");
 }
 function closeClueModal() {
-  document.getElementById("clue-modal").classList.add("hidden");
+  document.getElementById("clue-modal").classList.remove("open");
 }
 document.getElementById("clue-modal-close").addEventListener("click", closeClueModal);
 document.getElementById("clue-modal-continue").addEventListener("click", closeClueModal);
@@ -242,10 +290,13 @@ document.getElementById("btn-ai-assist").addEventListener("click", () => {
     content.innerHTML = `<p>${suggestion.reasoning}</p>`;
   } else {
     const suspect = SUSPECTS.find((s) => s.id === suggestion.suspectId);
+    const confidenceLabel = { faint: "Faint lean", moderate: "Moderate lean", strong: "Strong lean" }[
+      suggestion.confidence
+    ];
     content.innerHTML = `
-      <p class="ai-suggestion-name">Suggested suspect: <strong>${suspect.name}</strong></p>
+      <p class="ai-suggestion-name">${confidenceLabel} toward <strong>${suspect.name}</strong></p>
       <p>${suggestion.reasoning}</p>
-      <p class="ai-disclaimer">This is a rule-based suggestion built from the clues you've logged so far — not proof. Keep investigating, or make your own call.</p>
+      <p class="ai-disclaimer">This is a rule-based lean built from the clues you've logged so far — never proof, and never a verdict. The final call is yours.</p>
     `;
   }
 

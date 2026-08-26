@@ -45,5 +45,27 @@ export function renderRoom(room, container, { foundHotspotIds, onHotspotClick })
     stage.appendChild(dot);
   });
 
+  stage.appendChild(buildRoomAtmosphere());
   container.appendChild(stage);
+}
+
+// A thin haze of drifting dust over the scene — purely atmospheric, never
+// blocks a click (pointer-events: none), but it's meant to make the room
+// feel uneasy and to make hotspots blend into the background a little
+// more, the same way a real search would never be perfectly clear-eyed.
+function buildRoomAtmosphere() {
+  const atmosphere = document.createElement("div");
+  atmosphere.className = "room-atmosphere";
+  atmosphere.setAttribute("aria-hidden", "true");
+
+  for (let i = 0; i < 10; i++) {
+    const mote = document.createElement("div");
+    mote.className = "room-mote";
+    mote.style.left = `${Math.random() * 100}%`;
+    mote.style.animationDuration = `${(Math.random() * 10 + 14).toFixed(1)}s`;
+    mote.style.animationDelay = `${(Math.random() * -20).toFixed(1)}s`;
+    atmosphere.appendChild(mote);
+  }
+
+  return atmosphere;
 }
