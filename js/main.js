@@ -25,7 +25,6 @@ import { checkAccusation, renderAccusationForm, renderResult } from "./accusatio
 import { advancePlan, renderPlanBar } from "./antagonistPlan.js";
 import {
   startAmbient,
-  setAmbientIntensity,
   playGameOverStinger,
   stopAmbient,
   setMuted,
@@ -179,7 +178,6 @@ function startGame() {
   updateHintCounter();
   renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
   startAmbient();
-  setAmbientIntensity(state.planPercent);
 }
 
 // --- Room navigation -----------------------------------------------------
@@ -228,7 +226,6 @@ function handleHotspotClick(room, hotspot) {
 
   state.planPercent = advancePlan(state.planPercent);
   renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
-  setAmbientIntensity(state.planPercent);
 
   goToRoom(state.currentRoomId); // re-render so this hotspot shows as checked
 
