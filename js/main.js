@@ -25,6 +25,7 @@ import { checkAccusation, renderAccusationForm, renderResult } from "./accusatio
 import { advancePlan, renderPlanBar } from "./antagonistPlan.js";
 import {
   startAmbient,
+  retryAmbientIfStalled,
   playGameOverStinger,
   stopAmbient,
   setMuted,
@@ -215,6 +216,7 @@ function goToRoom(roomId) {
 function handleHotspotClick(room, hotspot) {
   if (state.gameOver) return;
 
+  retryAmbientIfStalled(); // this click is a real user gesture — good moment to retry a blocked autoplay
   showClueModal(hotspot.clueText);
 
   const alreadyFound = state.foundHotspotIds.has(hotspot.id);
@@ -361,6 +363,7 @@ audioToggleBtn.addEventListener("click", () => {
   audioToggleBtn.classList.toggle("muted", nextMuted);
   audioToggleBtn.setAttribute("aria-pressed", String(nextMuted));
   audioToggleBtn.setAttribute("aria-label", nextMuted ? "Unmute audio" : "Mute audio");
+  retryAmbientIfStalled(); // clicking the toggle is as real a gesture as any — worth a retry too
 });
 
 // --- Ambient background particles (landing + gate screens) ---------------

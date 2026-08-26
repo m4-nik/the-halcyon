@@ -19,15 +19,28 @@ let ambientAudio = null;
 let muted = false;
 
 // Starts the ambient loop. Safe to call more than once — only the first
-// call (per stopAmbient()) actually starts anything. Browsers block audio
+// call (per stopAmbient()) creates the element. Browsers block audio
 // without a prior user gesture on the page; play() is caught rather than
 // thrown so a blocked autoplay (or a missing file) never breaks the game.
+// If that first attempt gets blocked, retryAmbientIfStalled() below is
+// what actually gets it going on a later, more clearly "real" gesture.
 export function startAmbient() {
   if (ambientAudio) return;
   ambientAudio = new Audio(AMBIENT_TRACK);
   ambientAudio.loop = true;
   ambientAudio.volume = muted ? 0 : AMBIENT_VOLUME;
   ambientAudio.play().catch(() => {});
+}
+
+// Call this from any later click handler (a hotspot, the mute toggle,
+// anything) once the game has started. If the very first play() attempt
+// in startAmbient() got silently blocked by the browser's autoplay policy,
+// the element is left created-but-paused — this retries on that same
+// element rather than assuming "created" means "playing".
+export function retryAmbientIfStalled() {
+  if (ambientAudio && ambientAudio.paused) {
+    ambientAudio.play().catch(() => {});
+  }
 }
 
 export function stopAmbient() {
