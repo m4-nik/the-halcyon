@@ -207,9 +207,11 @@ function showClueModal(text) {
   document.getElementById("clue-modal-text").textContent = text;
   document.getElementById("clue-modal").classList.remove("hidden");
 }
-document.getElementById("clue-modal-close").addEventListener("click", () => {
+function closeClueModal() {
   document.getElementById("clue-modal").classList.add("hidden");
-});
+}
+document.getElementById("clue-modal-close").addEventListener("click", closeClueModal);
+document.getElementById("clue-modal-continue").addEventListener("click", closeClueModal);
 
 // --- Slide-out panels -------------------------------------------------
 function closeAllPanels() {
