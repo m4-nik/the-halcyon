@@ -23,6 +23,14 @@ import { renderSuspects, renderSuspectCard } from "./suspects.js";
 import { getAISuggestion } from "./aiAssist.js";
 import { checkAccusation, renderAccusationForm, renderResult } from "./accusation.js";
 import { advancePlan, renderPlanBar } from "./antagonistPlan.js";
+import {
+  startAmbient,
+  setAmbientIntensity,
+  playGameOverStinger,
+  stopAmbient,
+  setMuted,
+  isMuted,
+} from "./audioManager.js";
 
 const state = {
   currentRoomId: ROOMS[0].id,
@@ -170,6 +178,8 @@ function startGame() {
   goToRoom(state.currentRoomId);
   updateHintCounter();
   renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
+  startAmbient();
+  setAmbientIntensity(state.planPercent);
 }
 
 // --- Room navigation -----------------------------------------------------
@@ -218,6 +228,7 @@ function handleHotspotClick(room, hotspot) {
 
   state.planPercent = advancePlan(state.planPercent);
   renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
+  setAmbientIntensity(state.planPercent);
 
   goToRoom(state.currentRoomId); // re-render so this hotspot shows as checked
 
@@ -248,6 +259,8 @@ function updateAccuseButtonState() {
 function triggerGameOver() {
   state.gameOver = true;
   closeAllPanels();
+  stopAmbient();
+  playGameOverStinger();
   showScreen("screen-game-over");
 }
 
@@ -317,6 +330,7 @@ document.getElementById("btn-accuse").addEventListener("click", () => {
 
 function handleAccusationSubmit(suspectId, reasoning) {
   document.getElementById("accusation-panel").classList.remove("open");
+  stopAmbient();
 
   const result = checkAccusation(SUSPECTS, suspectId);
   const supportingRealClues = state.foundClues.filter(
@@ -334,12 +348,23 @@ function restart() {
   state.foundHotspotIds = new Set();
   state.planPercent = 0;
   state.gameOver = false;
+  stopAmbient();
   document.getElementById("gate-input").value = "";
   document.getElementById("gate-error").textContent = "";
   showScreen("screen-landing");
 }
 document.getElementById("btn-restart-1").addEventListener("click", restart);
 document.getElementById("btn-restart-2").addEventListener("click", restart);
+
+// --- Audio toggle (visible on every screen, defaults to unmuted) ---------
+const audioToggleBtn = document.getElementById("audio-toggle");
+audioToggleBtn.addEventListener("click", () => {
+  const nextMuted = !isMuted();
+  setMuted(nextMuted);
+  audioToggleBtn.classList.toggle("muted", nextMuted);
+  audioToggleBtn.setAttribute("aria-pressed", String(nextMuted));
+  audioToggleBtn.setAttribute("aria-label", nextMuted ? "Unmute audio" : "Mute audio");
+});
 
 // --- Ambient background particles (landing + gate screens) ---------------
 // Quiet drifting dust/embers behind the compass watermark — reinforces a

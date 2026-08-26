@@ -1269,6 +1269,45 @@ button {
 }
 
 /* -------------------------------------------------------------------------
+   AUDIO TOGGLE — fixed on every screen, above the transition overlays so
+   it's always reachable even mid-transition.
+------------------------------------------------------------------------- */
+.audio-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 220;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(10, 10, 12, 0.7);
+  border: 1px solid var(--color-border);
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.audio-toggle:hover {
+  border-color: var(--color-gold-dim);
+  background: rgba(212, 175, 106, 0.12);
+}
+.audio-icon {
+  width: 19px;
+  height: 19px;
+}
+.audio-icon-off {
+  display: none;
+}
+.audio-toggle.muted .audio-icon-on {
+  display: none;
+}
+.audio-toggle.muted .audio-icon-off {
+  display: block;
+}
+
+/* -------------------------------------------------------------------------
    RESPONSIVE
 ------------------------------------------------------------------------- */
 @media (max-width: 720px) {
