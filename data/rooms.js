@@ -41,6 +41,11 @@
 //                        evidence implicates. Use null for decoys, or for
 //                        real clues that are just atmospheric and don't
 //                        implicate anyone specific.
+//   examineModel       - OPTIONAL. Path to a .glb model (assets/models/).
+//                        When set, clicking this hotspot opens a 3D
+//                        "examine" view of the model instead of the plain
+//                        text popup, with clueText shown underneath it.
+//                        Leave unset for a normal hotspot — most should be.
 // ---------------------------------------------------------------------------
 
 export const ROOMS = [
@@ -128,6 +133,7 @@ export const ROOMS = [
         clueText:
           "A wrench sits on the workbench, still faintly warm to the touch, though the main engine has been powered down for hours. Whoever picked it up knew exactly which tool they needed and where to find it in the dark — the kind of familiarity that comes from years working alongside the ship's engineer down here, not from a single visit. Marcus Reyes has that familiarity; almost no one else aboard would.",
         pointsToSuspectId: "marcus-reyes",
+        examineModel: "assets/models/wrench.glb",
       },
       {
         id: "engine-02",

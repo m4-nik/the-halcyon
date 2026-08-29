@@ -217,7 +217,12 @@ function handleHotspotClick(room, hotspot) {
   if (state.gameOver) return;
 
   retryAmbientIfStalled(); // this click is a real user gesture — good moment to retry a blocked autoplay
-  showClueModal(hotspot.clueText);
+
+  if (hotspot.examineModel) {
+    showExamineModal(hotspot.examineModel, hotspot.clueText);
+  } else {
+    showClueModal(hotspot.clueText);
+  }
 
   const alreadyFound = state.foundHotspotIds.has(hotspot.id);
   if (alreadyFound) return; // reopening a checked hotspot doesn't re-count it
@@ -273,6 +278,21 @@ function closeClueModal() {
 }
 document.getElementById("clue-modal-close").addEventListener("click", closeClueModal);
 document.getElementById("clue-modal-continue").addEventListener("click", closeClueModal);
+
+// 3D examine modal — same role as the plain clue modal above, used
+// instead of it whenever a hotspot sets `examineModel`. Any hotspot can
+// opt into this just by pointing examineModel at a .glb file; nothing
+// here needs to change to support more models later.
+function showExamineModal(modelSrc, text) {
+  document.getElementById("examine-model-viewer").setAttribute("src", modelSrc);
+  document.getElementById("examine-modal-text").textContent = text;
+  document.getElementById("examine-modal").classList.add("open");
+}
+function closeExamineModal() {
+  document.getElementById("examine-modal").classList.remove("open");
+}
+document.getElementById("examine-modal-close").addEventListener("click", closeExamineModal);
+document.getElementById("examine-modal-continue").addEventListener("click", closeExamineModal);
 
 // --- Slide-out panels -------------------------------------------------
 function closeAllPanels() {
