@@ -476,6 +476,7 @@ export const ROOMS = [
         clueText:
           "Something bulky sits under a canvas tarp near the back wall, roughly crate-sized but unmarked. Dr. Elena Voss has no standing reason to store anything down here herself — the guest cabins have more than enough room for medical supplies — but it could easily be something she had a crew member move for her to free up space in the cabin she's using as an examination room, though nobody's confirmed that's actually what's under there.",
         pointsToSuspectId: "elena-voss",
+        examineModel: "assets/models/tarp-covered-object.glb",
       },
       {
         id: "cargo-05",
