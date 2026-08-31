@@ -219,7 +219,9 @@ function handleHotspotClick(room, hotspot) {
   retryAmbientIfStalled(); // this click is a real user gesture — good moment to retry a blocked autoplay
 
   if (hotspot.examineModel) {
-    showExamineModal(hotspot.examineModel, hotspot.clueText);
+    showExamineModal({ model: hotspot.examineModel, text: hotspot.clueText });
+  } else if (hotspot.examineImage) {
+    showExamineModal({ image: hotspot.examineImage, text: hotspot.clueText });
   } else {
     showClueModal(hotspot.clueText);
   }
@@ -283,8 +285,21 @@ document.getElementById("clue-modal-continue").addEventListener("click", closeCl
 // instead of it whenever a hotspot sets `examineModel`. Any hotspot can
 // opt into this just by pointing examineModel at a .glb file; nothing
 // here needs to change to support more models later.
-function showExamineModal(modelSrc, text) {
-  document.getElementById("examine-model-viewer").setAttribute("src", modelSrc);
+function showExamineModal({ model, image, text }) {
+  const viewer = document.getElementById("examine-model-viewer");
+  const imageViewer = document.getElementById("examine-image-viewer");
+
+  if (model) {
+    viewer.setAttribute("src", model);
+    viewer.style.display = "";
+    imageViewer.style.display = "none";
+  } else {
+    imageViewer.src = image;
+    imageViewer.style.display = "";
+    viewer.removeAttribute("src");
+    viewer.style.display = "none";
+  }
+
   document.getElementById("examine-modal-text").textContent = text;
   document.getElementById("examine-modal").classList.add("open");
 }

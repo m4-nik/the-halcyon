@@ -46,6 +46,13 @@
 //                        "examine" view of the model instead of the plain
 //                        text popup, with clueText shown underneath it.
 //                        Leave unset for a normal hotspot — most should be.
+//   examineImage       - OPTIONAL. Path to a static image
+//                        (assets/images/examine/) for objects a 3D model
+//                        isn't practical for (torn paper, documents, etc).
+//                        Same examine-modal treatment as examineModel, just
+//                        a plain image instead of a 3D viewer. A hotspot
+//                        should only ever set ONE of examineModel /
+//                        examineImage, never both.
 // ---------------------------------------------------------------------------
 
 export const ROOMS = [
@@ -450,6 +457,7 @@ export const ROOMS = [
         clueText:
           "The cargo manifest's final line has clearly been rewritten, the ink a shade darker and the handwriting slightly tighter than the entries above it — someone went back after the fact and altered what's supposedly stored in this hold, using a different pen than whoever filled out the rest of the page.",
         pointsToSuspectId: "marcus-reyes",
+        examineImage: "assets/images/examine/clipboard-log.png",
       },
       {
         id: "cargo-03",
@@ -487,6 +495,7 @@ export const ROOMS = [
         clueText:
           "A note is pinned to the side of a crate, business shorthand scrawled hastily in the margin — the kind of quick notation Priya Kapoor uses on her own paperwork. It reads like an inventory note dashed off between other tasks, not anything more sinister on its face.",
         pointsToSuspectId: "priya-kapoor",
+        examineImage: "assets/images/examine/torn-note.png",
       },
       {
         id: "cargo-07",

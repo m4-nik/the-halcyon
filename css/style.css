@@ -909,6 +909,19 @@ button {
   background-color: var(--color-bg-alt);
   --poster-color: transparent;
 }
+/* Static-image examine mode (torn paper, documents — anything a 3D model
+   isn't practical for). Hidden by default; main.js toggles which of this
+   or .examine-model-viewer is shown per hotspot. */
+.examine-image-viewer {
+  display: none;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-bg-alt);
+}
 
 .modal-close {
   position: absolute;
