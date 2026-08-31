@@ -291,11 +291,11 @@ function showExamineModal({ model, image, text }) {
 
   if (model) {
     viewer.setAttribute("src", model);
-    viewer.style.display = "";
+    viewer.style.display = "block";
     imageViewer.style.display = "none";
   } else {
     imageViewer.src = image;
-    imageViewer.style.display = "";
+    imageViewer.style.display = "block";
     viewer.removeAttribute("src");
     viewer.style.display = "none";
   }
