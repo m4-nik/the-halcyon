@@ -477,6 +477,7 @@ export const ROOMS = [
         clueText:
           "One life jacket is missing from its usual row on the rack, leaving a gap between its neighbors. Standard enough, if Tomas Bell borrowed it while working near the hull tonight — engineers pull safety gear for hull inspections often enough that it barely raises an eyebrow.",
         pointsToSuspectId: "tomas-bell",
+        examineModel: "assets/models/life-jacket.glb",
       },
       {
         id: "cargo-06",
