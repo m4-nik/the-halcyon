@@ -448,6 +448,7 @@ export const ROOMS = [
         clueText:
           "Boot prints track through the settled dust on the floor, leading in a straight, purposeful line to this crate and back again — recent enough that the dust hasn't had time to resettle over them. The cargo hold is locked to all but the first mate and a rotating logistics crew member; no guest, and almost no other crew, holds a key. Whoever came down here knew exactly which crate they wanted and didn't waste time looking around at the others.",
         pointsToSuspectId: "marcus-reyes",
+        examineModel: "assets/models/footprints.glb",
       },
       {
         id: "cargo-02",
