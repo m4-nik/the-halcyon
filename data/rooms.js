@@ -299,6 +299,7 @@ export const ROOMS = [
         clueText:
           "Two wine glasses, both used, left out near the knife block. Someone met the first mate here tonight, off the record.",
         pointsToSuspectId: "marcus-reyes",
+        examineImage: "assets/images/examine/wine-glasses.png",
       },
       {
         id: "galley-02",
