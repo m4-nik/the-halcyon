@@ -360,6 +360,7 @@ export const ROOMS = [
         isReal: false,
         clueText: "A date circled in red on the galley calendar. Whatever's planned, it's soon.",
         pointsToSuspectId: null,
+        examineImage: "assets/images/examine/calendar.png",
       },
     ],
   },
