@@ -517,6 +517,7 @@ export const ROOMS = [
         clueText:
           "A flashlight lies on a low shelf, still switched on, its beam noticeably dimmer than it should be — the battery's been draining for a while now, quietly, in the dark, with nobody around to notice or turn it off.",
         pointsToSuspectId: null,
+        examineModel: "assets/models/flashlight.glb",
       },
     ],
   },
