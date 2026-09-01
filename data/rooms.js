@@ -508,6 +508,7 @@ export const ROOMS = [
         clueText:
           "A heavy chain lies looped around a stack of crates but never actually secured, the end left hanging loose instead of clipped. Ingrid Sorensen handles inventory sign-offs for cargo like this — an easy mistake to make while rushing through a checklist alone, late at night, with nobody double-checking her work.",
         pointsToSuspectId: "ingrid-sorensen",
+        examineModel: "assets/models/chain.glb",
       },
       {
         id: "cargo-08",
