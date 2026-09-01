@@ -468,6 +468,7 @@ export const ROOMS = [
         clueText:
           "This crate sits pulled slightly apart from the stack around it, its corner visibly pried and re-nailed in a hurry, nails driven at a rushed angle rather than flush and square. Someone opened this, checked what was inside, and closed it back up fast enough to leave the seams uneven.",
         pointsToSuspectId: "marcus-reyes",
+        examineModel: "assets/models/pried-crate.glb",
       },
       {
         id: "cargo-04",
