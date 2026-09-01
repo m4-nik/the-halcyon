@@ -325,6 +325,7 @@ export const ROOMS = [
         clueText:
           "Lobster Bisque, crossed off in a hurry. The owner's allergic — the ship's physician would know that better than most.",
         pointsToSuspectId: "elena-voss",
+        examineImage: "assets/images/examine/menu-board.png",
       },
       {
         id: "galley-05",
