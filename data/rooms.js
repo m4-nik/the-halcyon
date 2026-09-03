@@ -316,6 +316,7 @@ export const ROOMS = [
         clueText:
           "A food container marked 'VE22' — not a recipe code. Looks more like a cabin number.",
         pointsToSuspectId: "marcus-reyes",
+        examineImage: "assets/images/examine/rice-box.png",
       },
       {
         id: "galley-04",
