@@ -407,6 +407,7 @@ export const ROOMS = [
         isReal: false,
         clueText: "A glass of wine, barely touched. She never really drinks on duty.",
         pointsToSuspectId: "elena-voss",
+        examineImage: "assets/images/examine/wine-glass-deck.png",
       },
       {
         id: "deck-05",
