@@ -307,6 +307,7 @@ export const ROOMS = [
         isReal: true,
         clueText: "A note, torn at the corner: '...after the crew turns in.' No signature.",
         pointsToSuspectId: "marcus-reyes",
+        examineImage: "assets/images/examine/torn-note-galley.png",
       },
       {
         id: "galley-03",
