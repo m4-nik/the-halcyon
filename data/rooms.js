@@ -354,6 +354,7 @@ export const ROOMS = [
         clueText:
           "The first aid kit sits open. Odd, for someone who spends her nights doing the books, not tending wounds.",
         pointsToSuspectId: "priya-kapoor",
+        examineModel: "assets/models/first-aid-kit.glb",
       },
       {
         id: "galley-08",
