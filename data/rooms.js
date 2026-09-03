@@ -336,6 +336,7 @@ export const ROOMS = [
         clueText:
           "A row of jars, one lid loose and resting slightly askew — inventory sign-offs again, an easy oversight.",
         pointsToSuspectId: "ingrid-sorensen",
+        examineImage: "assets/images/examine/jars.png",
       },
       {
         id: "galley-06",
