@@ -59,13 +59,12 @@ export const ROOMS = [
   {
     id: "bridge",
     name: "Bridge",
-    image: null,
-    placeholderColor: "#1b2a4a",
+    image: "assets/images/rooms/bridge.jpg",
     hotspots: [
       {
         id: "bridge-01",
-        x: 28,
-        y: 55,
+        x: 44,
+        y: 48,
         isReal: true,
         clueText:
           "The radio panel behind the helm has had three of its wires deliberately loosened, not frayed — the kind of clean, precise disconnection you'd only manage if you already knew this exact panel by heart. Marcus Reyes has spent years as first mate running comms drills on this very panel; anyone else aboard would have needed a manual and a flashlight just to find the right screws, let alone do it fast enough not to be noticed. Bridge access outside working hours is restricted to the captain and first mate alone — no guest, and almost no other crew member, is supposed to be up here unescorted at all.",
@@ -73,8 +72,8 @@ export const ROOMS = [
       },
       {
         id: "bridge-02",
-        x: 62,
-        y: 38,
+        x: 51,
+        y: 80,
         isReal: true,
         clueText:
           "A page has been torn from the captain's log, and the remaining stub has been trimmed unnervingly straight, as if someone wanted the missing entry to look like it was never written at all. The log is normally only handled by the captain and the first mate — and Marcus Reyes is the only one of the two still walking around the ship tonight.",
@@ -82,8 +81,8 @@ export const ROOMS = [
       },
       {
         id: "bridge-03",
-        x: 45,
-        y: 72,
+        x: 70,
+        y: 76,
         isReal: true,
         clueText:
           "The course chart shows faint pencil marks tracing an entirely different heading than the one logged for tonight — a diversion route, carefully plotted and then just as carefully erased, though the impression still shows if you tilt the paper to the light. Reading a chart like this, and knowing exactly how to fake a course correction back onto the real heading, takes someone with real navigation experience — someone like the first mate.",
@@ -91,8 +90,8 @@ export const ROOMS = [
       },
       {
         id: "bridge-04",
-        x: 15,
-        y: 30,
+        x: 87,
+        y: 68,
         isReal: false,
         clueText:
           "A cork-and-canvas life ring hangs by the window, salt-stained from years of spray, its rope frayed at the loop but the ring itself intact. It's standard safety equipment, inspected and logged every month by whichever crew member is on deck-safety duty that week — tonight, nothing about its condition suggests it's been touched at all.",
@@ -100,8 +99,8 @@ export const ROOMS = [
       },
       {
         id: "bridge-05",
-        x: 80,
-        y: 60,
+        x: 38,
+        y: 50,
         isReal: false,
         clueText:
           "A brass compass sits in its housing, the needle drifting a few degrees off true whenever the ship rolls. It could easily have been nudged out of calibration by someone leaning on the housing — or it could simply be worn out, like most of the original fittings on a yacht this age that nobody's gotten around to replacing.",
@@ -109,8 +108,8 @@ export const ROOMS = [
       },
       {
         id: "bridge-06",
-        x: 55,
-        y: 20,
+        x: 72,
+        y: 87,
         isReal: false,
         clueText:
           "A porcelain cup sits abandoned near the chart table, the coffee inside gone cold, a faint lipstick mark on the rim. Priya Kapoor was seen coming up to the bridge earlier in the evening to ask about the ship's arrival time — an unusual errand for a business partner who normally keeps to the lower decks and, strictly speaking, has no standing reason to be up here at all, though hardly proof of anything beyond restlessness.",
@@ -118,8 +117,8 @@ export const ROOMS = [
       },
       {
         id: "bridge-07",
-        x: 70,
-        y: 82,
+        x: 78,
+        y: 93,
         isReal: false,
         clueText:
           "A folded note sits tucked in the chart drawer, covered in columns of numbers that could be currency figures or could just as easily be fuel-consumption calculations — the ship's paperwork is full of both, and without a ledger to compare it against, there's no way to tell which this is or whose handwriting it belongs to.",
