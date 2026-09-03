@@ -346,6 +346,7 @@ export const ROOMS = [
         isReal: false,
         clueText: "Glass and shell scraps swept toward the bin. Someone cleaned up fast and didn't finish.",
         pointsToSuspectId: "tomas-bell",
+        examineImage: "assets/images/examine/bin.png",
       },
       {
         id: "galley-07",
