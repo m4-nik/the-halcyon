@@ -1494,33 +1494,85 @@ button {
 }
 
 /* -------------------------------------------------------------------------
-   AUDIO TOGGLE — fixed on every screen, above the transition overlays so
-   it's always reachable even mid-transition.
+   AUDIO CONTROL — fixed bottom-right on every screen (clear of the top
+   bar and any browser chrome near the top corners), above the transition
+   overlays so it's always reachable even mid-transition.
 ------------------------------------------------------------------------- */
-.audio-toggle {
+.audio-control {
   position: fixed;
-  top: 1rem;
+  bottom: 1rem;
   right: 1rem;
   z-index: 220;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 999px;
   background: rgba(10, 10, 12, 0.7);
   border: 1px solid var(--color-border);
+  backdrop-filter: blur(4px);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.audio-control:hover {
+  border-color: var(--color-gold-dim);
+  background: rgba(212, 175, 106, 0.1);
+}
+
+.audio-volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-gold) 0%,
+    var(--color-gold) 55%,
+    var(--color-border) 55%,
+    var(--color-border) 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+.audio-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-gold-bright);
+  border: none;
+  cursor: pointer;
+}
+.audio-volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-gold-bright);
+  border: none;
+  cursor: pointer;
+}
+.audio-volume-slider::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.audio-toggle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
   color: var(--color-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
-  transition: border-color 0.15s ease, background 0.15s ease;
-}
-.audio-toggle:hover {
-  border-color: var(--color-gold-dim);
-  background: rgba(212, 175, 106, 0.12);
 }
 .audio-icon {
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
 }
 .audio-icon-off {
   display: none;

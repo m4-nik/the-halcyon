@@ -30,6 +30,8 @@ import {
   stopAmbient,
   setMuted,
   isMuted,
+  setVolume,
+  getVolume,
 } from "./audioManager.js";
 
 const state = {
@@ -437,13 +439,36 @@ document.getElementById("btn-restart-2").addEventListener("click", restart);
 
 // --- Audio toggle (visible on every screen, defaults to unmuted) ---------
 const audioToggleBtn = document.getElementById("audio-toggle");
-audioToggleBtn.addEventListener("click", () => {
-  const nextMuted = !isMuted();
+const volumeSlider = document.getElementById("audio-volume-slider");
+
+function setMutedUI(nextMuted) {
   setMuted(nextMuted);
   audioToggleBtn.classList.toggle("muted", nextMuted);
   audioToggleBtn.setAttribute("aria-pressed", String(nextMuted));
   audioToggleBtn.setAttribute("aria-label", nextMuted ? "Unmute audio" : "Mute audio");
+}
+
+function paintVolumeSlider(percent) {
+  volumeSlider.style.background = `linear-gradient(to right, var(--color-gold) 0%, var(--color-gold) ${percent}%, var(--color-border) ${percent}%, var(--color-border) 100%)`;
+}
+
+// Slider starts at getVolume()'s default rather than a hardcoded value.
+volumeSlider.value = String(Math.round(getVolume() * 100));
+paintVolumeSlider(Number(volumeSlider.value));
+
+audioToggleBtn.addEventListener("click", () => {
+  setMutedUI(!isMuted());
   retryAmbientIfStalled(); // clicking the toggle is as real a gesture as any — worth a retry too
+});
+
+volumeSlider.addEventListener("input", () => {
+  const percent = Number(volumeSlider.value);
+  setVolume(percent / 100);
+  paintVolumeSlider(percent);
+  // Dragging the slider is a clear signal the player wants sound —
+  // unmute automatically rather than leaving them dragging a silent bar.
+  if (isMuted()) setMutedUI(false);
+  retryAmbientIfStalled();
 });
 
 // --- Ambient background particles (landing + gate screens) ---------------

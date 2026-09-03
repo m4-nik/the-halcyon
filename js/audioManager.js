@@ -1,7 +1,8 @@
 // ---------------------------------------------------------------------------
 // AUDIO MANAGER
 // One continuous ambient track for the whole investigation, plus a
-// game-over stinger.
+// game-over stinger. Both share one master volume the player controls via
+// the slider next to the mute toggle.
 //
 // tension-loop.mp3 is a REAL file the team supplies directly — unlike the
 // stinger, nothing here generates a placeholder substitute for it. If it's
@@ -12,11 +13,11 @@
 const AMBIENT_TRACK = "assets/audio/tension-loop.mp3";
 const STINGER_TRACK = "assets/audio/stinger-gameover.wav";
 
-const AMBIENT_VOLUME = 0.55;
-const STINGER_VOLUME = 0.7;
+const DEFAULT_VOLUME = 0.55;
 
 let ambientAudio = null;
 let muted = false;
+let userVolume = DEFAULT_VOLUME; // 0-1, set by the volume slider; unaffected by mute
 
 // Starts the ambient loop. Safe to call more than once — only the first
 // call (per stopAmbient()) creates the element. Browsers block audio
@@ -28,7 +29,7 @@ export function startAmbient() {
   if (ambientAudio) return;
   ambientAudio = new Audio(AMBIENT_TRACK);
   ambientAudio.loop = true;
-  ambientAudio.volume = muted ? 0 : AMBIENT_VOLUME;
+  ambientAudio.volume = muted ? 0 : userVolume;
   ambientAudio.play().catch(() => {});
 }
 
@@ -53,17 +54,30 @@ export function stopAmbient() {
 // One-shot stinger the instant the Antagonist's Plan hits 100%.
 export function playGameOverStinger() {
   const stinger = new Audio(STINGER_TRACK);
-  stinger.volume = muted ? 0 : STINGER_VOLUME;
+  stinger.volume = muted ? 0 : userVolume;
   stinger.play().catch(() => {});
 }
 
 export function setMuted(nextMuted) {
   muted = nextMuted;
   if (ambientAudio) {
-    ambientAudio.volume = muted ? 0 : AMBIENT_VOLUME;
+    ambientAudio.volume = muted ? 0 : userVolume;
   }
 }
 
 export function isMuted() {
   return muted;
+}
+
+// Sets the master volume (0-1). Doesn't change the muted flag — main.js
+// decides whether adjusting the slider should also unmute.
+export function setVolume(nextVolume) {
+  userVolume = Math.min(1, Math.max(0, nextVolume));
+  if (ambientAudio && !muted) {
+    ambientAudio.volume = userVolume;
+  }
+}
+
+export function getVolume() {
+  return userVolume;
 }
