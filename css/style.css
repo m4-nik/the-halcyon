@@ -438,6 +438,68 @@ button {
   margin: 0 0 2rem;
 }
 
+/* "Cast" strip — all 5 suspects at a glance before the one-at-a-time
+   carousel below. Clicking a thumb jumps the carousel straight to them. */
+.suspect-cast-strip {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  margin-bottom: 2.25rem;
+}
+.suspect-cast-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 84px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.suspect-cast-portrait {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-border);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.suspect-cast-portrait-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-gold);
+  background: var(--color-bg-alt);
+}
+.suspect-cast-thumb:hover .suspect-cast-portrait {
+  border-color: var(--color-gold-dim);
+  transform: translateY(-2px);
+}
+.suspect-cast-thumb.active .suspect-cast-portrait {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 106, 0.2);
+}
+.suspect-cast-name {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.3;
+}
+.suspect-cast-role {
+  font-family: var(--font-typewriter);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
 .suspect-carousel {
   display: flex;
   align-items: center;
@@ -1064,9 +1126,33 @@ button {
 }
 
 /* AI Assist */
+.ai-suggestion-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+.ai-suggestion-portrait {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-gold-dim);
+  flex-shrink: 0;
+}
+.ai-suggestion-portrait-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-gold);
+  background: var(--color-bg-alt);
+}
 .ai-suggestion-name {
   font-family: var(--font-serif-body);
   font-size: 1.15rem;
+  margin: 0;
 }
 #ai-assist-content p:not(.ai-suggestion-name):not(.ai-disclaimer) {
   font-family: var(--font-serif-body);
@@ -1085,7 +1171,6 @@ button {
   font-family: var(--font-serif-body);
   font-size: 1.05rem;
 }
-#accusation-content select,
 #accusation-content textarea {
   width: 100%;
   padding: 0.65rem;
@@ -1096,14 +1181,123 @@ button {
   color: var(--color-text);
   font-family: var(--font-serif-body);
   font-size: 1rem;
+  resize: vertical;
 }
-#accusation-content select:focus,
 #accusation-content textarea:focus {
   outline: none;
   border-color: var(--color-gold-dim);
 }
-#accusation-content textarea {
-  resize: vertical;
+
+/* Accusation portrait grid — click a portrait to pick your suspect */
+.accuse-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin: 1rem 0 1.25rem;
+}
+.accuse-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.4rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.accuse-card:hover {
+  border-color: var(--color-gold-dim);
+  background: rgba(212, 175, 106, 0.06);
+}
+.accuse-card.selected {
+  border-color: var(--color-gold);
+  background: rgba(212, 175, 106, 0.1);
+  box-shadow: 0 0 0 2px rgba(212, 175, 106, 0.2);
+}
+.accuse-portrait {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.accuse-portrait-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-gold);
+  background: var(--color-bg-alt);
+}
+.accuse-name {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  text-align: center;
+  color: var(--color-text);
+  line-height: 1.25;
+}
+.accuse-role {
+  font-family: var(--font-typewriter);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.25;
+}
+
+/* Reveal screen portraits */
+.reveal-portraits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.reveal-portrait-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+.reveal-portrait,
+.reveal-portrait-antagonist {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-border);
+}
+.reveal-portrait-antagonist {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 20px rgba(212, 175, 106, 0.3);
+}
+.reveal-portrait-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  background: var(--color-bg-alt);
+}
+.reveal-portrait-label {
+  font-family: var(--font-typewriter);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+.reveal-portrait-name {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+.reveal-portrait-arrow {
+  font-size: 1.4rem;
+  color: var(--color-gold-dim);
 }
 
 /* -------------------------------------------------------------------------

@@ -25,7 +25,7 @@ export const SUSPECTS = [
     id: "marcus-reyes",
     name: "Marcus Reyes",
     role: "First Mate",
-    portrait: null,
+    portrait: "assets/images/suspects/marcus.jpg",
     motive:
       "Passed over for captaincy last season, and quietly drowning in debt. A yacht that 'disappears' for a while, then resurfaces with no questions asked, would solve both problems at once.",
     alibi:
@@ -36,7 +36,7 @@ export const SUSPECTS = [
     id: "priya-kapoor",
     name: "Priya Kapoor",
     role: "Business Partner of the Owner",
-    portrait: null,
+    portrait: "assets/images/suspects/priya.jpg",
     motive:
       "Deep in debt from a deal gone bad. If the Halcyon vanished for a while — insurance payout, no awkward conversations about the money she owes — it would suit her enormously.",
     alibi:
@@ -47,7 +47,7 @@ export const SUSPECTS = [
     id: "elena-voss",
     name: "Dr. Elena Voss",
     role: "Guest, the Owner's Physician",
-    portrait: null,
+    portrait: "assets/images/suspects/elena.jpg",
     motive:
       "Has been quietly asking questions about the owner's shipping company — the kind of questions that sound less like medical concern and more like due diligence.",
     alibi:
@@ -58,7 +58,7 @@ export const SUSPECTS = [
     id: "tomas-bell",
     name: "Tomas Bell",
     role: "Ship's Engineer",
-    portrait: null,
+    portrait: "assets/images/suspects/tomas.jpg",
     motive:
       "Has the technical skill to disable comms or fake an engine failure without breaking a sweat — but no one has found a convincing reason why he'd want to.",
     alibi:
@@ -69,7 +69,7 @@ export const SUSPECTS = [
     id: "ingrid-sorensen",
     name: "Ingrid Sorensen",
     role: "Owner's Personal Assistant",
-    portrait: null,
+    portrait: "assets/images/suspects/ingrid.jpg",
     motive:
       "No obvious financial motive, but she's been nervous and evasive since the yacht left harbor — flinching at questions that shouldn't be difficult to answer.",
     alibi:

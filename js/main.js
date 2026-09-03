@@ -137,6 +137,42 @@ function renderSuspectIntro() {
   card.classList.add("card-enter");
 
   renderSuspectDots();
+  renderSuspectCastStrip();
+}
+
+// The "meet the cast" row — all 5 suspects at once, each a clickable
+// portrait that jumps the carousel above straight to them.
+function renderSuspectCastStrip() {
+  const strip = document.getElementById("suspect-cast-strip");
+  strip.innerHTML = "";
+
+  SUSPECTS.forEach((suspect, i) => {
+    const thumb = document.createElement("button");
+    thumb.type = "button";
+    thumb.className = "suspect-cast-thumb" + (i === suspectIntroIndex ? " active" : "");
+
+    const portraitHtml = suspect.portrait
+      ? `<img class="suspect-cast-portrait" src="${suspect.portrait}" alt="${suspect.name}" />`
+      : `<div class="suspect-cast-portrait suspect-cast-portrait-placeholder">${initials(suspect.name)}</div>`;
+
+    thumb.innerHTML = `
+      ${portraitHtml}
+      <span class="suspect-cast-name">${suspect.name}</span>
+      <span class="suspect-cast-role">${suspect.role}</span>
+    `;
+    thumb.addEventListener("click", () => {
+      suspectIntroIndex = i;
+      renderSuspectIntro();
+    });
+    strip.appendChild(thumb);
+  });
+}
+
+function initials(name) {
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("");
 }
 
 function renderSuspectDots() {
@@ -341,8 +377,17 @@ document.getElementById("btn-ai-assist").addEventListener("click", () => {
     const confidenceLabel = { faint: "Faint lean", moderate: "Moderate lean", strong: "Strong lean" }[
       suggestion.confidence
     ];
+    const portraitHtml = suspect.portrait
+      ? `<img class="ai-suggestion-portrait" src="${suspect.portrait}" alt="${suspect.name}" />`
+      : `<div class="ai-suggestion-portrait ai-suggestion-portrait-placeholder">${suspect.name
+          .split(" ")
+          .map((w) => w[0])
+          .join("")}</div>`;
     content.innerHTML = `
-      <p class="ai-suggestion-name">${confidenceLabel} toward <strong>${suspect.name}</strong></p>
+      <div class="ai-suggestion-header">
+        ${portraitHtml}
+        <p class="ai-suggestion-name">${confidenceLabel} toward <strong>${suspect.name}</strong></p>
+      </div>
       <p>${suggestion.reasoning}</p>
       <p class="ai-disclaimer">This is a rule-based lean built from the clues you've logged so far — never proof, and never a verdict. The final call is yours.</p>
     `;
