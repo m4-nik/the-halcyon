@@ -440,6 +440,7 @@ export const ROOMS = [
         isReal: false,
         clueText: "A tablet, screen dark, left face-down on the deck. Someone left in a hurry.",
         pointsToSuspectId: null,
+        examineImage: "assets/images/examine/tablet.png",
       },
     ],
   },
