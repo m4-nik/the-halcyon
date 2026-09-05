@@ -210,13 +210,7 @@ function handleHotspotClick(room, hotspot) {
 
   retryAmbientIfStalled(); // this click is a real user gesture — good moment to retry a blocked autoplay
 
-  if (hotspot.examineModel) {
-    showExamineModal({ model: hotspot.examineModel, text: hotspot.clueText });
-  } else if (hotspot.examineImage) {
-    showExamineModal({ image: hotspot.examineImage, text: hotspot.clueText });
-  } else {
-    showClueModal(hotspot.clueText);
-  }
+  showEvidenceModal(hotspot);
 
   const alreadyFound = state.foundHotspotIds.has(hotspot.id);
   if (alreadyFound) return; // reopening a checked hotspot doesn't re-count it
@@ -262,44 +256,80 @@ function triggerGameOver() {
   showScreen("screen-game-over");
 }
 
-// --- Clue popup modal -------------------------------------------------
-function showClueModal(text) {
-  document.getElementById("clue-modal-text").textContent = text;
-  document.getElementById("clue-modal").classList.add("open");
-}
-function closeClueModal() {
-  document.getElementById("clue-modal").classList.remove("open");
-}
-document.getElementById("clue-modal-close").addEventListener("click", closeClueModal);
-document.getElementById("clue-modal-continue").addEventListener("click", closeClueModal);
+// --- Evidence modal ------------------------------------------------------
+// One shared popup for every hotspot. Shows 3D/image media when the
+// hotspot has it, always shows the clue text, an optional "why it
+// matters" takeaway, and a connection strip naming the suspect this
+// points toward (or a neutral note when it points at no one).
+function showEvidenceModal(hotspot) {
+  const mediaBlock = document.getElementById("evidence-media");
+  const viewer = document.getElementById("evidence-model-viewer");
+  const imageViewer = document.getElementById("evidence-image-viewer");
 
-// 3D examine modal — same role as the plain clue modal above, used
-// instead of it whenever a hotspot sets `examineModel`. Any hotspot can
-// opt into this just by pointing examineModel at a .glb file; nothing
-// here needs to change to support more models later.
-function showExamineModal({ model, image, text }) {
-  const viewer = document.getElementById("examine-model-viewer");
-  const imageViewer = document.getElementById("examine-image-viewer");
-
-  if (model) {
-    viewer.setAttribute("src", model);
+  if (hotspot.examineModel) {
+    mediaBlock.hidden = false;
+    viewer.setAttribute("src", hotspot.examineModel);
     viewer.style.display = "block";
     imageViewer.style.display = "none";
-  } else {
-    imageViewer.src = image;
+  } else if (hotspot.examineImage) {
+    mediaBlock.hidden = false;
+    imageViewer.src = hotspot.examineImage;
     imageViewer.style.display = "block";
     viewer.removeAttribute("src");
     viewer.style.display = "none";
+  } else {
+    mediaBlock.hidden = true;
+    viewer.removeAttribute("src");
   }
 
-  document.getElementById("examine-modal-text").textContent = text;
-  document.getElementById("examine-modal").classList.add("open");
+  document.getElementById("evidence-modal-text").textContent = hotspot.clueText;
+
+  const takeaway = document.getElementById("evidence-takeaway");
+  if (hotspot.whyItMatters) {
+    takeaway.hidden = false;
+    document.getElementById("evidence-takeaway-text").textContent = hotspot.whyItMatters;
+  } else {
+    takeaway.hidden = true;
+  }
+
+  const connection = document.getElementById("evidence-connection");
+  const suspect = hotspot.pointsToSuspectId
+    ? SUSPECTS.find((s) => s.id === hotspot.pointsToSuspectId)
+    : null;
+
+  if (suspect) {
+    const portraitHtml = suspect.portrait
+      ? `<img class="evidence-connection-portrait" src="${suspect.portrait}" alt="${suspect.name}" />`
+      : `<span class="evidence-connection-portrait evidence-connection-placeholder">${initials(suspect.name)}</span>`;
+    connection.innerHTML = `
+      <span class="evidence-connection-label">Possible Connection</span>
+      <div class="evidence-connection-suspect">
+        ${portraitHtml}
+        <span class="evidence-connection-names">
+          <strong>${suspect.name}</strong>
+          <em>${suspect.role}</em>
+        </span>
+      </div>
+    `;
+  } else {
+    connection.innerHTML =
+      '<p class="evidence-connection-none">Just set dressing — this one doesn\'t point anywhere in particular.</p>';
+  }
+
+  document.getElementById("evidence-modal").classList.add("open");
 }
-function closeExamineModal() {
-  document.getElementById("examine-modal").classList.remove("open");
+function closeEvidenceModal() {
+  document.getElementById("evidence-modal").classList.remove("open");
 }
-document.getElementById("examine-modal-close").addEventListener("click", closeExamineModal);
-document.getElementById("examine-modal-continue").addEventListener("click", closeExamineModal);
+document.getElementById("evidence-modal-close").addEventListener("click", closeEvidenceModal);
+document.getElementById("evidence-modal-continue").addEventListener("click", closeEvidenceModal);
+
+function initials(name) {
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("");
+}
 
 // --- Slide-out panels -------------------------------------------------
 function closeAllPanels() {

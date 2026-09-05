@@ -193,10 +193,28 @@
     <div id="accusation-content"></div>
   </aside>
 
-  <!-- Clue popup modal -->
-  <div id="clue-modal" class="modal">
-    <div class="modal-content">
-      <button id="clue-modal-close" class="modal-close" aria-label="Close">&times;</button>
+  <!-- Evidence modal — shared by every hotspot, with or without a 3D/image
+       asset. The media block hides itself for text-only clues rather than
+       leaving a gap. The connection strip always shows: either the
+       suspect this points toward, or a neutral "just set dressing" note
+       when pointsToSuspectId is null — every REAL clue implicates someone,
+       so that note itself never confirms a clue one way or the other. -->
+  <div id="evidence-modal" class="modal">
+    <div class="modal-content evidence-modal-content">
+      <button id="evidence-modal-close" class="modal-close" aria-label="Close">&times;</button>
+
+      <div id="evidence-media" class="evidence-media" hidden>
+        <model-viewer
+          id="evidence-model-viewer"
+          class="evidence-model-viewer"
+          camera-controls
+          auto-rotate
+          shadow-intensity="1"
+        ></model-viewer>
+        <img id="evidence-image-viewer" class="evidence-image-viewer" alt="" />
+        <span class="evidence-media-tag">Evidence</span>
+      </div>
+
       <p class="modal-eyebrow">
         <svg class="modal-eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <circle cx="10" cy="10" r="6" />
@@ -204,37 +222,18 @@
         </svg>
         Evidence Found
       </p>
-      <p id="clue-modal-text"></p>
-      <p class="modal-logged">Logged to the case file.</p>
-      <button id="clue-modal-continue" class="btn-primary modal-continue">Continue Investigating</button>
-    </div>
-  </div>
 
-  <!-- 3D examine modal — used instead of the plain clue popup whenever a
-       hotspot sets `examineModel` in data/rooms.js. Generic: any hotspot
-       can opt into this by pointing examineModel at a .glb file, nothing
-       here is wrench-specific. -->
-  <div id="examine-modal" class="modal">
-    <div class="modal-content examine-modal-content">
-      <button id="examine-modal-close" class="modal-close" aria-label="Close">&times;</button>
-      <p class="modal-eyebrow">
-        <svg class="modal-eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <circle cx="10" cy="10" r="6" />
-          <line x1="15" y1="15" x2="20" y2="20" />
-        </svg>
-        Examine Closely
-      </p>
-      <model-viewer
-        id="examine-model-viewer"
-        class="examine-model-viewer"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1"
-      ></model-viewer>
-      <img id="examine-image-viewer" class="examine-image-viewer" alt="" />
-      <p id="examine-modal-text"></p>
+      <p id="evidence-modal-text" class="evidence-text"></p>
+
+      <div id="evidence-takeaway" class="evidence-takeaway" hidden>
+        <span class="evidence-takeaway-label">Why It Matters</span>
+        <p id="evidence-takeaway-text"></p>
+      </div>
+
+      <div id="evidence-connection" class="evidence-connection"></div>
+
       <p class="modal-logged">Logged to the case file.</p>
-      <button id="examine-modal-continue" class="btn-primary modal-continue">Continue Investigating</button>
+      <button id="evidence-modal-continue" class="btn-primary modal-continue">Continue Investigating</button>
     </div>
   </div>
 </section>

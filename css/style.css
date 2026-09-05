@@ -894,6 +894,8 @@ button {
   position: relative;
   max-width: 480px;
   width: 90%;
+  max-height: 88vh;
+  overflow-y: auto;
   background: linear-gradient(180deg, rgba(17, 17, 21, 0.98), rgba(7, 7, 9, 0.98));
   border: 1px solid var(--color-gold-dim);
   border-radius: 4px;
@@ -946,34 +948,143 @@ button {
   padding: 0.75rem 1.5rem;
 }
 
-/* 3D examine modal — wider than the plain clue popup so the model has
-   room to breathe, with model-viewer given the same dark, framed
-   treatment as everything else in the shell. */
-.examine-modal-content {
-  max-width: 620px;
+/* Evidence modal — wider than a plain popup so 3D/image media has room
+   to breathe. The media block is hidden entirely for text-only clues
+   (main.js sets [hidden] on #evidence-media) rather than leaving a gap. */
+.evidence-modal-content {
+  max-width: 640px;
 }
-.examine-model-viewer {
+.evidence-media {
+  position: relative;
+  margin-bottom: 1.1rem;
+}
+.evidence-model-viewer {
   display: block;
   width: 100%;
-  height: 300px;
-  margin-bottom: 1.25rem;
+  height: 320px;
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: 6px;
   background-color: var(--color-bg-alt);
   --poster-color: transparent;
 }
 /* Static-image examine mode (torn paper, documents — anything a 3D model
    isn't practical for). Hidden by default; main.js toggles which of this
-   or .examine-model-viewer is shown per hotspot. */
-.examine-image-viewer {
+   or .evidence-model-viewer is shown per hotspot. */
+.evidence-image-viewer {
   display: none;
   width: 100%;
-  max-height: 360px;
+  max-height: 380px;
   object-fit: contain;
-  margin-bottom: 1.25rem;
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: 6px;
   background-color: var(--color-bg-alt);
+}
+.evidence-media-tag {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  font-family: var(--font-typewriter);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold-bright);
+  background: rgba(8, 8, 10, 0.78);
+  border: 1px solid var(--color-gold-dim);
+  padding: 0.22rem 0.6rem;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.evidence-text {
+  font-size: 1.15rem !important;
+}
+
+/* "Why It Matters" — the short, plain-language deduction, set apart
+   visually from the more atmospheric clueText prose above it. */
+.evidence-takeaway {
+  margin-top: 1.1rem;
+  padding: 0.8rem 1rem;
+  background: rgba(212, 175, 106, 0.08);
+  border: 1px solid var(--color-gold-dim);
+  border-radius: 4px;
+}
+.evidence-takeaway-label {
+  display: block;
+  font-family: var(--font-typewriter);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-gold-dim);
+  margin-bottom: 0.4rem;
+}
+.evidence-takeaway p {
+  margin: 0;
+  font-family: "Lora", Georgia, serif;
+  font-size: 0.98rem !important;
+  line-height: 1.5;
+  color: var(--color-gold-bright) !important;
+}
+
+/* Connection strip — who this evidence points toward, or a neutral note
+   when it points at no one. Always present, never a tell either way. */
+.evidence-connection {
+  margin-top: 1rem;
+}
+.evidence-connection-label {
+  display: block;
+  font-family: var(--font-typewriter);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+.evidence-connection-suspect {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.evidence-connection-portrait {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-gold-dim);
+  flex-shrink: 0;
+}
+.evidence-connection-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-alt);
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.evidence-connection-names {
+  display: flex;
+  flex-direction: column;
+}
+.evidence-connection-names strong {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+.evidence-connection-names em {
+  font-family: var(--font-typewriter);
+  font-style: normal;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+.evidence-connection-none {
+  margin: 0 !important;
+  font-family: "Lora", Georgia, serif !important;
+  font-style: italic;
+  font-size: 0.9rem !important;
+  color: var(--color-text-muted) !important;
 }
 
 .modal-close {
