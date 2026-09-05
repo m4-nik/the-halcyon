@@ -394,12 +394,13 @@ export const ROOMS = [
       },
       {
         id: "deck-03",
-        x: 65,
-        y: 78,
+        x: 37,
+        y: 86,
         isReal: true,
         clueText:
           "A scattering of papers near the table — shipping routes, matching the private charts from the bridge.",
         pointsToSuspectId: "marcus-reyes",
+        examineImage: "assets/images/examine/scattered-papers.png",
       },
       {
         id: "deck-04",
