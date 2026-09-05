@@ -251,11 +251,12 @@ export const ROOMS = [
       },
       {
         id: "cabin-05",
-        x: 47,
-        y: 68,
+        x: 42,
+        y: 76,
         isReal: false,
         clueText:
           "A suitcase sits half-packed on the floor, and beneath a fold of clothing, the corner of a medical supply bag tag is just visible — the kind Dr. Elena Voss would carry for the owner's care, not for a routine overnight stay. Packing to leave in a hurry, or simply an overly cautious physician's habit — hard to say without asking her directly.",
+        examineModel: "assets/models/cabin-suitcase.glb",
         pointsToSuspectId: "elena-voss",
       },
       {
