@@ -243,11 +243,12 @@ export const ROOMS = [
       },
       {
         id: "cabin-04",
-        x: 71,
-        y: 33,
+        x: 66,
+        y: 36,
         isReal: false,
         clueText:
           "Wine and a spread of paperwork cover the desk, an open ledger showing figures well past what Priya Kapoor's business normally turns over in a season. This is her own cabin, at least — nothing forbidden about being in it. Apparently even on a private cruise, with the owner's yacht drifting under a dark sky, her financial troubles don't take the night off.",
+        examineModel: "assets/models/cabin-desk-table.glb",
         pointsToSuspectId: "priya-kapoor",
       },
       {
