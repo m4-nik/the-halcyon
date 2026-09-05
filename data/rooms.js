@@ -263,11 +263,12 @@ export const ROOMS = [
       },
       {
         id: "cabin-06",
-        x: 89,
-        y: 43,
+        x: 95,
+        y: 57,
         isReal: false,
         clueText:
           "A small jewelry box sits locked on the dresser, the kind of personal item Ingrid Sorensen would be trusted to safeguard as the owner's assistant, but never authorized to open herself. Whatever's inside isn't yours to find out, and it has nothing obvious to do with tonight.",
+        examineModel: "assets/models/cabin-jewelry-box.glb",
         pointsToSuspectId: "ingrid-sorensen",
       },
       {
