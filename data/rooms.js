@@ -282,6 +282,7 @@ export const ROOMS = [
         clueText:
           "A room-service tray sits by the door, the food on it barely touched — a few bites taken and abandoned, the cutlery still folded in its napkin. Whoever ordered it clearly didn't plan on staying in the cabin long enough to actually eat, though there's no name on the order slip to say who.",
         pointsToSuspectId: null,
+        examineImage: "assets/images/examine/room-service-tray.png",
       },
     ],
   },
