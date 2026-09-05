@@ -431,11 +431,12 @@ export const ROOMS = [
       },
       {
         id: "deck-07",
-        x: 89,
-        y: 17,
+        x: 93,
+        y: 19,
         isReal: false,
         clueText: "The wick's been freshly trimmed — an engineer's habit, keeping every flame steady.",
         pointsToSuspectId: "tomas-bell",
+        examineModel: "assets/models/deck-lantern-wick.glb",
       },
       {
         id: "deck-08",
