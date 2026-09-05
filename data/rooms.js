@@ -232,12 +232,13 @@ export const ROOMS = [
       },
       {
         id: "cabin-03",
-        x: 63,
-        y: 32,
+        x: 57,
+        y: 37,
         isReal: true,
         clueText:
           "A jacket is draped over the back of the chair — its cut, buttons, and fabric weight match a first mate's uniform tunic, not the evening wear this cabin's rightful guest would have packed. It doesn't belong to whoever's cabin this technically is, and there's exactly one crew member whose uniform fits that description.",
         pointsToSuspectId: "marcus-reyes",
+        examineModel: "assets/models/cabin-chair-jacket.glb",
       },
       {
         id: "cabin-04",
