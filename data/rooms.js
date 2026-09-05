@@ -213,12 +213,13 @@ export const ROOMS = [
     hotspots: [
       {
         id: "cabin-01",
-        x: 97,
-        y: 58,
+        x: 39,
+        y: 46,
         isReal: true,
         clueText:
           "A boarding chit tucked into the nightstand drawer is stamped for crew quarters, not this guest cabin — meaning whoever's been sleeping in here isn't supposed to be. Crew are strictly forbidden from occupying guest cabins without the owner's sign-off, and the only crew member with any reason to quietly relocate into an empty one, away from the corridor where his comings and goings would be noticed, is the first mate.",
         pointsToSuspectId: "marcus-reyes",
+        examineImage: "assets/images/examine/boarding-chit.png",
       },
       {
         id: "cabin-02",
