@@ -385,12 +385,13 @@ export const ROOMS = [
       },
       {
         id: "deck-02",
-        x: 50,
-        y: 53,
+        x: 52,
+        y: 52,
         isReal: true,
         clueText:
           "The life ring hangs a little crooked, as if someone leaned here recently, close to the railing, alone.",
         pointsToSuspectId: "marcus-reyes",
+        examineModel: "assets/models/deck-life-ring.glb",
       },
       {
         id: "deck-03",
