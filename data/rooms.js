@@ -405,8 +405,8 @@ export const ROOMS = [
       },
       {
         id: "deck-04",
-        x: 52,
-        y: 70,
+        x: 53,
+        y: 64,
         isReal: false,
         clueText: "A glass of wine, barely touched. She never really drinks on duty.",
         pointsToSuspectId: "elena-voss",
@@ -414,8 +414,8 @@ export const ROOMS = [
       },
       {
         id: "deck-05",
-        x: 60,
-        y: 50,
+        x: 68,
+        y: 49,
         isReal: false,
         clueText: "A robe draped over the chair, still faintly damp. She mentioned she couldn't sleep last night.",
         pointsToSuspectId: "ingrid-sorensen",
@@ -440,8 +440,8 @@ export const ROOMS = [
       },
       {
         id: "deck-08",
-        x: 68,
-        y: 72,
+        x: 69,
+        y: 69,
         isReal: false,
         clueText: "A tablet, screen dark, left face-down on the deck. Someone left in a hurry.",
         pointsToSuspectId: null,
