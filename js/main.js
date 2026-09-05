@@ -138,60 +138,13 @@ function renderSuspectIntro() {
   void card.offsetWidth;
   card.classList.add("card-enter");
 
-  renderSuspectDots();
-  renderSuspectCastStrip();
-}
+  document.getElementById("suspect-counter").textContent =
+    `${suspectIntroIndex + 1} / ${SUSPECTS.length}`;
 
-// The "meet the cast" row — all 5 suspects at once, each a clickable
-// portrait that jumps the carousel above straight to them.
-function renderSuspectCastStrip() {
-  const strip = document.getElementById("suspect-cast-strip");
-  strip.innerHTML = "";
-
-  SUSPECTS.forEach((suspect, i) => {
-    const thumb = document.createElement("button");
-    thumb.type = "button";
-    thumb.className = "suspect-cast-thumb" + (i === suspectIntroIndex ? " active" : "");
-
-    const portraitHtml = suspect.portrait
-      ? `<img class="suspect-cast-portrait" src="${suspect.portrait}" alt="${suspect.name}" />`
-      : `<div class="suspect-cast-portrait suspect-cast-portrait-placeholder">${initials(suspect.name)}</div>`;
-
-    thumb.innerHTML = `
-      ${portraitHtml}
-      <span class="suspect-cast-name">${suspect.name}</span>
-      <span class="suspect-cast-role">${suspect.role}</span>
-    `;
-    thumb.addEventListener("click", () => {
-      suspectIntroIndex = i;
-      renderSuspectIntro();
-    });
-    strip.appendChild(thumb);
-  });
-}
-
-function initials(name) {
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("");
-}
-
-function renderSuspectDots() {
-  const dotsContainer = document.getElementById("suspect-dots");
-  dotsContainer.innerHTML = "";
-
-  SUSPECTS.forEach((suspect, i) => {
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = "suspect-dot" + (i === suspectIntroIndex ? " active" : "");
-    dot.setAttribute("aria-label", `View ${suspect.name}`);
-    dot.addEventListener("click", () => {
-      suspectIntroIndex = i;
-      renderSuspectIntro();
-    });
-    dotsContainer.appendChild(dot);
-  });
+  // Begin Investigation only appears once the player has arrived at the
+  // last suspect — it isn't an escape hatch from the first one.
+  const isLastSuspect = suspectIntroIndex === SUSPECTS.length - 1;
+  document.getElementById("btn-begin-investigation").hidden = !isLastSuspect;
 }
 
 document.getElementById("suspect-prev").addEventListener("click", () => {
