@@ -268,11 +268,12 @@ export const ROOMS = [
       {
         id: "cabin-07",
         x: 93,
-        y: 48,
+        y: 45,
         isReal: false,
         clueText:
           "A photo in a cheap plastic frame sits on the nightstand — not a family portrait, but a candid shot of the engine room, taken from an angle that suggests someone was proud enough of the machinery to photograph it. Only one person aboard would frame a picture of pipework instead of people: Tomas Bell, whose devotion to that engine borders on sentimental.",
         pointsToSuspectId: "tomas-bell",
+        examineImage: "assets/images/examine/engine-room-photo.png",
       },
       {
         id: "cabin-08",
