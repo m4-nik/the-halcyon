@@ -229,6 +229,7 @@ export const ROOMS = [
         clueText:
           "A torn note sits crumpled at the back of the drawer, the visible half reading only '...after the crew turns in.' The torn edge matches, fiber for fiber, a scrap already found in the galley — meaning this note was written, torn, and half-discarded in two different rooms by the same person, someone moving freely between crew spaces and guest cabins alike.",
         pointsToSuspectId: "marcus-reyes",
+        examineImage: "assets/images/examine/torn-note-cabin.png",
       },
       {
         id: "cabin-03",
