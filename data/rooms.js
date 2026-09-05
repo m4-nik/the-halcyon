@@ -428,6 +428,7 @@ export const ROOMS = [
         isReal: false,
         clueText: "A pair of sandals, kicked off mid-thought. Hers, by the initials stitched inside.",
         pointsToSuspectId: "priya-kapoor",
+        examineModel: "assets/models/deck-sandals.glb",
       },
       {
         id: "deck-07",
