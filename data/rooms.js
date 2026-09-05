@@ -15,6 +15,14 @@
 //                     is ready.
 //   placeholderColor - CSS color used for that placeholder box. Ignored
 //                     once `image` is set.
+//   access          - who's allowed in this room. { suspects: [ids...],
+//                     note: "..." }. `suspects` lists everyone with
+//                     routine access (shown in the Access panel); leave it
+//                     as every suspect id for a shared common space. `note`
+//                     is free text for exceptions the id list can't capture
+//                     (an unnamed crew member, "with the owner's sign-off",
+//                     etc.) — shown under the name list, optional (null if
+//                     nothing to add).
 //   hotspots        - array of clickable spots in this room. There is no
 //                     required or maximum count — add as many as you like,
 //                     the engine doesn't assume a number.
@@ -60,6 +68,10 @@ export const ROOMS = [
     id: "bridge",
     name: "Bridge",
     image: "assets/images/rooms/bridge.jpg",
+    access: {
+      suspects: ["marcus-reyes"],
+      note: "Off-limits to guests, and to every other crew member, without an escort.",
+    },
     hotspots: [
       {
         id: "bridge-01",
@@ -130,6 +142,10 @@ export const ROOMS = [
     id: "engine-room",
     name: "Engine Room",
     image: "assets/images/rooms/engine-room.jpg",
+    access: {
+      suspects: ["marcus-reyes", "tomas-bell"],
+      note: "Every other crew member needs a supervised escort just to walk through the hatch. Guests aren't permitted at all.",
+    },
     hotspots: [
       {
         id: "engine-01",
@@ -210,6 +226,10 @@ export const ROOMS = [
     id: "guest-cabins",
     name: "Guest Cabins",
     image: "assets/images/rooms/guest-cabins.jpg",
+    access: {
+      suspects: ["priya-kapoor", "elena-voss", "ingrid-sorensen"],
+      note: "Each guest keeps their own cabin. Crew may only enter with the owner's sign-off.",
+    },
     hotspots: [
       {
         id: "cabin-01",
@@ -297,6 +317,10 @@ export const ROOMS = [
     id: "galley",
     name: "Galley",
     image: "assets/images/rooms/galley.jpg",
+    access: {
+      suspects: ["marcus-reyes", "tomas-bell", "ingrid-sorensen"],
+      note: "Crew and staff pass through freely. Guests aren't normally expected in the working galley.",
+    },
     hotspots: [
       {
         id: "galley-01",
@@ -381,6 +405,10 @@ export const ROOMS = [
     id: "upper-deck",
     name: "Upper Deck",
     image: "assets/images/rooms/upper-deck.jpg",
+    access: {
+      suspects: ["marcus-reyes", "priya-kapoor", "elena-voss", "tomas-bell", "ingrid-sorensen"],
+      note: "A shared common space, open to everyone aboard.",
+    },
     hotspots: [
       {
         id: "deck-01",
@@ -462,6 +490,10 @@ export const ROOMS = [
     id: "cargo-hold",
     name: "Cargo Hold",
     image: "assets/images/rooms/cargo-hold.jpg",
+    access: {
+      suspects: ["marcus-reyes"],
+      note: "Also held by a rotating logistics crew member, unnamed among the suspects. No guest holds a key.",
+    },
     hotspots: [
       {
         id: "cargo-01",

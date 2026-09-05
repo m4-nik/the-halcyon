@@ -20,6 +20,7 @@ import {
   renderCaseLog,
 } from "./caseLog.js";
 import { renderSuspects, renderSuspectCard } from "./suspects.js";
+import { renderRoomAccess } from "./roomAccess.js";
 import { getAISuggestion } from "./aiAssist.js";
 import { checkAccusation, renderAccusationForm, renderResult } from "./accusation.js";
 import { advancePlan, renderPlanBar } from "./antagonistPlan.js";
@@ -319,6 +320,11 @@ document.getElementById("btn-case-log").addEventListener("click", () => {
 document.getElementById("btn-suspects").addEventListener("click", () => {
   renderSuspects(document.getElementById("suspects-list"), SUSPECTS);
   document.getElementById("suspects-panel").classList.add("open");
+});
+
+document.getElementById("btn-room-access").addEventListener("click", () => {
+  renderRoomAccess(document.getElementById("room-access-list"), ROOMS, SUSPECTS);
+  document.getElementById("room-access-panel").classList.add("open");
 });
 
 document.getElementById("btn-ai-assist").addEventListener("click", () => {
