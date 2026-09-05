@@ -381,6 +381,7 @@ export const ROOMS = [
         isReal: true,
         clueText: "A coil of rope, freshly re-tied. The knot isn't a guest's work — it's a sailor's hitch.",
         pointsToSuspectId: "marcus-reyes",
+        examineModel: "assets/models/deck-chair-rope.glb",
       },
       {
         id: "deck-02",
@@ -416,6 +417,7 @@ export const ROOMS = [
         isReal: false,
         clueText: "A robe draped over the chair, still faintly damp. She mentioned she couldn't sleep last night.",
         pointsToSuspectId: "ingrid-sorensen",
+        examineModel: "assets/models/deck-chair-robe.glb",
       },
       {
         id: "deck-06",
