@@ -178,6 +178,9 @@ export const ROOMS = [
         clueText:
           "A trail of boot prints cuts straight through a patch of spilled oil, running from the main engine block directly to the ladder out — recent enough that the oil's sheen hasn't dulled with air exposure yet. The stride length and boot pattern match ship-issue crew boots, not the deck shoes worn by the yacht's guests, narrowing this down to someone who was on duty tonight.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Ship-issue boots, not guest deck shoes — whoever left this trail was on duty tonight, and Marcus Reyes was one of the few who would be.",
+        examineImage: "assets/images/examine/oily-footprints.png",
       },
       {
         id: "engine-03",
