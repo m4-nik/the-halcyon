@@ -226,12 +226,15 @@ export const ROOMS = [
       },
       {
         id: "engine-07",
-        x: 83,
-        y: 38,
+        x: 79,
+        y: 34,
         isReal: false,
         clueText:
           "A coil of rope has been looped and tied off with the same tight, methodical wrap Ingrid Sorensen uses when she organizes the owner's luggage and supply crates — not the looser coil crew usually leave lying around down here. Ingrid has no standing reason to be down here at all; her duties never bring her below the guest deck, which makes this rope all the more curious.",
         pointsToSuspectId: "ingrid-sorensen",
+        whyItMatters:
+          "A tight, methodical wrap unlike the loose coils crew leave lying around — closer to how Ingrid Sorensen ties off luggage, in a room she has no reason to be in.",
+        examineModel: "assets/models/engine-rope-extinguisher.glb",
       },
       {
         id: "engine-08",
