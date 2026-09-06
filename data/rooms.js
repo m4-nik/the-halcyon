@@ -211,6 +211,9 @@ export const ROOMS = [
         clueText:
           "A spare set of engineer's coveralls hangs in the locker, cut and sized for Tomas Bell, the ship's engineer. It's standard practice for him to keep a backup uniform down here in case the first gets soaked in oil mid-shift — on its own, this says nothing beyond the fact that he does his job the way he's supposed to.",
         pointsToSuspectId: "tomas-bell",
+        whyItMatters:
+          "Just a spare uniform, sized and stored exactly the way Tomas Bell's job requires — routine, but it's still his name on the locker.",
+        examineModel: "assets/models/engine-locker-coveralls.glb",
       },
       {
         id: "engine-06",
