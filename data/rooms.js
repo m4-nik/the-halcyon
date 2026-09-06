@@ -563,6 +563,8 @@ export const ROOMS = [
         clueText:
           "Boot prints track through the settled dust on the floor, leading in a straight, purposeful line to this crate and back again — recent enough that the dust hasn't had time to resettle over them. The cargo hold is locked to all but the first mate and a rotating logistics crew member; no guest, and almost no other crew, holds a key. Whoever came down here knew exactly which crate they wanted and didn't waste time looking around at the others.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Only the first mate and one rotating crew member hold a key down here — and these prints go straight to one crate, like someone who already knew what they wanted.",
         examineModel: "assets/models/footprints.glb",
       },
       {
@@ -573,6 +575,8 @@ export const ROOMS = [
         clueText:
           "The cargo manifest's final line has clearly been rewritten, the ink a shade darker and the handwriting slightly tighter than the entries above it — someone went back after the fact and altered what's supposedly stored in this hold, using a different pen than whoever filled out the rest of the page.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Rewritten in a different pen than the rest of the page — someone came back after the fact to change what's supposedly stored here, and few besides the first mate can even get down to do it.",
         examineImage: "assets/images/examine/clipboard-log.png",
       },
       {
@@ -583,6 +587,8 @@ export const ROOMS = [
         clueText:
           "This crate sits pulled slightly apart from the stack around it, its corner visibly pried and re-nailed in a hurry, nails driven at a rushed angle rather than flush and square. Someone opened this, checked what was inside, and closed it back up fast enough to leave the seams uneven.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Pried open and hastily re-nailed — whoever did this needed a key to be down here at all, which narrows things fast.",
         examineModel: "assets/models/pried-crate.glb",
       },
       {
@@ -593,6 +599,8 @@ export const ROOMS = [
         clueText:
           "Something bulky sits under a canvas tarp near the back wall, roughly crate-sized but unmarked. Dr. Elena Voss has no standing reason to store anything down here herself — the guest cabins have more than enough room for medical supplies — but it could easily be something she had a crew member move for her to free up space in the cabin she's using as an examination room, though nobody's confirmed that's actually what's under there.",
         pointsToSuspectId: "elena-voss",
+        whyItMatters:
+          "Dr. Voss has no real reason to store anything down here herself — though it's easy enough to imagine her having a crew member move it on her behalf.",
         examineModel: "assets/models/tarp-covered-object.glb",
       },
       {
@@ -603,6 +611,8 @@ export const ROOMS = [
         clueText:
           "One life jacket is missing from its usual row on the rack, leaving a gap between its neighbors. Standard enough, if Tomas Bell borrowed it while working near the hull tonight — engineers pull safety gear for hull inspections often enough that it barely raises an eyebrow.",
         pointsToSuspectId: "tomas-bell",
+        whyItMatters:
+          "Barely worth a second look if Tomas Bell borrowed it for hull work tonight — routine, but it's still one piece of safety gear unaccounted for.",
         examineModel: "assets/models/life-jacket.glb",
       },
       {
@@ -613,6 +623,8 @@ export const ROOMS = [
         clueText:
           "A note is pinned to the side of a crate, business shorthand scrawled hastily in the margin — the kind of quick notation Priya Kapoor uses on her own paperwork. It reads like an inventory note dashed off between other tasks, not anything more sinister on its face.",
         pointsToSuspectId: "priya-kapoor",
+        whyItMatters:
+          "The hasty shorthand matches how Priya Kapoor scrawls her own paperwork — though on its face, it reads like nothing more than an inventory note.",
         examineImage: "assets/images/examine/torn-note.png",
       },
       {
@@ -623,6 +635,8 @@ export const ROOMS = [
         clueText:
           "A heavy chain lies looped around a stack of crates but never actually secured, the end left hanging loose instead of clipped. Ingrid Sorensen handles inventory sign-offs for cargo like this — an easy mistake to make while rushing through a checklist alone, late at night, with nobody double-checking her work.",
         pointsToSuspectId: "ingrid-sorensen",
+        whyItMatters:
+          "Ingrid Sorensen handles inventory sign-offs for cargo like this — an easy slip to make rushing through a checklist alone, late at night.",
         examineModel: "assets/models/chain.glb",
       },
       {
