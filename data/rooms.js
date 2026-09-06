@@ -190,6 +190,9 @@ export const ROOMS = [
         clueText:
           "The toolbox sits open on the deck, mid-use, tools still scattered rather than racked back into their foam cutouts the way engineer Tomas Bell insists on leaving them. Whoever was working here clearly didn't plan on being interrupted — and left in enough of a hurry that this wasn't a routine repair. Engine-room access is limited to Tomas Bell and the first mate; every other name on the crew roster needs a supervised escort just to walk through the hatch.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Tools left scattered, not racked the way Tomas Bell always leaves them — and only he and Marcus Reyes can even get through this hatch unescorted.",
+        examineModel: "assets/models/engine-toolbox.glb",
       },
       {
         id: "engine-04",
