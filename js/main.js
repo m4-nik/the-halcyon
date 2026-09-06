@@ -21,7 +21,7 @@ import {
 } from "./caseLog.js";
 import { renderSuspects, renderSuspectCard } from "./suspects.js";
 import { renderRoomAccess } from "./roomAccess.js";
-import { getAISuggestion } from "./aiAssist.js";
+import { getAISuggestion, setAIMisleadSuspect } from "./aiAssist.js";
 import { checkAccusation, renderAccusationForm, renderResult } from "./accusation.js";
 import { calculatePlanPercent, renderPlanBar } from "./antagonistPlan.js";
 import {
@@ -173,6 +173,7 @@ function startGame() {
   updateHintCounter();
   renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
   startAmbient();
+  setAIMisleadSuspect(SUSPECTS);
 
   state.planStartTime = Date.now();
   planTimerId = window.setInterval(tickPlanTimer, 1000);
