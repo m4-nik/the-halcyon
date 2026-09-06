@@ -271,6 +271,8 @@ export const ROOMS = [
         clueText:
           "A boarding chit tucked into the nightstand drawer is stamped for crew quarters, not this guest cabin — meaning whoever's been sleeping in here isn't supposed to be. Crew are strictly forbidden from occupying guest cabins without the owner's sign-off, and the only crew member with any reason to quietly relocate into an empty one, away from the corridor where his comings and goings would be noticed, is the first mate.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Crew need the owner's sign-off just to be in a guest cabin — and the only one with a reason to hide out in an empty one is the first mate.",
         examineImage: "assets/images/examine/boarding-chit.png",
       },
       {
@@ -281,6 +283,8 @@ export const ROOMS = [
         clueText:
           "A torn note sits crumpled at the back of the drawer, the visible half reading only '...after the crew turns in.' The torn edge matches, fiber for fiber, a scrap already found in the galley — meaning this note was written, torn, and half-discarded in two different rooms by the same person, someone moving freely between crew spaces and guest cabins alike.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "The torn edge matches a scrap already found in the galley, fiber for fiber — the same person left half in each room, moving freely between both.",
         examineImage: "assets/images/examine/torn-note-cabin.png",
       },
       {
@@ -291,6 +295,8 @@ export const ROOMS = [
         clueText:
           "A jacket is draped over the back of the chair — its cut, buttons, and fabric weight match a first mate's uniform tunic, not the evening wear this cabin's rightful guest would have packed. It doesn't belong to whoever's cabin this technically is, and there's exactly one crew member whose uniform fits that description.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "A first mate's uniform tunic, in a cabin whose guest would have packed evening wear — there's exactly one crew member it could belong to.",
         examineModel: "assets/models/cabin-chair-jacket.glb",
       },
       {
@@ -302,6 +308,8 @@ export const ROOMS = [
           "Wine and a spread of paperwork cover the desk, an open ledger showing figures well past what Priya Kapoor's business normally turns over in a season. This is her own cabin, at least — nothing forbidden about being in it. Apparently even on a private cruise, with the owner's yacht drifting under a dark sky, her financial troubles don't take the night off.",
         examineModel: "assets/models/cabin-desk-table.glb",
         pointsToSuspectId: "priya-kapoor",
+        whyItMatters:
+          "It's her own cabin, so nothing forbidden about being here — but the open ledger shows Priya Kapoor's finances in far worse shape than her business lets on.",
       },
       {
         id: "cabin-05",
@@ -312,6 +320,8 @@ export const ROOMS = [
           "A suitcase sits half-packed on the floor, and beneath a fold of clothing, the corner of a medical supply bag tag is just visible — the kind Dr. Elena Voss would carry for the owner's care, not for a routine overnight stay. Packing to leave in a hurry, or simply an overly cautious physician's habit — hard to say without asking her directly.",
         examineModel: "assets/models/cabin-suitcase.glb",
         pointsToSuspectId: "elena-voss",
+        whyItMatters:
+          "A medical supply tag half-hidden in a hastily packed suitcase — the kind Dr. Elena Voss carries, and not what someone expects to need for a routine overnight stay.",
       },
       {
         id: "cabin-06",
@@ -322,6 +332,8 @@ export const ROOMS = [
           "A small jewelry box sits locked on the dresser, the kind of personal item Ingrid Sorensen would be trusted to safeguard as the owner's assistant, but never authorized to open herself. Whatever's inside isn't yours to find out, and it has nothing obvious to do with tonight.",
         examineModel: "assets/models/cabin-jewelry-box.glb",
         pointsToSuspectId: "ingrid-sorensen",
+        whyItMatters:
+          "The kind of personal item Ingrid Sorensen would be trusted to safeguard as the owner's assistant — but never authorized to open herself.",
       },
       {
         id: "cabin-07",
@@ -331,6 +343,8 @@ export const ROOMS = [
         clueText:
           "A photo in a cheap plastic frame sits on the nightstand — not a family portrait, but a candid shot of the engine room, taken from an angle that suggests someone was proud enough of the machinery to photograph it. Only one person aboard would frame a picture of pipework instead of people: Tomas Bell, whose devotion to that engine borders on sentimental.",
         pointsToSuspectId: "tomas-bell",
+        whyItMatters:
+          "A framed photo of pipework instead of people — only one person aboard would find the engine worth keeping a picture of.",
         examineImage: "assets/images/examine/engine-room-photo.png",
       },
       {
