@@ -25,9 +25,12 @@
 import { SUSPECTS } from "../data/suspects.js";
 
 // foundClues: the same array tracked in main.js / built by caseLog.js.
-// Returns { suspectId, confidence, reasoning }.
+// Returns { suspectId, confidence, summary, supportingClues }.
 // confidence is "none" | "faint" | "moderate" | "strong" — a description
-// of how one-sided the tally is, never a claim of certainty.
+// of how one-sided the tally is, never a claim of certainty. supportingClues
+// is a plain array of { clueText, roomName } — kept separate from `summary`
+// (one short sentence) so the UI can render each clue as its own card
+// instead of burying them all in one dense paragraph.
 export function getAISuggestion(foundClues) {
   const tally = {};
 
@@ -42,7 +45,8 @@ export function getAISuggestion(foundClues) {
     return {
       suspectId: null,
       confidence: "none",
-      reasoning: "Nothing found so far points anywhere in particular. Keep exploring the rooms.",
+      summary: "Nothing found so far points anywhere in particular. Keep exploring the rooms.",
+      supportingClues: [],
     };
   }
 
@@ -51,8 +55,9 @@ export function getAISuggestion(foundClues) {
   const lead = topCount - runnerUpCount;
   const suspect = SUSPECTS.find((s) => s.id === topSuspectId);
 
-  const supportingClues = foundClues.filter((c) => c.pointsToSuspectId === topSuspectId);
-  const clueList = supportingClues.map((c) => `"${c.clueText}" (${c.roomName})`).join(" ");
+  const supportingClues = foundClues
+    .filter((c) => c.pointsToSuspectId === topSuspectId)
+    .map((c) => ({ clueText: c.clueText, roomName: c.roomName }));
 
   let confidence = "faint";
   if (topCount >= 2 && lead >= 2) confidence = "moderate";
@@ -61,6 +66,7 @@ export function getAISuggestion(foundClues) {
   return {
     suspectId: topSuspectId,
     confidence,
-    reasoning: `${topCount} clue(s) lean toward ${suspect.name} more than anyone else: ${clueList}`,
+    summary: `${topCount} clue${topCount === 1 ? "" : "s"} lean toward ${suspect.name} more than anyone else:`,
+    supportingClues,
   };
 }

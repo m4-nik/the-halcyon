@@ -357,7 +357,7 @@ function initials(name) {
     .join("");
 }
 
-// --- Slide-out panels -------------------------------------------------
+// --- Reference panels -------------------------------------------------
 function closeAllPanels() {
   document.querySelectorAll(".panel").forEach((p) => p.classList.remove("open"));
 }
@@ -365,6 +365,14 @@ function closeAllPanels() {
 document.querySelectorAll(".panel-close").forEach((btn) => {
   btn.addEventListener("click", () => {
     document.getElementById(btn.dataset.close).classList.remove("open");
+  });
+});
+
+// Clicking the dimmed backdrop closes a panel too, same as the × button —
+// only when the click lands on the backdrop itself, not the sheet inside it.
+document.querySelectorAll(".panel").forEach((panel) => {
+  panel.addEventListener("click", (e) => {
+    if (e.target === panel) panel.classList.remove("open");
   });
 });
 
@@ -388,7 +396,7 @@ document.getElementById("btn-ai-assist").addEventListener("click", () => {
   const content = document.getElementById("ai-assist-content");
 
   if (!suggestion.suspectId) {
-    content.innerHTML = `<p>${suggestion.reasoning}</p>`;
+    content.innerHTML = `<p class="ai-empty">${suggestion.summary}</p>`;
   } else {
     const suspect = SUSPECTS.find((s) => s.id === suggestion.suspectId);
     const confidenceLabel = { faint: "Faint lean", moderate: "Moderate lean", strong: "Strong lean" }[
@@ -400,12 +408,22 @@ document.getElementById("btn-ai-assist").addEventListener("click", () => {
           .split(" ")
           .map((w) => w[0])
           .join("")}</div>`;
+    const clueCardsHtml = suggestion.supportingClues
+      .map(
+        (c) => `
+        <div class="ai-clue-card">
+          <span class="ai-clue-room">${c.roomName}</span>
+          <p>"${c.clueText}"</p>
+        </div>`
+      )
+      .join("");
     content.innerHTML = `
       <div class="ai-suggestion-header">
         ${portraitHtml}
         <p class="ai-suggestion-name">${confidenceLabel} toward <strong>${suspect.name}</strong></p>
       </div>
-      <p>${suggestion.reasoning}</p>
+      <p class="ai-summary">${suggestion.summary}</p>
+      <div class="ai-clue-cards">${clueCardsHtml}</div>
       <p class="ai-disclaimer">This is a rule-based lean built from the clues you've logged so far — never proof, and never a verdict. The final call is yours.</p>
     `;
   }

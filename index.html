@@ -152,45 +152,72 @@
 
   <main id="room-view"></main>
 
-  <!-- Slide-out panels -->
+  <!-- Reference panels — centered, cinematic sheets (matching the Evidence
+       modal treatment) instead of a cramped slide-out sidebar. Clicking
+       the dimmed backdrop closes them, same as the × button. -->
   <aside id="case-log-panel" class="panel">
-    <div class="panel-header">
-      <h2>Case Log</h2>
-      <button class="panel-close" data-close="case-log-panel" aria-label="Close">&times;</button>
+    <div class="panel-sheet">
+      <div class="panel-header">
+        <p class="panel-eyebrow">Investigation Record</p>
+        <h2>Case Log</h2>
+        <button class="panel-close" data-close="case-log-panel" aria-label="Close">&times;</button>
+      </div>
+      <div class="panel-body">
+        <div id="case-log-list"></div>
+      </div>
     </div>
-    <div id="case-log-list"></div>
   </aside>
 
   <aside id="suspects-panel" class="panel">
-    <div class="panel-header">
-      <h2>Suspects</h2>
-      <button class="panel-close" data-close="suspects-panel" aria-label="Close">&times;</button>
+    <div class="panel-sheet">
+      <div class="panel-header">
+        <p class="panel-eyebrow">Persons Aboard</p>
+        <h2>Suspects</h2>
+        <button class="panel-close" data-close="suspects-panel" aria-label="Close">&times;</button>
+      </div>
+      <div class="panel-body">
+        <div id="suspects-list"></div>
+      </div>
     </div>
-    <div id="suspects-list"></div>
   </aside>
 
   <aside id="room-access-panel" class="panel">
-    <div class="panel-header">
-      <h2>Room Access</h2>
-      <button class="panel-close" data-close="room-access-panel" aria-label="Close">&times;</button>
+    <div class="panel-sheet">
+      <div class="panel-header">
+        <p class="panel-eyebrow">Ship's Manifest</p>
+        <h2>Room Access</h2>
+        <button class="panel-close" data-close="room-access-panel" aria-label="Close">&times;</button>
+      </div>
+      <div class="panel-body">
+        <div id="room-access-list"></div>
+      </div>
     </div>
-    <div id="room-access-list"></div>
   </aside>
 
   <aside id="ai-assist-panel" class="panel">
-    <div class="panel-header">
-      <h2>AI Conclusion Assist</h2>
-      <button class="panel-close" data-close="ai-assist-panel" aria-label="Close">&times;</button>
+    <div class="panel-sheet">
+      <div class="panel-header">
+        <p class="panel-eyebrow">Conclusion Assist</p>
+        <h2>AI Assist</h2>
+        <button class="panel-close" data-close="ai-assist-panel" aria-label="Close">&times;</button>
+      </div>
+      <div class="panel-body">
+        <div id="ai-assist-content"></div>
+      </div>
     </div>
-    <div id="ai-assist-content"></div>
   </aside>
 
   <aside id="accusation-panel" class="panel">
-    <div class="panel-header">
-      <h2>Make Your Accusation</h2>
-      <button class="panel-close" data-close="accusation-panel" aria-label="Close">&times;</button>
+    <div class="panel-sheet">
+      <div class="panel-header">
+        <p class="panel-eyebrow">Final Decision</p>
+        <h2>Make Your Accusation</h2>
+        <button class="panel-close" data-close="accusation-panel" aria-label="Close">&times;</button>
+      </div>
+      <div class="panel-body">
+        <div id="accusation-content"></div>
+      </div>
     </div>
-    <div id="accusation-content"></div>
   </aside>
 
   <!-- Evidence modal — shared by every hotspot, with or without a 3D/image
