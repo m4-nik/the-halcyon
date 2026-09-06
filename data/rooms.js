@@ -242,12 +242,15 @@ export const ROOMS = [
       },
       {
         id: "engine-08",
-        x: 84,
-        y: 80,
+        x: 80,
+        y: 82,
         isReal: false,
         clueText:
           "An untouched thermos sits on the shelf above the workbench, still capped, the metal cold to the touch. Dr. Elena Voss has mentioned more than once that she avoids eating or drinking anywhere near the machinery — if this is hers, she apparently didn't stay down here long enough to open it.",
         pointsToSuspectId: "elena-voss",
+        whyItMatters:
+          "Still capped and cold — Dr. Voss avoids eating or drinking near the machinery, so if it's hers, she didn't stay long enough to use it.",
+        examineModel: "assets/models/engine-thermos.glb",
       },
     ],
   },
