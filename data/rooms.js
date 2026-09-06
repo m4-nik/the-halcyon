@@ -217,6 +217,9 @@ export const ROOMS = [
         clueText:
           "The maintenance log has one entry scratched through and rewritten, in handwriting that doesn't match the neat mechanical shorthand Tomas Bell uses everywhere else in the book. The correction looks more like the tidy, deliberate hand Priya Kapoor uses on the business ledgers — old habits from a career spent fixing other people's numbers.",
         pointsToSuspectId: "priya-kapoor",
+        whyItMatters:
+          "The correction isn't in Tomas Bell's usual shorthand — it looks like Priya Kapoor's tidy ledger handwriting instead, out of place in an engineer's logbook.",
+        examineImage: "assets/images/examine/engine-maintenance-log.png",
       },
       {
         id: "engine-07",
