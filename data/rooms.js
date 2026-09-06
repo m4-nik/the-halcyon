@@ -477,6 +477,8 @@ export const ROOMS = [
         isReal: true,
         clueText: "A coil of rope, freshly re-tied. The knot isn't a guest's work — it's a sailor's hitch.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "A sailor's hitch, not a guest's knot — the kind of tie someone trained as crew would use without thinking twice.",
         examineModel: "assets/models/deck-chair-rope.glb",
       },
       {
@@ -487,6 +489,8 @@ export const ROOMS = [
         clueText:
           "The life ring hangs a little crooked, as if someone leaned here recently, close to the railing, alone.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Someone leaned here recently, alone, close to the railing — near the same stretch of deck where the rope and the scattered charts turned up.",
         examineModel: "assets/models/deck-life-ring.glb",
       },
       {
@@ -497,6 +501,8 @@ export const ROOMS = [
         clueText:
           "A scattering of papers near the table — shipping routes, matching the private charts from the bridge.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "These shipping routes match the private charts already found on the bridge — the same person had reason to be carrying both.",
         examineImage: "assets/images/examine/scattered-papers.png",
       },
       {
@@ -506,6 +512,8 @@ export const ROOMS = [
         isReal: false,
         clueText: "A glass of wine, barely touched. She never really drinks on duty.",
         pointsToSuspectId: "elena-voss",
+        whyItMatters:
+          "She's said more than once that she doesn't drink on duty — so why is a glass sitting here, barely touched?",
         examineImage: "assets/images/examine/wine-glass-deck.png",
       },
       {
@@ -515,6 +523,8 @@ export const ROOMS = [
         isReal: false,
         clueText: "A robe draped over the chair, still faintly damp. She mentioned she couldn't sleep last night.",
         pointsToSuspectId: "ingrid-sorensen",
+        whyItMatters:
+          "Still damp, and she's already admitted she couldn't sleep last night — which puts her right here, at just the wrong hour.",
         examineModel: "assets/models/deck-chair-robe.glb",
       },
       {
@@ -524,6 +534,8 @@ export const ROOMS = [
         isReal: false,
         clueText: "A pair of sandals, kicked off mid-thought. Hers, by the initials stitched inside.",
         pointsToSuspectId: "priya-kapoor",
+        whyItMatters:
+          "Her initials are stitched right inside — kicked off mid-thought, like she left in more of a hurry than an evening stroll would explain.",
         examineModel: "assets/models/deck-sandals.glb",
       },
       {
@@ -533,6 +545,8 @@ export const ROOMS = [
         isReal: false,
         clueText: "The wick's been freshly trimmed — an engineer's habit, keeping every flame steady.",
         pointsToSuspectId: "tomas-bell",
+        whyItMatters:
+          "Trimming a wick is small, habitual upkeep — exactly the kind of maintenance an engineer does without anyone asking.",
         examineModel: "assets/models/deck-lantern-wick.glb",
       },
       {
