@@ -94,6 +94,8 @@ export const ROOMS = [
         clueText:
           "The radio panel behind the helm has had three of its wires deliberately loosened, not frayed — the kind of clean, precise disconnection you'd only manage if you already knew this exact panel by heart. Marcus Reyes has spent years as first mate running comms drills on this very panel; anyone else aboard would have needed a manual and a flashlight just to find the right screws, let alone do it fast enough not to be noticed. Bridge access outside working hours is restricted to the captain and first mate alone — no guest, and almost no other crew member, is supposed to be up here unescorted at all.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Loosened with the precision of someone who knows this exact panel by heart — and bridge access after hours belongs to just the captain and first mate.",
       },
       {
         id: "bridge-02",
@@ -103,6 +105,8 @@ export const ROOMS = [
         clueText:
           "A page has been torn from the captain's log, and the remaining stub has been trimmed unnervingly straight, as if someone wanted the missing entry to look like it was never written at all. The log is normally only handled by the captain and the first mate — and Marcus Reyes is the only one of the two still walking around the ship tonight.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Only the captain and first mate ever handle this log — and Marcus Reyes is the only one of the two still aboard tonight.",
       },
       {
         id: "bridge-03",
@@ -112,6 +116,8 @@ export const ROOMS = [
         clueText:
           "The course chart shows faint pencil marks tracing an entirely different heading than the one logged for tonight — a diversion route, carefully plotted and then just as carefully erased, though the impression still shows if you tilt the paper to the light. Reading a chart like this, and knowing exactly how to fake a course correction back onto the real heading, takes someone with real navigation experience — someone like the first mate.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Plotting a diversion and erasing it cleanly back onto the real heading takes real navigation experience — the kind the first mate has.",
       },
       {
         id: "bridge-04",
