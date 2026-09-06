@@ -202,6 +202,7 @@ export const ROOMS = [
         clueText:
           "The fuel gauge above the main console reads a steady, unremarkable normal — whatever went wrong down here tonight, the fuel supply itself was never the problem, which rules out at least one obvious explanation for the engine trouble.",
         pointsToSuspectId: null,
+        examineModel: "assets/models/engine-fuel-gauges.glb",
       },
       {
         id: "engine-05",
