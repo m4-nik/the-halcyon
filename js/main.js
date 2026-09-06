@@ -23,7 +23,7 @@ import { renderSuspects, renderSuspectCard } from "./suspects.js";
 import { renderRoomAccess } from "./roomAccess.js";
 import { getAISuggestion } from "./aiAssist.js";
 import { checkAccusation, renderAccusationForm, renderResult } from "./accusation.js";
-import { advancePlan, renderPlanBar } from "./antagonistPlan.js";
+import { calculatePlanPercent, renderPlanBar } from "./antagonistPlan.js";
 import {
   startAmbient,
   retryAmbientIfStalled,
@@ -40,10 +40,12 @@ const state = {
   foundClues: [],
   foundHotspotIds: new Set(),
   planPercent: 0,
+  planStartTime: null,
   gameOver: false,
 };
 
 let transitioning = false;
+let planTimerId = null;
 
 // Y in "X / Y needed" — derived from the room data itself, not hardcoded.
 const totalRealHotspots = countTotalRealHotspots(ROOMS);
@@ -171,6 +173,36 @@ function startGame() {
   updateHintCounter();
   renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
   startAmbient();
+
+  state.planStartTime = Date.now();
+  planTimerId = window.setInterval(tickPlanTimer, 1000);
+}
+
+// Ticks the Antagonist's Plan bar forward based on real elapsed time —
+// not on anything the player does. Runs once a second in the background
+// for the whole 15-minute countdown; the player never sees a clock, only
+// the bar (and the room atmosphere) reacting to it.
+function tickPlanTimer() {
+  if (state.gameOver) return;
+
+  state.planPercent = calculatePlanPercent(state.planStartTime);
+  renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
+  updateRoomUrgency(state.planPercent);
+
+  if (state.planPercent >= 100) {
+    triggerGameOver();
+  }
+}
+
+// Updates just the currently-rendered room's atmosphere classes in place,
+// rather than fully re-rendering it every second — a full re-render would
+// restart the fog/dust animation and could interrupt whatever the player
+// is doing.
+function updateRoomUrgency(planPercent) {
+  const stage = document.querySelector(".room-stage");
+  if (!stage) return;
+  stage.classList.toggle("urgency-critical", planPercent >= 75);
+  stage.classList.toggle("urgency-elevated", planPercent >= 40 && planPercent < 75);
 }
 
 // --- Room navigation -----------------------------------------------------
@@ -219,14 +251,7 @@ function handleHotspotClick(room, hotspot) {
   state.foundClues = addClueToLog(state.foundClues, room, hotspot);
   updateHintCounter();
 
-  state.planPercent = advancePlan(state.planPercent);
-  renderPlanBar(document.getElementById("plan-bar-fill"), state.planPercent);
-
   goToRoom(state.currentRoomId); // re-render so this hotspot shows as checked
-
-  if (state.planPercent >= 100) {
-    triggerGameOver();
-  }
 }
 
 function updateHintCounter() {
@@ -250,6 +275,7 @@ function updateAccuseButtonState() {
 
 function triggerGameOver() {
   state.gameOver = true;
+  window.clearInterval(planTimerId);
   closeAllPanels();
   stopAmbient();
   playGameOverStinger();
@@ -400,6 +426,8 @@ document.getElementById("btn-accuse").addEventListener("click", () => {
 
 function handleAccusationSubmit(suspectId, reasoning) {
   document.getElementById("accusation-panel").classList.remove("open");
+  state.gameOver = true;
+  window.clearInterval(planTimerId);
   stopAmbient();
 
   const result = checkAccusation(SUSPECTS, suspectId);
@@ -413,10 +441,12 @@ function handleAccusationSubmit(suspectId, reasoning) {
 
 // --- Restart -------------------------------------------------------------
 function restart() {
+  window.clearInterval(planTimerId);
   state.currentRoomId = ROOMS[0].id;
   state.foundClues = [];
   state.foundHotspotIds = new Set();
   state.planPercent = 0;
+  state.planStartTime = null;
   state.gameOver = false;
   stopAmbient();
   document.getElementById("gate-input").value = "";

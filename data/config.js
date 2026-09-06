@@ -10,11 +10,11 @@
 // Case-insensitive check is done in main.js.
 export const CASE_FILE_CODE = "HALCYON7";
 
-// How many percentage points the "Antagonist's Plan" bar advances every
-// time the player clicks ANY hotspot — real clue or decoy, doesn't matter.
-// This is a flat rate per click, not tied to how many hotspots exist, so
-// adding/removing hotspots or whole rooms never throws off the pacing.
-export const ANTAGONIST_PLAN_INCREMENT = 4; // percent, per click
+// How long the player has, in real time, before the "Antagonist's Plan"
+// bar fills completely and the game ends. Runs silently in the background
+// from the moment the investigation starts — nothing the player clicks
+// speeds it up or slows it down, and no clock is ever shown on screen.
+export const ANTAGONIST_PLAN_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 
 // The hint counter shown in the top bar ("Valid hints found: X / Y") sets
 // Y to this fraction of ALL real (isReal: true) hotspots that exist across
