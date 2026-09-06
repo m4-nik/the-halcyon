@@ -6,7 +6,12 @@
 // ---------------------------------------------------------------------------
 
 export function renderRoomAccess(container, rooms, suspects) {
-  container.innerHTML = "";
+  container.innerHTML = `
+    <p class="access-intro">
+      Not everyone aboard is free to go everywhere. If a clue turns up somewhere its owner
+      has no real reason to be, that's worth noticing as much as the clue itself.
+    </p>
+  `;
 
   rooms.forEach((room) => {
     const entry = document.createElement("div");

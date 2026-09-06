@@ -1283,6 +1283,15 @@ button {
 }
 
 /* Room Access — who's normally allowed where */
+.access-intro {
+  font-family: "Lora", Georgia, serif;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin: 0 0 1.25rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--color-border);
+}
 .access-entry {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent);
   border: 1px solid var(--color-border);
@@ -1340,11 +1349,11 @@ button {
   color: var(--color-gold-dim);
 }
 .access-note {
-  font-family: var(--font-serif-body);
+  font-family: "Lora", Georgia, serif;
   font-style: italic;
   font-size: 0.9rem;
   color: var(--color-text-muted);
-  line-height: 1.45;
+  line-height: 1.5;
   margin: 0.65rem 0 0;
 }
 
