@@ -150,6 +150,7 @@ export const ROOMS = [
         clueText:
           "A porcelain cup sits abandoned near the chart table, the coffee inside gone cold, a faint lipstick mark on the rim. Priya Kapoor was seen coming up to the bridge earlier in the evening to ask about the ship's arrival time — an unusual errand for a business partner who normally keeps to the lower decks and has no standing reason to be up here at all, though hardly proof of anything beyond restlessness.",
         pointsToSuspectId: null,
+        examineModel: "assets/models/bridge-coffee-mug.glb",
       },
       {
         id: "bridge-07",
