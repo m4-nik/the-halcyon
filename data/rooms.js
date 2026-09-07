@@ -118,6 +118,7 @@ export const ROOMS = [
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Plotting a diversion and erasing it cleanly back onto the real heading takes real navigation experience — the kind the first mate has.",
+        examineImage: "assets/images/examine/course-chart.png",
       },
       {
         id: "bridge-04",
