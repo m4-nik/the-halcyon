@@ -970,7 +970,7 @@ button {
 .evidence-layout.no-media .evidence-info-col {
   grid-column: 1 / -1;
 }
-@media (max-width: 760px) {
+@media (max-width: 520px) {
   .evidence-layout {
     grid-template-columns: 1fr;
   }
