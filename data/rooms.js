@@ -385,7 +385,7 @@ export const ROOMS = [
         y: 57,
         isReal: true,
         clueText:
-          "Two wine glasses, both used, left out near the knife block. Someone met the first mate here tonight, off the record.",
+          "Two used wine glasses sit near the knife block. Someone met the first mate here tonight.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "A secret, late-night meeting with Marcus Reyes — the kind that never made it onto any schedule.",
@@ -420,7 +420,7 @@ export const ROOMS = [
         y: 27,
         isReal: false,
         clueText:
-          "Lobster Bisque, crossed off in a hurry. The owner's allergic — the ship's physician would know that better than most.",
+          "Lobster Bisque is crossed off the menu in a hurry. The owner's allergic to it.",
         pointsToSuspectId: "elena-voss",
         whyItMatters:
           "Only someone with a doctor's knowledge of the owner's allergy would think to strike this dish — which points straight at Dr. Voss.",
@@ -432,7 +432,7 @@ export const ROOMS = [
         y: 30,
         isReal: false,
         clueText:
-          "A row of jars, one lid loose and resting slightly askew — inventory sign-offs again, an easy oversight.",
+          "A row of jars sits on the shelf, one lid loose and slightly askew.",
         pointsToSuspectId: "ingrid-sorensen",
         whyItMatters:
           "Inventory sign-offs run through Ingrid Sorensen's hands as the owner's assistant — so a slip here traces back to her desk.",
@@ -454,8 +454,7 @@ export const ROOMS = [
         x: 8,
         y: 35,
         isReal: false,
-        clueText:
-          "The first aid kit sits open. Odd, for someone who spends her nights doing the books, not tending wounds.",
+        clueText: "The first aid kit sits open on the counter.",
         pointsToSuspectId: "priya-kapoor",
         whyItMatters:
           "An open first aid kit doesn't fit Priya Kapoor's usual nights buried in paperwork — so why is it out at all?",
