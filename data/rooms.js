@@ -108,6 +108,7 @@ export const ROOMS = [
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Only the captain and first mate ever handle this log — and Marcus Reyes is the only one of the two still aboard tonight.",
+        examineImage: "assets/images/examine/captains-log.png",
       },
       {
         id: "bridge-03",
