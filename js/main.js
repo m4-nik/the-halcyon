@@ -243,7 +243,7 @@ function handleHotspotClick(room, hotspot) {
 
   retryAmbientIfStalled(); // this click is a real user gesture — good moment to retry a blocked autoplay
 
-  showEvidenceModal(hotspot);
+  showEvidenceModal(room, hotspot);
 
   const alreadyFound = state.foundHotspotIds.has(hotspot.id);
   if (alreadyFound) return; // reopening a checked hotspot doesn't re-count it
@@ -285,10 +285,14 @@ function triggerGameOver() {
 
 // --- Evidence modal ------------------------------------------------------
 // One shared popup for every hotspot. Shows 3D/image media when the
-// hotspot has it, always shows the clue text, an optional "why it
-// matters" takeaway, and a connection strip naming the suspect this
-// points toward (or a neutral note when it points at no one).
-function showEvidenceModal(hotspot) {
+// hotspot has it, then three things in order, each its own small reveal:
+// 1. Portrait-first — who this points toward (or a neutral line when it
+//    points at no one), leading the card before any reading happens.
+// 2. The clue's short description, typed out rather than dumped at once.
+// 3. Two fact chips — where it was found, and why it matters.
+let typewriterIntervalId = null;
+
+function showEvidenceModal(room, hotspot) {
   const mediaBlock = document.getElementById("evidence-media");
   const viewer = document.getElementById("evidence-model-viewer");
   const imageViewer = document.getElementById("evidence-image-viewer");
@@ -309,44 +313,67 @@ function showEvidenceModal(hotspot) {
     viewer.removeAttribute("src");
   }
 
-  document.getElementById("evidence-modal-text").textContent = hotspot.clueText;
-
-  const takeaway = document.getElementById("evidence-takeaway");
-  if (hotspot.whyItMatters) {
-    takeaway.hidden = false;
-    document.getElementById("evidence-takeaway-text").textContent = hotspot.whyItMatters;
-  } else {
-    takeaway.hidden = true;
-  }
-
-  const connection = document.getElementById("evidence-connection");
   const suspect = hotspot.pointsToSuspectId
     ? SUSPECTS.find((s) => s.id === hotspot.pointsToSuspectId)
     : null;
 
+  const portraitReveal = document.getElementById("evidence-portrait-reveal");
+  portraitReveal.classList.remove("pop-in", "evidence-portrait-none");
+  void portraitReveal.offsetWidth; // restart the pop animation on every open, not just the first
   if (suspect) {
     const portraitHtml = suspect.portrait
-      ? `<img class="evidence-connection-portrait" src="${suspect.portrait}" alt="${suspect.name}" />`
-      : `<span class="evidence-connection-portrait evidence-connection-placeholder">${initials(suspect.name)}</span>`;
-    connection.innerHTML = `
-      <span class="evidence-connection-label">Possible Connection</span>
-      <div class="evidence-connection-suspect">
-        ${portraitHtml}
-        <span class="evidence-connection-names">
-          <strong>${suspect.name}</strong>
-          <em>${suspect.role}</em>
-        </span>
-      </div>
-    `;
+      ? `<img class="evidence-portrait-img" src="${suspect.portrait}" alt="${suspect.name}" />`
+      : `<span class="evidence-portrait-img evidence-portrait-placeholder">${initials(suspect.name)}</span>`;
+    portraitReveal.innerHTML = `${portraitHtml}<span class="evidence-portrait-name">${suspect.name}</span>`;
   } else {
-    connection.innerHTML =
-      '<p class="evidence-connection-none">Just set dressing — this one doesn\'t point anywhere in particular.</p>';
+    portraitReveal.classList.add("evidence-portrait-none");
+    portraitReveal.innerHTML =
+      '<span class="evidence-portrait-none-text">Not linked to anyone in particular</span>';
   }
+  portraitReveal.classList.add("pop-in");
+
+  typewriterText(document.getElementById("evidence-modal-text"), hotspot.clueText);
+
+  const whyText = suspect
+    ? hotspot.whyItMatters || ""
+    : "Just set dressing — this one doesn't point anywhere in particular.";
+  document.getElementById("evidence-fact-chips").innerHTML = `
+    <div class="evidence-fact-chip">
+      <span class="evidence-fact-chip-label">Found In</span>
+      <span class="evidence-fact-chip-value">${room.name}</span>
+    </div>
+    <div class="evidence-fact-chip">
+      <span class="evidence-fact-chip-label">${suspect ? "Why It Matters" : "Note"}</span>
+      <span class="evidence-fact-chip-value">${whyText}</span>
+    </div>
+  `;
 
   document.getElementById("evidence-modal").classList.add("open");
 }
+
+// Reveals `text` into `el` a character at a time rather than all at once.
+// Clears any typewriter already running (e.g. the player closed one clue
+// and immediately opened another) so two intervals never race on the
+// same element.
+function typewriterText(el, text) {
+  window.clearInterval(typewriterIntervalId);
+  el.textContent = "";
+  el.classList.add("typing");
+
+  let i = 0;
+  typewriterIntervalId = window.setInterval(() => {
+    el.textContent += text[i];
+    i++;
+    if (i >= text.length) {
+      window.clearInterval(typewriterIntervalId);
+      el.classList.remove("typing");
+    }
+  }, 16);
+}
+
 function closeEvidenceModal() {
   document.getElementById("evidence-modal").classList.remove("open");
+  window.clearInterval(typewriterIntervalId);
 }
 document.getElementById("evidence-modal-close").addEventListener("click", closeEvidenceModal);
 document.getElementById("evidence-modal-continue").addEventListener("click", closeEvidenceModal);

@@ -250,14 +250,18 @@
         Evidence Found
       </p>
 
-      <p id="evidence-modal-text" class="evidence-text"></p>
+      <!-- Portrait-first: who this points toward (or a neutral note when
+           it points at no one) leads the card, before the player even
+           reads the description. -->
+      <div id="evidence-portrait-reveal" class="evidence-portrait-reveal"></div>
 
-      <div id="evidence-takeaway" class="evidence-takeaway" hidden>
-        <span class="evidence-takeaway-label">Why It Matters</span>
-        <p id="evidence-takeaway-text"></p>
-      </div>
+      <!-- Short plain-English line, typed out rather than dumped on the
+           screen at once — main.js drives this letter by letter. -->
+      <p id="evidence-modal-text" class="evidence-text evidence-typewriter"></p>
 
-      <div id="evidence-connection" class="evidence-connection"></div>
+      <!-- Two short fact chips (where it was found, why it matters) pop
+           in staggered instead of another paragraph of prose. -->
+      <div id="evidence-fact-chips" class="evidence-fact-chips"></div>
 
       <p class="modal-logged">Logged to the case file.</p>
       <button id="evidence-modal-continue" class="btn-primary modal-continue">Continue Investigating</button>

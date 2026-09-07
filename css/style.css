@@ -997,94 +997,107 @@ button {
 
 .evidence-text {
   font-size: 1.15rem !important;
+  min-height: 1.9em;
+}
+.evidence-typewriter.typing::after {
+  content: "▋";
+  margin-left: 2px;
+  color: var(--color-gold);
+  animation: cursor-blink 0.8s step-end infinite;
+}
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-/* "Why It Matters" — the short, plain-language deduction, set apart
-   visually from the more atmospheric clueText prose above it. */
-.evidence-takeaway {
-  margin-top: 1.1rem;
-  padding: 0.8rem 1rem;
-  background: rgba(212, 175, 106, 0.08);
-  border: 1px solid var(--color-gold-dim);
-  border-radius: 4px;
-}
-.evidence-takeaway-label {
-  display: block;
-  font-family: var(--font-typewriter);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-gold-dim);
-  margin-bottom: 0.4rem;
-}
-.evidence-takeaway p {
-  margin: 0;
-  font-family: "Lora", Georgia, serif;
-  font-size: 0.98rem !important;
-  line-height: 1.5;
-  color: var(--color-gold-bright) !important;
-}
-
-/* Connection strip — who this evidence points toward, or a neutral note
-   when it points at no one. Always present, never a tell either way. */
-.evidence-connection {
-  margin-top: 1rem;
-}
-.evidence-connection-label {
-  display: block;
-  font-family: var(--font-typewriter);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-text-muted);
-  margin-bottom: 0.5rem;
-}
-.evidence-connection-suspect {
+/* Portrait-first reveal — who this evidence points toward leads the
+   card, before the description text even finishes typing. Bounces in
+   rather than just fading, so it reads as a "reveal" moment. A clue
+   with no suspect gets a quiet neutral line instead of a portrait —
+   never a tell either way, since some REAL clues are atmosphere-only
+   too (see the doc comment on whyItMatters in data/rooms.js). */
+.evidence-portrait-reveal {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
-.evidence-connection-portrait {
-  width: 42px;
-  height: 42px;
+.evidence-portrait-reveal.pop-in .evidence-portrait-img {
+  animation: portrait-pop 0.45s cubic-bezier(0.3, 1.6, 0.4, 1) both;
+}
+@keyframes portrait-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  65% { opacity: 1; transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.evidence-portrait-img {
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid var(--color-gold-dim);
   flex-shrink: 0;
 }
-.evidence-connection-placeholder {
+.evidence-portrait-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--color-bg-alt);
   color: var(--color-gold);
   font-family: var(--font-heading);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
 }
-.evidence-connection-names {
+.evidence-portrait-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--color-gold-bright);
+  animation: reveal-up 0.35s ease-out 0.15s both;
+}
+.evidence-portrait-reveal.evidence-portrait-none {
+  margin-bottom: 0.85rem;
+}
+.evidence-portrait-none-text {
+  font-family: "Lora", Georgia, serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  animation: reveal-up 0.3s ease-out both;
+}
+
+/* Fact chips — two short, plain facts instead of another paragraph:
+   where this turned up, and why it matters. Pop in staggered. */
+.evidence-fact-chips {
   display: flex;
   flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
 }
-.evidence-connection-names strong {
-  font-family: var(--font-heading);
-  font-size: 0.95rem;
-  color: var(--color-text);
+.evidence-fact-chip {
+  padding: 0.7rem 0.9rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-left: 2px solid var(--color-gold-dim);
+  border-radius: 4px;
+  animation: reveal-up 0.35s ease-out both;
 }
-.evidence-connection-names em {
+.evidence-fact-chips .evidence-fact-chip:nth-child(1) { animation-delay: 0.1s; }
+.evidence-fact-chips .evidence-fact-chip:nth-child(2) { animation-delay: 0.22s; }
+.evidence-fact-chip-label {
+  display: block;
   font-family: var(--font-typewriter);
-  font-style: normal;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-text-muted);
+  letter-spacing: 0.12em;
+  color: var(--color-gold-dim);
+  margin-bottom: 0.3rem;
 }
-.evidence-connection-none {
-  margin: 0 !important;
-  font-family: "Lora", Georgia, serif !important;
-  font-style: italic;
-  font-size: 0.9rem !important;
-  color: var(--color-text-muted) !important;
+.evidence-fact-chip-value {
+  display: block;
+  font-family: "Lora", Georgia, serif;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--color-text);
 }
 
 .modal-close {
