@@ -123,12 +123,13 @@ export const ROOMS = [
       },
       {
         id: "bridge-04",
-        x: 82,
-        y: 49,
+        x: 76,
+        y: 48,
         isReal: false,
         clueText:
           "Two life vests hang by the door, still buckled, exactly where regulations say they belong. Standard safety gear, checked every week by whoever's on deck-safety duty — nothing about them tonight looks any different than any other night.",
         pointsToSuspectId: null,
+        examineModel: "assets/models/bridge-life-vests.glb",
       },
       {
         id: "bridge-05",
