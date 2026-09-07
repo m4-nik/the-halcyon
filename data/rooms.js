@@ -96,6 +96,7 @@ export const ROOMS = [
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Loosened with the precision of someone who knows this exact panel by heart — and bridge access after hours belongs to just the captain and first mate.",
+        examineModel: "assets/models/bridge-radio-panel.glb",
       },
       {
         id: "bridge-02",
@@ -137,6 +138,7 @@ export const ROOMS = [
         clueText:
           "The ship's bell hangs polished and untouched by the door, rung only for arrivals, departures, and emergencies. Nobody's rung it tonight — for better or worse.",
         pointsToSuspectId: null,
+        examineModel: "assets/models/bridge-bell.glb",
       },
       {
         id: "bridge-06",
