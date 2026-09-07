@@ -92,7 +92,7 @@ export const ROOMS = [
         y: 43,
         isReal: true,
         clueText:
-          "The radio panel behind the helm has had three of its wires deliberately loosened, not frayed — the kind of clean, precise disconnection you'd only manage if you already knew this exact panel by heart. Marcus Reyes has spent years as first mate running comms drills on this very panel; anyone else aboard would have needed a manual and a flashlight just to find the right screws, let alone do it fast enough not to be noticed. Bridge access outside working hours is restricted to the captain and first mate alone — no guest, and almost no other crew member, is supposed to be up here unescorted at all.",
+          "Three wires behind the radio panel have been loosened on purpose — not frayed, just carefully undone.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Loosened with the precision of someone who knows this exact panel by heart — and bridge access after hours belongs to just the captain and first mate.",
@@ -104,7 +104,7 @@ export const ROOMS = [
         y: 78,
         isReal: true,
         clueText:
-          "A page has been torn from the captain's log, and the remaining stub has been trimmed unnervingly straight, as if someone wanted the missing entry to look like it was never written at all. The log is normally only handled by the captain and the first mate — and Marcus Reyes is the only one of the two still walking around the ship tonight.",
+          "A page is torn out of the captain's log. What's left behind is cut too straight to be an accident.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Only the captain and first mate ever handle this log — and Marcus Reyes is the only one of the two still aboard tonight.",
@@ -116,7 +116,7 @@ export const ROOMS = [
         y: 74,
         isReal: true,
         clueText:
-          "The course chart shows faint pencil marks tracing an entirely different heading than the one logged for tonight — a diversion route, carefully plotted and then just as carefully erased, though the impression still shows if you tilt the paper to the light. Reading a chart like this, and knowing exactly how to fake a course correction back onto the real heading, takes someone with real navigation experience — someone like the first mate.",
+          "Faint pencil marks on the chart trace a different course than tonight's real heading — drawn, then erased.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Plotting a diversion and erasing it cleanly back onto the real heading takes real navigation experience — the kind the first mate has.",
@@ -128,7 +128,7 @@ export const ROOMS = [
         y: 48,
         isReal: false,
         clueText:
-          "Two life vests hang by the door, still buckled, exactly where regulations say they belong. Standard safety gear, checked every week by whoever's on deck-safety duty — nothing about them tonight looks any different than any other night.",
+          "Two life vests hang by the door, buckled and in place. Nothing about them looks touched tonight.",
         pointsToSuspectId: null,
         examineModel: "assets/models/bridge-life-vests.glb",
       },
@@ -137,8 +137,7 @@ export const ROOMS = [
         x: 78,
         y: 20,
         isReal: false,
-        clueText:
-          "The ship's bell hangs polished and untouched by the door, rung only for arrivals, departures, and emergencies. Nobody's rung it tonight — for better or worse.",
+        clueText: "The ship's bell is clean and untouched. Nobody's rung it tonight.",
         pointsToSuspectId: null,
         examineModel: "assets/models/bridge-bell.glb",
       },
@@ -148,7 +147,7 @@ export const ROOMS = [
         y: 84,
         isReal: false,
         clueText:
-          "A porcelain cup sits abandoned near the chart table, the coffee inside gone cold, a faint lipstick mark on the rim. Priya Kapoor was seen coming up to the bridge earlier in the evening to ask about the ship's arrival time — an unusual errand for a business partner who normally keeps to the lower decks and has no standing reason to be up here at all, though hardly proof of anything beyond restlessness.",
+          "A cup of coffee sits abandoned, gone cold, with a faint lipstick mark on the rim. Priya Kapoor came up here earlier tonight to ask about the arrival time.",
         pointsToSuspectId: null,
         examineModel: "assets/models/bridge-coffee-mug.glb",
       },
@@ -158,7 +157,7 @@ export const ROOMS = [
         y: 89,
         isReal: false,
         clueText:
-          "A small ring of keys sits loose on the desk, one of them clearly cut for a cabin lock rather than anything on the bridge — misplaced, or deliberately left somewhere it'd be overlooked.",
+          "A small ring of keys lies loose on the desk. One of them looks cut for a cabin, not the bridge.",
         pointsToSuspectId: null,
         examineModel: "assets/models/bridge-keys.glb",
       },
