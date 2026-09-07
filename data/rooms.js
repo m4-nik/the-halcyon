@@ -178,8 +178,10 @@ export const ROOMS = [
         y: 76,
         isReal: true,
         clueText:
-          "A wrench sits on the workbench, still faintly warm to the touch, though the main engine has been powered down for hours. Whoever picked it up knew exactly which tool they needed and where to find it in the dark — the kind of familiarity that comes from years working alongside the ship's engineer down here, not from a single visit. Marcus Reyes has that familiarity; almost no one else aboard would.",
+          "A wrench on the workbench is still warm, even though the engine's been off for hours.",
         pointsToSuspectId: "marcus-reyes",
+        whyItMatters:
+          "Knowing exactly which tool to grab down here in the dark takes years of familiarity — Marcus Reyes has it; almost no one else does.",
         examineModel: "assets/models/wrench.glb",
       },
       {
@@ -188,7 +190,7 @@ export const ROOMS = [
         y: 87,
         isReal: true,
         clueText:
-          "A trail of boot prints cuts straight through a patch of spilled oil, running from the main engine block directly to the ladder out — recent enough that the oil's sheen hasn't dulled with air exposure yet. The stride length and boot pattern match ship-issue crew boots, not the deck shoes worn by the yacht's guests, narrowing this down to someone who was on duty tonight.",
+          "Boot prints cut through spilled oil, leading straight from the engine to the ladder out.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Ship-issue boots, not guest deck shoes — whoever left this trail was on duty tonight, and Marcus Reyes was one of the few who would be.",
@@ -200,7 +202,7 @@ export const ROOMS = [
         y: 64,
         isReal: true,
         clueText:
-          "The toolbox sits open on the deck, mid-use, tools still scattered rather than racked back into their foam cutouts the way engineer Tomas Bell insists on leaving them. Whoever was working here clearly didn't plan on being interrupted — and left in enough of a hurry that this wasn't a routine repair. Engine-room access is limited to Tomas Bell and the first mate; every other name on the crew roster needs a supervised escort just to walk through the hatch.",
+          "The toolbox sits open, tools scattered instead of put away. Whoever used it left in a hurry.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Tools left scattered, not racked the way Tomas Bell always leaves them — and only he and Marcus Reyes can even get through this hatch unescorted.",
@@ -211,8 +213,7 @@ export const ROOMS = [
         x: 7,
         y: 27,
         isReal: false,
-        clueText:
-          "The fuel gauge above the main console reads a steady, unremarkable normal — whatever went wrong down here tonight, the fuel supply itself was never the problem, which rules out at least one obvious explanation for the engine trouble.",
+        clueText: "The fuel gauge reads normal. Whatever went wrong tonight, it wasn't the fuel.",
         pointsToSuspectId: null,
         examineModel: "assets/models/engine-fuel-gauges.glb",
       },
@@ -221,8 +222,7 @@ export const ROOMS = [
         x: 73,
         y: 44,
         isReal: false,
-        clueText:
-          "A spare set of engineer's coveralls hangs in the locker, cut and sized for Tomas Bell, the ship's engineer. It's standard practice for him to keep a backup uniform down here in case the first gets soaked in oil mid-shift — on its own, this says nothing beyond the fact that he does his job the way he's supposed to.",
+        clueText: "A spare set of coveralls hangs in the locker, sized for Tomas Bell.",
         pointsToSuspectId: "tomas-bell",
         whyItMatters:
           "Just a spare uniform, sized and stored exactly the way Tomas Bell's job requires — routine, but it's still his name on the locker.",
@@ -234,7 +234,7 @@ export const ROOMS = [
         y: 85,
         isReal: false,
         clueText:
-          "The maintenance log has one entry scratched through and rewritten, in handwriting that doesn't match the neat mechanical shorthand Tomas Bell uses everywhere else in the book. The correction looks more like the tidy, deliberate hand Priya Kapoor uses on the business ledgers — old habits from a career spent fixing other people's numbers.",
+          "One entry in the maintenance log has been scratched out and rewritten in different handwriting.",
         pointsToSuspectId: "priya-kapoor",
         whyItMatters:
           "The correction isn't in Tomas Bell's usual shorthand — it looks like Priya Kapoor's tidy ledger handwriting instead, out of place in an engineer's logbook.",
@@ -246,7 +246,7 @@ export const ROOMS = [
         y: 34,
         isReal: false,
         clueText:
-          "A coil of rope has been looped and tied off with the same tight, methodical wrap Ingrid Sorensen uses when she organizes the owner's luggage and supply crates — not the looser coil crew usually leave lying around down here. Ingrid has no standing reason to be down here at all; her duties never bring her below the guest deck, which makes this rope all the more curious.",
+          "A coil of rope is tied off tight and neat — not the loose coils crew usually leave down here.",
         pointsToSuspectId: "ingrid-sorensen",
         whyItMatters:
           "A tight, methodical wrap unlike the loose coils crew leave lying around — closer to how Ingrid Sorensen ties off luggage, in a room she has no reason to be in.",
@@ -257,8 +257,7 @@ export const ROOMS = [
         x: 80,
         y: 82,
         isReal: false,
-        clueText:
-          "An untouched thermos sits on the shelf above the workbench, still capped, the metal cold to the touch. Dr. Elena Voss has mentioned more than once that she avoids eating or drinking anywhere near the machinery — if this is hers, she apparently didn't stay down here long enough to open it.",
+        clueText: "An untouched thermos sits on the shelf, still capped and cold.",
         pointsToSuspectId: "elena-voss",
         whyItMatters:
           "Still capped and cold — Dr. Voss avoids eating or drinking near the machinery, so if it's hers, she didn't stay long enough to use it.",
