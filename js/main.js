@@ -297,19 +297,23 @@ function showEvidenceModal(room, hotspot) {
   const viewer = document.getElementById("evidence-model-viewer");
   const imageViewer = document.getElementById("evidence-image-viewer");
 
+  const layout = document.getElementById("evidence-layout");
   if (hotspot.examineModel) {
     mediaBlock.hidden = false;
+    layout.classList.remove("no-media");
     viewer.setAttribute("src", hotspot.examineModel);
     viewer.style.display = "block";
     imageViewer.style.display = "none";
   } else if (hotspot.examineImage) {
     mediaBlock.hidden = false;
+    layout.classList.remove("no-media");
     imageViewer.src = hotspot.examineImage;
     imageViewer.style.display = "block";
     viewer.removeAttribute("src");
     viewer.style.display = "none";
   } else {
     mediaBlock.hidden = true;
+    layout.classList.add("no-media");
     viewer.removeAttribute("src");
   }
 
@@ -324,11 +328,22 @@ function showEvidenceModal(room, hotspot) {
     const portraitHtml = suspect.portrait
       ? `<img class="evidence-portrait-img" src="${suspect.portrait}" alt="${suspect.name}" />`
       : `<span class="evidence-portrait-img evidence-portrait-placeholder">${initials(suspect.name)}</span>`;
-    portraitReveal.innerHTML = `${portraitHtml}<span class="evidence-portrait-name">${suspect.name}</span>`;
+    portraitReveal.innerHTML = `
+      <span class="evidence-portrait-label">Points Toward</span>
+      <div class="evidence-portrait-row">
+        ${portraitHtml}
+        <span class="evidence-portrait-names">
+          <strong class="evidence-portrait-name">${suspect.name}</strong>
+          <em class="evidence-portrait-role">${suspect.role}</em>
+        </span>
+      </div>
+    `;
   } else {
     portraitReveal.classList.add("evidence-portrait-none");
-    portraitReveal.innerHTML =
-      '<span class="evidence-portrait-none-text">Not linked to anyone in particular</span>';
+    portraitReveal.innerHTML = `
+      <span class="evidence-portrait-label">Connection</span>
+      <span class="evidence-portrait-none-text">Not linked to anyone in particular</span>
+    `;
   }
   portraitReveal.classList.add("pop-in");
 

@@ -948,20 +948,43 @@ button {
   padding: 0.75rem 1.5rem;
 }
 
-/* Evidence modal — wider than a plain popup so 3D/image media has room
-   to breathe. The media block is hidden entirely for text-only clues
-   (main.js sets [hidden] on #evidence-media) rather than leaving a gap. */
+/* Evidence modal — a wide, two-column "case file" spread instead of a
+   narrow scrolling column, so it actually uses the screen it's given.
+   Media sits on the left, everything else on the right; a text-only
+   clue collapses to one column and the info side takes the full width
+   (main.js toggles .no-media on #evidence-layout, since #evidence-media
+   itself is just hidden, not removed). */
 .evidence-modal-content {
-  max-width: 640px;
+  max-width: min(980px, 94vw);
+  padding: 2.5rem 2.75rem;
 }
+.evidence-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+.evidence-layout.no-media .evidence-media-col {
+  display: none;
+}
+.evidence-layout.no-media .evidence-info-col {
+  grid-column: 1 / -1;
+}
+@media (max-width: 760px) {
+  .evidence-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .evidence-media {
   position: relative;
-  margin-bottom: 1.1rem;
+  height: 100%;
 }
 .evidence-model-viewer {
   display: block;
   width: 100%;
-  height: 320px;
+  height: 100%;
+  min-height: 340px;
   border: 1px solid var(--color-border);
   border-radius: 6px;
   background-color: var(--color-bg-alt);
@@ -973,8 +996,9 @@ button {
 .evidence-image-viewer {
   display: none;
   width: 100%;
-  max-height: 380px;
-  object-fit: contain;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
   border: 1px solid var(--color-border);
   border-radius: 6px;
   background-color: var(--color-bg-alt);
@@ -996,7 +1020,8 @@ button {
 }
 
 .evidence-text {
-  font-size: 1.15rem !important;
+  font-size: 1.3rem !important;
+  line-height: 1.5 !important;
   min-height: 1.9em;
 }
 .evidence-typewriter.typing::after {
@@ -1011,16 +1036,32 @@ button {
 }
 
 /* Portrait-first reveal — who this evidence points toward leads the
-   card, before the description text even finishes typing. Bounces in
-   rather than just fading, so it reads as a "reveal" moment. A clue
-   with no suspect gets a quiet neutral line instead of a portrait —
-   never a tell either way, since some REAL clues are atmosphere-only
-   too (see the doc comment on whyItMatters in data/rooms.js). */
+   card, before the description text even finishes typing. Labeled, so
+   a portrait+name is never just a face with no explanation attached.
+   Bounces in rather than just fading, so it reads as a "reveal" moment.
+   A clue with no suspect gets a quiet neutral line instead of a
+   portrait — never a tell either way, since some REAL clues are
+   atmosphere-only too (see the doc comment on whyItMatters in
+   data/rooms.js). */
 .evidence-portrait-reveal {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.evidence-portrait-label {
+  display: block;
+  font-family: var(--font-typewriter);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-gold-dim);
+  margin-bottom: 0.6rem;
+  animation: reveal-up 0.3s ease-out both;
+}
+.evidence-portrait-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 0.9rem;
 }
 .evidence-portrait-reveal.pop-in .evidence-portrait-img {
   animation: portrait-pop 0.45s cubic-bezier(0.3, 1.6, 0.4, 1) both;
@@ -1031,11 +1072,11 @@ button {
   100% { transform: scale(1); }
 }
 .evidence-portrait-img {
-  width: 52px;
-  height: 52px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid var(--color-gold-dim);
+  border: 2px solid var(--color-gold-dim);
   flex-shrink: 0;
 }
 .evidence-portrait-placeholder {
@@ -1045,22 +1086,33 @@ button {
   background: var(--color-bg-alt);
   color: var(--color-gold);
   font-family: var(--font-heading);
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 600;
+}
+.evidence-portrait-names {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  animation: reveal-up 0.35s ease-out 0.15s both;
 }
 .evidence-portrait-name {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1.35rem;
   color: var(--color-gold-bright);
-  animation: reveal-up 0.35s ease-out 0.15s both;
 }
-.evidence-portrait-reveal.evidence-portrait-none {
-  margin-bottom: 0.85rem;
+.evidence-portrait-role {
+  font-family: var(--font-typewriter);
+  font-style: normal;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
 }
 .evidence-portrait-none-text {
+  display: block;
   font-family: "Lora", Georgia, serif;
   font-style: italic;
-  font-size: 0.92rem;
+  font-size: 1rem;
   color: var(--color-text-muted);
   animation: reveal-up 0.3s ease-out both;
 }
@@ -1074,10 +1126,10 @@ button {
   margin-top: 1.1rem;
 }
 .evidence-fact-chip {
-  padding: 0.7rem 0.9rem;
-  background: rgba(255, 255, 255, 0.02);
+  padding: 0.85rem 1.1rem;
+  background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--color-border);
-  border-left: 2px solid var(--color-gold-dim);
+  border-left: 3px solid var(--color-gold-dim);
   border-radius: 4px;
   animation: reveal-up 0.35s ease-out both;
 }
