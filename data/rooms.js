@@ -159,6 +159,7 @@ export const ROOMS = [
         clueText:
           "A small ring of keys sits loose on the desk, one of them clearly cut for a cabin lock rather than anything on the bridge — misplaced, or deliberately left somewhere it'd be overlooked.",
         pointsToSuspectId: null,
+        examineModel: "assets/models/bridge-keys.glb",
       },
     ],
   },
