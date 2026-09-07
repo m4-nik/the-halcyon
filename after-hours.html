@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halcyon: After Hours</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/after-hours.css" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+
+<body>
+
+  <!-- MAIN GAME SHELL -->
+  <section id="screen-game" class="screen active">
+    <header id="top-bar">
+      <nav id="room-nav" aria-label="Room navigation"></nav>
+
+      <div id="status-cluster">
+        <div id="objective-tracker">
+          Current objective: <span id="objective-text">Find a way into the Lower Decks.</span>
+        </div>
+        <div id="level2-timer">
+          <span class="plan-label" id="timer-label">SYSTEM STABILITY</span>
+          <div class="plan-bar-track timer-track">
+            <div id="timer-display">00:00</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="top-bar-actions">
+        <button id="btn-case-log" class="btn-secondary">Case Log</button>
+        <button id="btn-suspects" class="btn-secondary">Suspects</button>
+        <button id="btn-evidence" class="btn-secondary">Evidence</button>
+      </div>
+    </header>
+
+    <main id="room-view"></main>
+
+    <!-- Slide-out panels -->
+    <aside id="case-log-panel" class="panel">
+      <div class="panel-header">
+        <h2>Case Log</h2>
+        <button class="panel-close" data-close="case-log-panel" aria-label="Close">&times;</button>
+      </div>
+      <div id="case-log-list" class="panel-content-area">
+        <p class="empty-state">No entries in the log yet.</p>
+      </div>
+    </aside>
+
+    <aside id="suspects-panel" class="panel">
+      <div class="panel-header">
+        <h2>Suspects</h2>
+        <button class="panel-close" data-close="suspects-panel" aria-label="Close">&times;</button>
+      </div>
+      <div id="suspects-list" class="panel-content-area">
+        <p class="empty-state">No suspect data compiled.</p>
+      </div>
+    </aside>
+
+    <aside id="evidence-panel" class="panel">
+      <div class="panel-header">
+        <h2>Evidence</h2>
+        <button class="panel-close" data-close="evidence-panel" aria-label="Close">&times;</button>
+      </div>
+      <div id="evidence-list" class="panel-content-area">
+        <p class="empty-state">No physical evidence collected.</p>
+      </div>
+    </aside>
+
+    <!-- Clue popup modal -->
+    <div id="clue-modal" class="modal">
+      <div class="modal-content">
+        <button id="clue-modal-close" class="modal-close" aria-label="Close">&times;</button>
+        <p class="modal-eyebrow">
+          <svg class="modal-eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <circle cx="10" cy="10" r="6" />
+            <line x1="15" y1="15" x2="20" y2="20" />
+          </svg>
+          Observation
+        </p>
+        <p id="clue-modal-text"></p>
+        <button id="clue-modal-continue" class="btn-primary modal-continue">Continue</button>
+      </div>
+    </div>
+
+    <!-- Access Denied modal -->
+    <div id="access-denied-modal" class="modal">
+      <div class="modal-content access-denied-content">
+        <button id="access-denied-close" class="modal-close" aria-label="Close">&times;</button>
+        <p class="modal-eyebrow access-denied-eyebrow">
+          <svg class="modal-eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          System Alert
+        </p>
+        <h2 class="access-denied-title">ACCESS DENIED</h2>
+        <p class="access-denied-text">CAPTAIN'S MANUAL LOCKDOWN ACTIVE<br>DUAL OVERRIDE REQUIRED</p>
+        <button id="access-denied-continue" class="btn-primary modal-continue">Acknowledge</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIO CONTROL: fixed bottom-right (clear of any other UI), visible on
+       every screen. Mute toggle + a volume slider, defaults to unmuted. -->
+  <div id="audio-control" class="audio-control">
+    <input type="range" id="audio-volume-slider" class="audio-volume-slider" min="0" max="100" step="1" value="55"
+      aria-label="Volume" />
+    <button id="audio-toggle" class="audio-toggle" type="button" aria-label="Mute audio" aria-pressed="false">
+      <svg class="audio-icon audio-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="3,9 8,9 13,4 13,20 8,15 3,15" fill="currentColor" stroke="none" />
+        <path d="M16,8 a5,5 0 0 1 0,8" />
+        <path d="M18.5,5.5 a9,9 0 0 1 0,13" />
+      </svg>
+      <svg class="audio-icon audio-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="3,9 8,9 13,4 13,20 8,15 3,15" fill="currentColor" stroke="none" />
+        <line x1="16" y1="9" x2="21" y2="14" />
+        <line x1="21" y1="9" x2="16" y2="14" />
+      </svg>
+    </button>
+  </div>
+
+  <script type="module" src="js/after-hours-main.js"></script>
+</body>
+
+</html>

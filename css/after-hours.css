@@ -1,0 +1,247 @@
+/* -------------------------------------------------------------------------
+   AFTER HOURS: LEVEL 2 OVERRIDES
+------------------------------------------------------------------------- */
+:root {
+  /* Override base variables from style.css */
+  --color-bg: #010101;
+  --color-bg-alt: #050505;
+  --color-panel: #060608;
+  --color-border: #1a1a20;
+  
+  /* Emergency/System Accents */
+  --color-danger: #e54d4d;
+  --color-cyan: #4dc3e5;
+  --color-cyan-dim: #1a5666;
+  
+  /* Mute the golds slightly for a colder feel */
+  --color-gold: #b3945a;
+  --color-gold-bright: #d1b882;
+  --color-gold-dim: #7a6136;
+}
+
+/* Base structural adjustments for the blackout */
+body {
+  background: var(--color-bg);
+}
+
+#top-bar {
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.98), rgba(2, 2, 2, 0.98));
+  border-bottom: 1px solid var(--color-cyan-dim);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8);
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(10, 10, 12, 0.98), rgba(4, 4, 6, 0.98));
+  border-left: 1px solid var(--color-cyan-dim);
+}
+
+/* Objective Tracker */
+#objective-tracker {
+  font-family: var(--font-typewriter);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--color-danger);
+  border-radius: 3px;
+  background: rgba(229, 77, 77, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+#objective-tracker span {
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+/* Electro-Static / Signal-Distortion Glitch */
+@keyframes signal-distort-text {
+  0%, 93% { transform: translate(0); text-shadow: none; }
+  93.5% { transform: translate(-1.5px, 0) skewX(-12deg); text-shadow: 2px 0 var(--color-danger), -2px 0 var(--color-cyan); }
+  94% { transform: translate(1.5px, 0) skewX(12deg); text-shadow: -2px 0 var(--color-danger), 2px 0 var(--color-cyan); }
+  94.5%, 100% { transform: translate(0); text-shadow: none; }
+}
+
+@keyframes signal-interference-bar {
+  0%, 93% { opacity: 0; clip-path: inset(0 0 0 0); transform: translateX(0); }
+  93.5% { opacity: 0.6; clip-path: inset(15% 0 80% 0); transform: translateX(-4px); background: var(--color-danger); }
+  94% { opacity: 0.6; clip-path: inset(75% 0 15% 0); transform: translateX(4px); background: var(--color-cyan); }
+  94.5%, 100% { opacity: 0; clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+@keyframes scene-glitch {
+  0%, 93.9% { opacity: 0; clip-path: inset(0 0 0 0); transform: translateX(0); background-color: transparent; }
+  
+  /* Band 1: Red offset */
+  94% { opacity: 0.9; clip-path: inset(15% 0 80% 0); transform: translateX(-6px); background-color: rgba(229, 77, 77, 0.3); background-blend-mode: screen; }
+  
+  /* Band 1: Cyan offset */
+  94.5% { opacity: 0.9; clip-path: inset(15% 0 80% 0); transform: translateX(6px); background-color: rgba(77, 195, 229, 0.3); background-blend-mode: screen; }
+  
+  /* Band 2: Quick thin static noise */
+  95% { opacity: 0.9; clip-path: inset(55% 0 42% 0); transform: translateX(-3px); background-color: rgba(229, 77, 77, 0.2); background-blend-mode: screen; }
+  
+  /* Band 3: Cyan offset */
+  95.5% { opacity: 0.9; clip-path: inset(82% 0 12% 0); transform: translateX(4px); background-color: rgba(77, 195, 229, 0.3); background-blend-mode: screen; }
+  
+  96%, 100% { opacity: 0; clip-path: inset(0 0 0 0); transform: translateX(0); background-color: transparent; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Core text distortion: tearing and RGB channel separation */
+  .room-nav-btn,
+  #objective-tracker span,
+  #level2-timer,
+  .panel-header h2,
+  .access-denied-title {
+    display: inline-block; /* Ensures transforms apply properly */
+    animation: signal-distort-text 7s infinite;
+  }
+  
+  /* Stagger timings so the HUD doesn't glitch all at exactly the same time */
+  .room-nav-btn:nth-child(even) { animation-duration: 9s; animation-delay: -2s; }
+  .room-nav-btn:nth-child(odd) { animation-duration: 11s; animation-delay: -5s; }
+  .panel-header h2 { animation-duration: 8.5s; animation-delay: -3s; }
+  .access-denied-title { animation-duration: 5s; animation-delay: -1s; }
+  #level2-timer { animation-duration: 7.5s; animation-delay: -4s; }
+  
+  /* Horizontal slice interference pulse on tracker using a clipped pseudo-element */
+  #objective-tracker::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    animation: signal-interference-bar 7s infinite;
+  }
+  
+  /* Scene Glitch Overlay: Electrically coordinates with the HUD glitch timing (7-11s range) */
+  .room-stage.room-stage-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Inherit the exact background image and sizing from the main room stage */
+    background-image: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    background-repeat: inherit;
+    z-index: 1; /* Above the base image, below the atmosphere/hotspots */
+    animation: scene-glitch 9s infinite;
+    animation-delay: -3s; 
+  }
+}
+
+/* Timer Styling (Related to Level 1 Pressure System) */
+#level2-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.timer-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 24px;
+  background: rgba(229, 77, 77, 0.05);
+  border: 1px solid var(--color-danger);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+#timer-display {
+  font-family: var(--font-typewriter);
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* Navigation Overrides */
+.room-nav-btn {
+  border-color: var(--color-border);
+}
+
+.room-nav-btn:hover {
+  border-color: var(--color-cyan-dim);
+  color: var(--color-cyan);
+}
+
+.room-nav-btn.active {
+  background: var(--color-cyan);
+  color: #010304;
+  border-color: var(--color-cyan);
+}
+
+.room-nav-btn.locked {
+  opacity: 0.5;
+  border-style: dashed;
+  color: var(--color-danger);
+  cursor: not-allowed;
+}
+
+.room-nav-btn.locked:hover {
+  background: rgba(229, 77, 77, 0.1);
+  border-color: var(--color-danger);
+}
+
+/* Buttons */
+.btn-secondary:hover {
+  border-color: var(--color-cyan-dim);
+  color: var(--color-cyan);
+  background: rgba(77, 195, 229, 0.06);
+}
+
+.btn-primary {
+  background: var(--color-cyan-dim);
+  color: var(--color-text);
+}
+.btn-primary:hover {
+  background: var(--color-cyan);
+  color: #010304;
+  box-shadow: 0 6px 20px rgba(77, 195, 229, 0.25);
+}
+
+/* Access Denied Modal */
+.access-denied-content {
+  border-top-color: var(--color-danger);
+}
+
+.access-denied-eyebrow {
+  color: var(--color-danger);
+}
+
+.access-denied-title {
+  color: var(--color-danger);
+  font-family: var(--font-heading);
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+}
+
+.access-denied-text {
+  font-family: var(--font-typewriter);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Room Stage Cold Vignette */
+.room-stage::after {
+  /* Shift vignette from warm shadow to cold dark */
+  --vignette-rgb: 0, 10, 20;
+}
+
+.empty-state {
+  font-family: var(--font-typewriter);
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.panel-content-area {
+  padding: 1rem;
+}
+
