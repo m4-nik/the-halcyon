@@ -496,8 +496,7 @@ export const ROOMS = [
         x: 52,
         y: 52,
         isReal: true,
-        clueText:
-          "The life ring hangs a little crooked, as if someone leaned here recently, close to the railing, alone.",
+        clueText: "The life ring hangs a little crooked, like someone leaned against it recently.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "Someone leaned here recently, alone, close to the railing — near the same stretch of deck where the rope and the scattered charts turned up.",
@@ -509,7 +508,7 @@ export const ROOMS = [
         y: 86,
         isReal: true,
         clueText:
-          "A scattering of papers near the table — shipping routes, matching the private charts from the bridge.",
+          "Papers are scattered near the table — shipping routes that match the bridge's private charts.",
         pointsToSuspectId: "marcus-reyes",
         whyItMatters:
           "These shipping routes match the private charts already found on the bridge — the same person had reason to be carrying both.",
