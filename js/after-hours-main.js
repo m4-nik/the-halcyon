@@ -6,6 +6,7 @@ import { ROOMS } from "../data/after-hours-rooms.js";
 import { SUSPECTS } from "../data/after-hours-suspects.js";
 import { TIMER_CONFIG } from "../data/after-hours-config.js";
 import { renderRoom } from "./hotspotEngine.js";
+import { addClueToLog, renderCaseLog } from "./caseLog.js";
 import {
   startAmbient,
   retryAmbientIfStalled,
@@ -18,6 +19,7 @@ import {
 const state = {
   currentRoomId: ROOMS[0].id,
   foundHotspotIds: new Set(),
+  foundClues: [],
   timerRemaining: TIMER_CONFIG.durationSeconds,
 };
 
@@ -110,9 +112,18 @@ function goToRoom(roomId) {
 // --- Hotspot click handling -----------------------------------------------
 function handleHotspotClick(room, hotspot) {
   retryAmbientIfStalled();
-  // Skeleton for hotspot handling
-  showClueModal(hotspot.clueText);
+
+  if (hotspot.examineModel || hotspot.examineImage) {
+    showExamineModal({ model: hotspot.examineModel, image: hotspot.examineImage, text: hotspot.clueText });
+  } else {
+    showClueModal(hotspot.clueText);
+  }
+
+  const alreadyFound = state.foundHotspotIds.has(hotspot.id);
+  if (alreadyFound) return;
+
   state.foundHotspotIds.add(hotspot.id);
+  state.foundClues = addClueToLog(state.foundClues, room, hotspot);
   goToRoom(state.currentRoomId);
 }
 
@@ -133,6 +144,38 @@ document.getElementById("clue-modal-close")?.addEventListener("click", () => {
 document.getElementById("clue-modal-continue")?.addEventListener("click", () => {
   retryAmbientIfStalled();
   closeClueModal();
+});
+
+function showExamineModal({ model, image, text }) {
+  const viewer = document.getElementById("examine-model-viewer");
+  const imageViewer = document.getElementById("examine-image-viewer");
+
+  if (model) {
+    viewer.setAttribute("src", model);
+    viewer.style.display = "block";
+    imageViewer.style.display = "none";
+  } else {
+    imageViewer.src = image;
+    imageViewer.style.display = "block";
+    viewer.removeAttribute("src");
+    viewer.style.display = "none";
+  }
+
+  document.getElementById("examine-modal-text").textContent = text;
+  document.getElementById("examine-modal").classList.add("open");
+}
+
+function closeExamineModal() {
+  document.getElementById("examine-modal").classList.remove("open");
+}
+
+document.getElementById("examine-modal-close")?.addEventListener("click", () => {
+  retryAmbientIfStalled();
+  closeExamineModal();
+});
+document.getElementById("examine-modal-continue")?.addEventListener("click", () => {
+  retryAmbientIfStalled();
+  closeExamineModal();
 });
 
 function showAccessDeniedModal() {
@@ -167,6 +210,7 @@ document.querySelectorAll(".panel-close").forEach((btn) => {
 document.getElementById("btn-case-log")?.addEventListener("click", () => {
   retryAmbientIfStalled();
   closeAllPanels();
+  renderCaseLog(document.getElementById("case-log-list"), state.foundClues);
   document.getElementById("case-log-panel").classList.add("open");
 });
 
