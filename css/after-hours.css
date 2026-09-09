@@ -267,3 +267,64 @@ body {
   line-height: 1.5;
   color: #d8d8d8;
 }
+
+/* Unlock Toast */
+.unlock-notification {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -20px);
+  background: rgba(0, 10, 20, 0.95);
+  color: var(--color-cyan, #4dc3e5);
+  border: 1px solid var(--color-cyan-dim, #21596e);
+  padding: 12px 24px;
+  font-family: var(--font-heading, 'Cinzel', serif);
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: 0 0 20px rgba(77, 195, 229, 0.15);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.unlock-notification.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+/* ===== AFTER HOURS EXAMINE EVIDENCE MODAL ===== */
+
+.examine-modal-content {
+  width: min(820px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.examine-viewer-wrap {
+  width: 100%;
+  max-height: 48vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+#examine-image-viewer {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 48vh;
+  object-fit: contain;
+}
+
+#examine-model-viewer {
+  width: 100%;
+  height: 48vh;
+  max-height: 48vh;
+}
