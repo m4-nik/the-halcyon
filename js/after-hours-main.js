@@ -25,6 +25,7 @@ const state = {
   currentRoomId: ROOMS[0].id,
   foundHotspotIds: new Set(),
   timerRemaining: TIMER_CONFIG.durationSeconds,
+  revealedUnknownSuspect: false,
 };
 
 let timerInterval = null;
@@ -38,7 +39,7 @@ function playCaptainEmergency() {
   captainEmergencyAudio.play().catch(() => {
     // Chrome may block autoplay until the player interacts.
     const playOnInteraction = () => {
-      captainEmergencyAudio.play().catch(() => {});
+      captainEmergencyAudio.play().catch(() => { });
     };
 
     document.addEventListener("pointerdown", playOnInteraction, { once: true });
@@ -67,15 +68,40 @@ function initTimer() {
   if (labelEl) labelEl.textContent = TIMER_CONFIG.label;
   updateTimerDisplay(displayEl, state.timerRemaining);
 
-  timerInterval = setInterval(() => {
-    if (state.timerRemaining > 0) {
-      state.timerRemaining -= 1;
-      updateTimerDisplay(displayEl, state.timerRemaining);
-    } else {
-      clearInterval(timerInterval);
-      // Stops at 00:00 as requested, no game over logic yet
-    }
-  }, 1000);
+  const startCountdown = () => {
+    if (timerInterval) return; // Ensure it only starts once
+    timerInterval = setInterval(() => {
+      if (state.timerRemaining > 0) {
+        state.timerRemaining -= 1;
+        updateTimerDisplay(displayEl, state.timerRemaining);
+      }
+
+      if (state.timerRemaining <= 0) {
+        state.timerRemaining = 0;
+        updateTimerDisplay(displayEl, 0);
+        clearInterval(timerInterval);
+        triggerGameOver();
+      }
+    }, 1000);
+  };
+
+  if (captainEmergencyAudio.ended) {
+    startCountdown();
+  } else {
+    captainEmergencyAudio.addEventListener("ended", startCountdown, { once: true });
+  }
+}
+
+let gameOverTriggered = false;
+function triggerGameOver() {
+  if (gameOverTriggered) return;
+  gameOverTriggered = true;
+
+  document.getElementById("failure-modal").classList.add("open");
+
+  document.getElementById("failure-modal-retry").addEventListener("click", () => {
+    window.location.reload();
+  }, { once: true });
 }
 
 function updateTimerDisplay(el, seconds) {
@@ -90,10 +116,10 @@ function renderRoomNav() {
   const nav = document.getElementById("room-nav");
   nav.innerHTML = "";
 
- ROOMS.forEach((room) => {
-  if (room.isHidden) return;
+  ROOMS.forEach((room) => {
+    if (room.isHidden) return;
 
-  const btn = document.createElement("button");
+    const btn = document.createElement("button");
     btn.type = "button";
     btn.textContent = room.name;
     btn.className = "room-nav-btn";
@@ -156,6 +182,10 @@ function handleHotspotClick(room, hotspot) {
   if (alreadyFound) return;
 
   state.foundHotspotIds.add(hotspot.id);
+
+  if (hotspot.id === "ve22-03-service-jacket") {
+    state.revealedUnknownSuspect = true;
+  }
 
   // Unlock VE-22 only after first discovering the blueprint
   if (hotspot.id === "lower-02-blueprint") {
@@ -292,6 +322,151 @@ document.getElementById("access-denied-continue")?.addEventListener("click", () 
 });
 
 // --- Slide-out panels -------------------------------------------------
+function renderCaseLogPanel() {
+  const container = document.getElementById("case-log-list");
+  container.innerHTML = "";
+  if (state.foundHotspotIds.size === 0) {
+    container.innerHTML = '<p class="empty-state">No entries in the log yet.</p>';
+    return;
+  }
+  
+  ROOMS.forEach(room => {
+    const foundInRoom = room.hotspots.filter(h => state.foundHotspotIds.has(h.id));
+    if (foundInRoom.length === 0) return;
+    
+    const roomSection = document.createElement("div");
+    roomSection.innerHTML = `<h3 style="color: var(--color-cyan); border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-top: 1rem; margin-bottom: 1rem;">${room.name}</h3>`;
+    
+    foundInRoom.forEach(h => {
+      const entry = document.createElement("div");
+      entry.className = "case-log-entry";
+      entry.style.marginBottom = "2rem";
+      
+      let html = `<div class="evidence-observation" style="margin-bottom: 0.5rem;"><strong>Observation:</strong> ${h.clueText}</div>`;
+      if (h.connectionText) {
+        html += `<div class="evidence-detail-label" style="margin-top: 0.5rem; color: #d3a84f; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.16em;">CONNECTION</div>
+                 <div class="evidence-detail-value" style="color: #d8d8d8; line-height: 1.5; margin-top: 0.25rem;">${h.connectionText}</div>`;
+      }
+      if (h.whyItMatters) {
+        html += `<div class="evidence-detail-label" style="margin-top: 0.5rem; color: #d3a84f; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.16em;">WHY IT MATTERS</div>
+                 <div class="evidence-detail-value" style="color: #d8d8d8; line-height: 1.5; margin-top: 0.25rem;">${h.whyItMatters}</div>`;
+      }
+      entry.innerHTML = html;
+      roomSection.appendChild(entry);
+    });
+    container.appendChild(roomSection);
+  });
+}
+
+function renderEvidencePanel() {
+  const container = document.getElementById("evidence-list");
+  container.innerHTML = "";
+  if (state.foundHotspotIds.size === 0) {
+    container.innerHTML = '<p class="empty-state">No physical evidence collected.</p>';
+    return;
+  }
+  
+  ROOMS.forEach(room => {
+    const foundInRoom = room.hotspots.filter(h => state.foundHotspotIds.has(h.id));
+    if (foundInRoom.length === 0) return;
+    
+    const roomSection = document.createElement("div");
+    roomSection.innerHTML = `<h3 style="color: var(--color-cyan); border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-top: 1rem; margin-bottom: 1rem;">${room.name}</h3>`;
+    
+    foundInRoom.forEach(h => {
+      const entry = document.createElement("button");
+      entry.className = "btn-secondary";
+      entry.style.display = "block";
+      entry.style.width = "100%";
+      entry.style.textAlign = "left";
+      entry.style.marginBottom = "0.5rem";
+      entry.style.padding = "0.75rem";
+      entry.style.lineHeight = "1.4";
+      
+      entry.textContent = h.clueText;
+      
+      entry.addEventListener("click", () => {
+        retryAmbientIfStalled();
+        if (h.examineModel || h.examineImage) {
+          showExamineModal({
+            model: h.examineModel,
+            image: h.examineImage,
+            text: h.clueText,
+            connection: h.connectionText,
+            whyItMatters: h.whyItMatters
+          });
+        } else {
+          showClueModal({
+            text: h.clueText,
+            connection: h.connectionText,
+            whyItMatters: h.whyItMatters
+          });
+        }
+      });
+      roomSection.appendChild(entry);
+    });
+    container.appendChild(roomSection);
+  });
+}
+
+function renderSuspectsPanel() {
+  const container = document.getElementById("suspects-list");
+  container.innerHTML = "";
+  
+  const allSuspects = [...SUSPECTS];
+  
+  if (state.revealedUnknownSuspect) {
+    allSuspects.push({
+      id: "unknown-occupant",
+      name: "UNKNOWN OCCUPANT",
+      role: "Unidentified person aboard The Halcyon",
+      portrait: null,
+      motive: "Evidence inside VE-22 indicates that the compartment was repeatedly occupied.",
+      alibi: "This person may have moved through restricted service routes without appearing on the official passenger or crew record.",
+      statusText: "Identity Unknown"
+    });
+  }
+  
+  allSuspects.forEach(suspect => {
+    const card = document.createElement("div");
+    card.className = "suspect-card";
+    card.style.border = "1px solid var(--color-border)";
+    card.style.padding = "1rem";
+    card.style.marginBottom = "1rem";
+    card.style.background = "rgba(0,0,0,0.3)";
+    
+    const initials = suspect.name.split(" ").map(w => w[0]).join("");
+    const portraitHtml = suspect.portrait
+      ? `<img class="suspect-portrait" src="${suspect.portrait}" alt="${suspect.name}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; float: right; border: 1px solid var(--color-border); margin-left: 1rem;" />`
+      : `<div class="suspect-portrait suspect-portrait-placeholder" style="width: 60px; height: 60px; border-radius: 50%; background: var(--color-border); color: var(--color-text-muted); display: flex; align-items: center; justify-content: center; font-weight: bold; float: right; margin-left: 1rem;">${initials}</div>`;
+      
+    let detailsHtml = "";
+    if (suspect.id === "unknown-occupant") {
+       detailsHtml = `
+         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>STATUS:</strong> ${suspect.statusText}</p>
+         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>ROLE:</strong> ${suspect.role}</p>
+         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>KNOWN:</strong> ${suspect.motive}</p>
+         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>SIGNIFICANCE:</strong> ${suspect.alibi}</p>
+       `;
+    } else {
+       detailsHtml = `
+         <p class="suspect-role" style="color: var(--color-cyan-dim); margin-bottom: 0.5rem;">${suspect.role}</p>
+         <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Motive:</strong> ${suspect.motive}</p>
+         <p style="font-size: 0.9rem;"><strong>Notes:</strong> ${suspect.alibi}</p>
+       `;
+    }
+
+    card.innerHTML = `
+      ${portraitHtml}
+      <h3 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-gold-bright);">\${suspect.name}</h3>
+      ${detailsHtml}
+      <div style="clear: both;"></div>
+    `;
+    
+    container.appendChild(card);
+  });
+}
+
 function closeAllPanels() {
   document.querySelectorAll(".panel").forEach((p) => p.classList.remove("open"));
 }
@@ -306,18 +481,21 @@ document.querySelectorAll(".panel-close").forEach((btn) => {
 document.getElementById("btn-case-log")?.addEventListener("click", () => {
   retryAmbientIfStalled();
   closeAllPanels();
+  renderCaseLogPanel();
   document.getElementById("case-log-panel").classList.add("open");
 });
 
 document.getElementById("btn-suspects")?.addEventListener("click", () => {
   retryAmbientIfStalled();
   closeAllPanels();
+  renderSuspectsPanel();
   document.getElementById("suspects-panel").classList.add("open");
 });
 
 document.getElementById("btn-evidence")?.addEventListener("click", () => {
   retryAmbientIfStalled();
   closeAllPanels();
+  renderEvidencePanel();
   document.getElementById("evidence-panel").classList.add("open");
 });
 

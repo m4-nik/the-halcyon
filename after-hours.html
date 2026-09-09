@@ -107,6 +107,23 @@
         <button id="access-denied-continue" class="btn-primary modal-continue">Acknowledge</button>
       </div>
     </div>
+
+    <!-- Failure Modal -->
+    <div id="failure-modal" class="modal failure-overlay">
+      <div class="modal-content access-denied-content">
+        <p class="modal-eyebrow access-denied-eyebrow">
+          <svg class="modal-eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          System Alert
+        </p>
+        <h2 class="access-denied-title">EMERGENCY WINDOW EXPIRED</h2>
+        <p class="access-denied-text">Whatever was set in motion aboard The Halcyon has been completed.<br><br>The
+          investigation has failed.</p>
+        <button id="failure-modal-retry" class="btn-primary modal-continue">RETRY AFTER HOURS</button>
+      </div>
+    </div>
   </section>
 
   <!-- AUDIO CONTROL: fixed bottom-right (clear of any other UI), visible on
@@ -130,52 +147,34 @@
     </button>
 
   </div>
-<!-- EXAMINE EVIDENCE MODAL -->
-<div id="examine-modal" class="modal">
-  <div class="modal-content examine-modal-content">
+  <!-- EXAMINE EVIDENCE MODAL -->
+  <div id="examine-modal" class="modal">
+    <div class="modal-content examine-modal-content">
 
-    <button
-      id="examine-modal-close"
-      class="modal-close"
-      type="button"
-      aria-label="Close"
-    >
-      ×
-    </button>
+      <button id="examine-modal-close" class="modal-close" type="button" aria-label="Close">
+        ×
+      </button>
 
-    <h2>EXAMINE CLOSELY</h2>
+      <h2>EXAMINE CLOSELY</h2>
 
-    <div class="examine-viewer-wrap">
-      <model-viewer
-        id="examine-model-viewer"
-        camera-controls
-        auto-rotate
-        style="display: none;"
-      ></model-viewer>
+      <div class="examine-viewer-wrap">
+        <model-viewer id="examine-model-viewer" camera-controls auto-rotate style="display: none;"></model-viewer>
 
-      <img
-        id="examine-image-viewer"
-        alt="Evidence close-up"
-        style="display: none;"
-      />
+        <img id="examine-image-viewer" alt="Evidence close-up" style="display: none;" />
+      </div>
+
+      <div id="examine-modal-text"></div>
+
+      <div class="case-file-hint">
+        Logged to the case file.
+      </div>
+
+      <button id="examine-modal-continue" class="btn-primary" type="button">
+        CONTINUE INVESTIGATING
+      </button>
+
     </div>
-
-    <div id="examine-modal-text"></div>
-
-    <div class="case-file-hint">
-      Logged to the case file.
-    </div>
-
-    <button
-      id="examine-modal-continue"
-      class="btn-primary"
-      type="button"
-    >
-      CONTINUE INVESTIGATING
-    </button>
-
   </div>
-</div>
   <script type="module" src="js/after-hours-main.js"></script>
 
 </body>

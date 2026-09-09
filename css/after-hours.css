@@ -328,3 +328,10 @@ body {
   height: 48vh;
   max-height: 48vh;
 }
+
+/* ===== FAILURE OVERLAY ===== */
+.modal.failure-overlay {
+  z-index: 999999 !important; /* Ensure it's above EVERYTHING */
+  pointer-events: auto !important; /* Catch all clicks */
+  background: rgba(0, 0, 0, 0.95); /* Deepen the blackout */
+}

@@ -3,7 +3,7 @@ export const MIN_HINT_RATIO_TO_ACCUSE = 0.625;
 
 export const TIMER_CONFIG = {
   enabled: true,
-  durationSeconds: 300,
+  durationSeconds: 720,
   label: "EMERGENCY WINDOW"
 };
 
