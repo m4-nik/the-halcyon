@@ -458,7 +458,7 @@ function renderSuspectsPanel() {
 
     card.innerHTML = `
       ${portraitHtml}
-      <h3 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-gold-bright);">\${suspect.name}</h3>
+      <h3 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--color-gold-bright);">${suspect.name}</h3>
       ${detailsHtml}
       <div style="clear: both;"></div>
     `;
