@@ -3,6 +3,12 @@
 // ---------------------------------------------------------------------------
 
 import { ROOMS } from "../data/after-hours-rooms.js";
+const captainEmergencyAudio = new Audio(
+  "assets/audio/captain-emergency.mp4"
+);
+
+captainEmergencyAudio.preload = "auto";
+captainEmergencyAudio.volume = 1;
 import { SUSPECTS } from "../data/after-hours-suspects.js";
 import { TIMER_CONFIG } from "../data/after-hours-config.js";
 import { renderRoom } from "./hotspotEngine.js";
@@ -24,7 +30,22 @@ const state = {
 let timerInterval = null;
 
 // Start the game immediately for Level 2 (no intro gates)
+function playCaptainEmergency() {
+  if (!captainEmergencyAudio.paused || captainEmergencyAudio.currentTime > 0) {
+    return;
+  }
+
+  captainEmergencyAudio.play().catch(() => {
+    // Chrome may block autoplay until the player interacts.
+    const playOnInteraction = () => {
+      captainEmergencyAudio.play().catch(() => {});
+    };
+
+    document.addEventListener("pointerdown", playOnInteraction, { once: true });
+  });
+}
 function initGame() {
+  playCaptainEmergency();
   renderRoomNav();
   goToRoom(state.currentRoomId);
   initTimer();
