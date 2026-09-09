@@ -244,4 +244,26 @@ body {
 .panel-content-area {
   padding: 1rem;
 }
+.evidence-observation,
+.evidence-detail-label,
+.evidence-detail-value {
+  display: block;
+}
 
+.evidence-observation {
+  margin-bottom: 18px;
+}
+
+.evidence-detail-label {
+  margin-top: 14px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: #d3a84f;
+  text-transform: uppercase;
+}
+
+.evidence-detail-value {
+  margin-top: 5px;
+  line-height: 1.5;
+  color: #d8d8d8;
+}
