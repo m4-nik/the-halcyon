@@ -318,23 +318,6 @@ export const ROOMS = [
           "The thermos could place Elena near this section of the ship at some point, but nothing about it establishes when she was here or connects her to what happened on the Lower Deck."
       },
 
-      {
-        id: "engine-09-override-key",
-        x: 67,
-        y: 82,
-        isReal: true,
-
-        clueText:
-          "A heavy emergency override key lies on the deck near the restricted-access corridor.",
-
-        pointsToSuspectId: null,
-
-        connectionText:
-          "Points to no one specific",
-
-        whyItMatters:
-          "The Lower Deck lockdown requires a physical emergency override as part of its dual-access procedure. This key provides one half of what is needed to open the sealed section."
-      },
 
       {
         id: "engine-10-bypassed-monitor",
@@ -877,7 +860,7 @@ export const ROOMS = [
     id: "lower-decks",
     name: "Lower Decks",
     image: "./assets/images/rooms/lower-decks.jpg",
-    isLocked: false,
+    isLocked: true,
     hotspots: [
       {
         id: "lower-01-captain-body",

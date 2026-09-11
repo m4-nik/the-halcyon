@@ -305,7 +305,16 @@ document.getElementById("clue-modal-continue")?.addEventListener("click", () => 
 });
 
 function showAccessDeniedModal() {
+  const input = document.getElementById("passcode-input");
+  const errorMsg = document.getElementById("passcode-error");
+  if (input) input.value = "";
+  if (errorMsg) errorMsg.style.display = "none";
+
   document.getElementById("access-denied-modal").classList.add("open");
+
+  if (input) {
+    setTimeout(() => input.focus(), 50);
+  }
 }
 
 function closeAccessDeniedModal() {
@@ -316,9 +325,29 @@ document.getElementById("access-denied-close")?.addEventListener("click", () => 
   retryAmbientIfStalled();
   closeAccessDeniedModal();
 });
-document.getElementById("access-denied-continue")?.addEventListener("click", () => {
+
+function handlePasscodeSubmit() {
   retryAmbientIfStalled();
-  closeAccessDeniedModal();
+  const input = document.getElementById("passcode-input");
+  const errorMsg = document.getElementById("passcode-error");
+
+  if (input && input.value === "7319") {
+    const lowerDecksRoom = ROOMS.find(r => r.id === "lower-decks");
+    if (lowerDecksRoom) lowerDecksRoom.isLocked = false;
+    renderRoomNav();
+    closeAccessDeniedModal();
+    goToRoom("lower-decks");
+  } else {
+    if (errorMsg) errorMsg.style.display = "block";
+  }
+}
+
+document.getElementById("access-denied-continue")?.addEventListener("click", handlePasscodeSubmit);
+
+document.getElementById("passcode-input")?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handlePasscodeSubmit();
+  }
 });
 
 // --- Slide-out panels -------------------------------------------------
@@ -329,19 +358,19 @@ function renderCaseLogPanel() {
     container.innerHTML = '<p class="empty-state">No entries in the log yet.</p>';
     return;
   }
-  
+
   ROOMS.forEach(room => {
     const foundInRoom = room.hotspots.filter(h => state.foundHotspotIds.has(h.id));
     if (foundInRoom.length === 0) return;
-    
+
     const roomSection = document.createElement("div");
     roomSection.innerHTML = `<h3 style="color: var(--color-cyan); border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-top: 1rem; margin-bottom: 1rem;">${room.name}</h3>`;
-    
+
     foundInRoom.forEach(h => {
       const entry = document.createElement("div");
       entry.className = "case-log-entry";
       entry.style.marginBottom = "2rem";
-      
+
       let html = `<div class="evidence-observation" style="margin-bottom: 0.5rem;"><strong>Observation:</strong> ${h.clueText}</div>`;
       if (h.connectionText) {
         html += `<div class="evidence-detail-label" style="margin-top: 0.5rem; color: #d3a84f; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.16em;">CONNECTION</div>
@@ -365,14 +394,14 @@ function renderEvidencePanel() {
     container.innerHTML = '<p class="empty-state">No physical evidence collected.</p>';
     return;
   }
-  
+
   ROOMS.forEach(room => {
     const foundInRoom = room.hotspots.filter(h => state.foundHotspotIds.has(h.id));
     if (foundInRoom.length === 0) return;
-    
+
     const roomSection = document.createElement("div");
     roomSection.innerHTML = `<h3 style="color: var(--color-cyan); border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-top: 1rem; margin-bottom: 1rem;">${room.name}</h3>`;
-    
+
     foundInRoom.forEach(h => {
       const entry = document.createElement("button");
       entry.className = "btn-secondary";
@@ -382,9 +411,9 @@ function renderEvidencePanel() {
       entry.style.marginBottom = "0.5rem";
       entry.style.padding = "0.75rem";
       entry.style.lineHeight = "1.4";
-      
+
       entry.textContent = h.clueText;
-      
+
       entry.addEventListener("click", () => {
         retryAmbientIfStalled();
         if (h.examineModel || h.examineImage) {
@@ -412,9 +441,9 @@ function renderEvidencePanel() {
 function renderSuspectsPanel() {
   const container = document.getElementById("suspects-list");
   container.innerHTML = "";
-  
+
   const allSuspects = [...SUSPECTS];
-  
+
   if (state.revealedUnknownSuspect) {
     allSuspects.push({
       id: "unknown-occupant",
@@ -426,7 +455,7 @@ function renderSuspectsPanel() {
       statusText: "Identity Unknown"
     });
   }
-  
+
   allSuspects.forEach(suspect => {
     const card = document.createElement("div");
     card.className = "suspect-card";
@@ -434,22 +463,22 @@ function renderSuspectsPanel() {
     card.style.padding = "1rem";
     card.style.marginBottom = "1rem";
     card.style.background = "rgba(0,0,0,0.3)";
-    
+
     const initials = suspect.name.split(" ").map(w => w[0]).join("");
     const portraitHtml = suspect.portrait
       ? `<img class="suspect-portrait" src="${suspect.portrait}" alt="${suspect.name}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; float: right; border: 1px solid var(--color-border); margin-left: 1rem;" />`
       : `<div class="suspect-portrait suspect-portrait-placeholder" style="width: 60px; height: 60px; border-radius: 50%; background: var(--color-border); color: var(--color-text-muted); display: flex; align-items: center; justify-content: center; font-weight: bold; float: right; margin-left: 1rem;">${initials}</div>`;
-      
+
     let detailsHtml = "";
     if (suspect.id === "unknown-occupant") {
-       detailsHtml = `
+      detailsHtml = `
          <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>STATUS:</strong> ${suspect.statusText}</p>
          <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>ROLE:</strong> ${suspect.role}</p>
          <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>KNOWN:</strong> ${suspect.motive}</p>
          <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>SIGNIFICANCE:</strong> ${suspect.alibi}</p>
        `;
     } else {
-       detailsHtml = `
+      detailsHtml = `
          <p class="suspect-role" style="color: var(--color-cyan-dim); margin-bottom: 0.5rem;">${suspect.role}</p>
          <p style="margin-bottom: 0.5rem; font-size: 0.9rem;"><strong>Motive:</strong> ${suspect.motive}</p>
          <p style="font-size: 0.9rem;"><strong>Notes:</strong> ${suspect.alibi}</p>
@@ -462,7 +491,7 @@ function renderSuspectsPanel() {
       ${detailsHtml}
       <div style="clear: both;"></div>
     `;
-    
+
     container.appendChild(card);
   });
 }

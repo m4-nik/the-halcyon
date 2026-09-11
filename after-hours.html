@@ -102,9 +102,19 @@
           </svg>
           System Alert
         </p>
-        <h2 class="access-denied-title">ACCESS DENIED</h2>
-        <p class="access-denied-text">CAPTAIN'S MANUAL LOCKDOWN ACTIVE<br>DUAL OVERRIDE REQUIRED</p>
-        <button id="access-denied-continue" class="btn-primary modal-continue">Acknowledge</button>
+        <h2 class="access-denied-title">LOWER DECK ACCESS</h2>
+        <p class="access-denied-text" style="margin-bottom: 1rem;">CAPTAIN'S MANUAL LOCKDOWN ACTIVE<br>AUTHORIZATION
+          CODE REQUIRED</p>
+
+        <input type="text" id="passcode-input" inputmode="numeric" maxlength="4" autocomplete="off"
+          style="background: rgba(229, 77, 77, 0.05); border: 1px solid var(--color-danger); color: var(--color-text); font-family: var(--font-typewriter); font-size: 1.5rem; text-align: center; padding: 0.5rem; width: 120px; margin-bottom: 1rem; letter-spacing: 0.2em;" />
+
+        <div id="passcode-error"
+          style="display: none; color: var(--color-danger); font-family: var(--font-typewriter); font-size: 0.9rem; margin-bottom: 1.5rem; text-align: center;">
+          ACCESS DENIED<br>INVALID AUTHORIZATION CODE
+        </div>
+
+        <button id="access-denied-continue" class="btn-primary modal-continue">SUBMIT</button>
       </div>
     </div>
 
