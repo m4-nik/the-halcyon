@@ -341,8 +341,116 @@ export const ROOMS = [
   {
     id: "guest-cabins",
     name: "Guest Cabins",
-    image: "assets/images/rooms/guest-cabins.jpg",
-    hotspots: []
+    image:  "assets/images/rooms/guest-cabins-after-hours.jpg",
+    hotspots: [
+  {
+    id: "cabin-ah-01-torn-note",
+    x: 19,
+    y: 54,
+    isReal: true,
+
+    clueText:
+      "A torn fragment remains caught in the bedding. The surviving words read: \"...after the crew turns in.\"",
+
+    pointsToSuspectId: "marcus-reyes",
+
+    connectionText:
+      "Marcus Reyes",
+
+    whyItMatters:
+      "The message confirms that Marcus had arranged activity aboard the yacht after normal crew movement had stopped. It does not reveal who he intended to meet."
+  },
+
+  {
+    id: "cabin-ah-02-room-service-tray",
+    x: 12,
+    y: 82,
+    isReal: true,
+
+    clueText:
+      "A room-service tray remains near the cabin entrance. The meal was delivered but barely touched.",
+
+    pointsToSuspectId: null,
+
+    connectionText:
+      "Points to no one specific",
+
+    whyItMatters:
+      "Someone expected to remain in the cabin during the night but appears to have left soon after the delivery. It helps reconstruct movement during the period when the hidden operation was underway."
+  },
+
+  {
+    id: "cabin-ah-03-elena-suitcase",
+    x: 43,
+    y: 79,
+    isReal: true,
+
+    clueText:
+      "An open suitcase contains clothing and medical supplies belonging to Dr. Elena Voss. Nothing suggests a hurried attempt to conceal or abandon them.",
+
+    pointsToSuspectId: "elena-voss",
+
+    connectionText:
+      "Dr. Elena Voss",
+
+    whyItMatters:
+      "Elena's belongings support her account that she was preparing medical supplies rather than secretly preparing to leave the vessel."
+  },
+
+  {
+    id: "cabin-ah-04-priya-papers",
+    x: 68,
+    y: 30,
+    isReal: true,
+
+    clueText:
+      "Financial papers and personal notes belonging to Priya Kapoor remain spread across the desk beside an unfinished glass of wine.",
+
+    pointsToSuspectId: "priya-kapoor",
+
+    connectionText:
+      "Priya Kapoor",
+
+    whyItMatters:
+      "The documents support Priya's claim that she spent part of the emergency trying to recover business information. Her financial problems remain relevant, but the cabin evidence does not place her in the restricted service network."
+  },
+
+  {
+    id: "cabin-ah-05-marcus-jacket",
+    x: 58,
+    y: 34,
+    isReal: true,
+
+    clueText:
+      "A First Mate's uniform jacket remains draped over the chair, where it appears to have been left earlier in the night.",
+
+    pointsToSuspectId: "marcus-reyes",
+
+    connectionText:
+      "Marcus Reyes",
+
+    whyItMatters:
+      "Marcus had been using the guest-cabin area during the sabotage. Combined with the late-night note, it reinforces that he was operating outside his normal quarters and meeting someone in secret."
+  },
+
+  {
+    id: "cabin-ah-06-ingrid-belongings",
+    x: 88,
+    y: 55,
+    isReal: true,
+
+    clueText:
+      "Personal belongings associated with Ingrid Sorensen remain arranged on the dresser. Nothing appears hastily packed or removed.",
+
+    pointsToSuspectId: "ingrid-sorensen",
+
+    connectionText:
+      "Ingrid Sorensen",
+
+    whyItMatters:
+      "The scene is inconsistent with someone secretly preparing an escape or maintaining a hidden living space aboard the yacht. It weakens the theory that Ingrid was the concealed occupant."
+  }
+]
   },
   {
     id: "galley",
