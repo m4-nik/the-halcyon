@@ -27,6 +27,7 @@ const state = {
   timerRemaining: TIMER_CONFIG.durationSeconds,
   revealedUnknownSuspect: false,
   ve22Entered: false,
+  caseSolved: false,
 };
 
 let timerInterval = null;
@@ -170,6 +171,27 @@ function goToRoom(roomId) {
 }
 
 // --- Hotspot click handling -----------------------------------------------
+function checkConclusionAvailability() {
+  const requiredIds = [
+    "lower-01-captain-body",
+    "lower-03-marcus-axe-wound",
+    "lower-04-empty-fire-axe-station",
+    "lower-05-shell-casing",
+    "lower-07-service-panel-exit",
+    "ve22-03-service-jacket"
+  ];
+
+  const allFound = requiredIds.every(id => state.foundHotspotIds.has(id));
+
+  if (allFound) {
+    const btn = document.getElementById("btn-conclude");
+    if (btn && btn.style.display === "none") {
+      setObjective("Reach a final conclusion.");
+      btn.style.display = "inline-block";
+    }
+  }
+}
+
 function handleHotspotClick(room, hotspot) {
   retryAmbientIfStalled();
 
@@ -212,6 +234,8 @@ function handleHotspotClick(room, hotspot) {
       setObjective("Trace the hidden service route.");
     }
   }
+
+  checkConclusionAvailability();
 
   goToRoom(state.currentRoomId);
 }
@@ -596,6 +620,38 @@ function showUnlockToast() {
     }, 400);
   }, 2500);
 }
+
+// --- Deduction System --------------------------------------------------
+document.getElementById("btn-conclude")?.addEventListener("click", () => {
+  retryAmbientIfStalled();
+  document.getElementById("deduction-error").style.display = "none";
+  document.getElementById("deduction-modal").classList.add("open");
+});
+
+document.getElementById("deduction-modal-close")?.addEventListener("click", () => {
+  retryAmbientIfStalled();
+  document.getElementById("deduction-modal").classList.remove("open");
+});
+
+document.getElementById("deduction-submit")?.addEventListener("click", () => {
+  retryAmbientIfStalled();
+  const q1 = document.getElementById("deduction-q1").value;
+  const q2 = document.getElementById("deduction-q2").value;
+  const q3 = document.getElementById("deduction-q3").value;
+
+  if (q1 === "marcus" && q2 === "unknown" && q3 === "correct") {
+    // Success
+    clearInterval(timerInterval);
+    gameOverTriggered = true;
+    state.caseSolved = true;
+
+    document.getElementById("deduction-modal").classList.remove("open");
+    document.getElementById("success-modal").classList.add("open");
+  } else {
+    // Failure - keep modal open and show error
+    document.getElementById("deduction-error").style.display = "block";
+  }
+});
 
 // Boot
 initGame();

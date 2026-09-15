@@ -35,6 +35,7 @@
       </div>
 
       <div id="top-bar-actions">
+        <button id="btn-conclude" class="btn-danger" style="display: none;">Conclude Case</button>
         <button id="btn-case-log" class="btn-secondary">Case Log</button>
         <button id="btn-suspects" class="btn-secondary">Suspects</button>
         <button id="btn-evidence" class="btn-secondary">Evidence</button>
@@ -132,6 +133,106 @@
         <p class="access-denied-text">Whatever was set in motion aboard The Halcyon has been completed.<br><br>The
           investigation has failed.</p>
         <button id="failure-modal-retry" class="btn-primary modal-continue">RETRY AFTER HOURS</button>
+      </div>
+    </div>
+
+    <!-- Deduction Modal -->
+    <div id="deduction-modal" class="modal">
+      <div class="modal-content">
+        <button id="deduction-modal-close" class="modal-close" aria-label="Close">&times;</button>
+        <h2 class="access-denied-title" style="color: var(--color-gold-bright); margin-bottom: 1.5rem;">CONCLUDE CASE
+        </h2>
+
+        <div style="margin-bottom: 1rem;">
+          <label
+            style="display: block; color: var(--color-cyan); font-family: var(--font-typewriter); margin-bottom: 0.5rem; font-size: 0.9rem;">1.
+            WHO SHOT THE CAPTAIN?</label>
+          <select id="deduction-q1"
+            style="width: 100%; padding: 0.5rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); font-family: var(--font-typewriter); margin-bottom: 1rem;">
+            <option value="">Select suspect...</option>
+            <option value="marcus">Marcus Reyes</option>
+            <option value="priya">Priya Kapoor</option>
+            <option value="tomas">Tomas Bell</option>
+            <option value="elena">Elena Voss</option>
+            <option value="ingrid">Ingrid Sorensen</option>
+            <option value="unknown">The Unknown Occupant</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label
+            style="display: block; color: var(--color-cyan); font-family: var(--font-typewriter); margin-bottom: 0.5rem; font-size: 0.9rem;">2.
+            WHO KILLED MARCUS?</label>
+          <select id="deduction-q2"
+            style="width: 100%; padding: 0.5rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); font-family: var(--font-typewriter); margin-bottom: 1rem;">
+            <option value="">Select suspect...</option>
+            <option value="priya">Priya Kapoor</option>
+            <option value="tomas">Tomas Bell</option>
+            <option value="elena">Elena Voss</option>
+            <option value="ingrid">Ingrid Sorensen</option>
+            <option value="unknown">The Unknown Occupant</option>
+            <option value="captain">The Captain</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label
+            style="display: block; color: var(--color-cyan); font-family: var(--font-typewriter); margin-bottom: 0.5rem; font-size: 0.9rem;">3.
+            WHAT DOES THE EVIDENCE PROVE?</label>
+          <select id="deduction-q3"
+            style="width: 100%; padding: 0.5rem; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); font-family: var(--font-typewriter); margin-bottom: 1rem;">
+            <option value="">Select conclusion...</option>
+            <option value="wrong1">Marcus acted entirely alone to sabotage the ship.</option>
+            <option value="correct">A hidden sixth person was aboard and used the restricted service network.</option>
+            <option value="wrong2">The crew organized a mutiny over working conditions.</option>
+            <option value="wrong3">The guests conspired to steal the yacht.</option>
+          </select>
+        </div>
+
+        <div id="deduction-error"
+          style="display: none; color: var(--color-danger); font-family: var(--font-typewriter); font-size: 0.9rem; margin-bottom: 1.5rem; text-align: center;">
+          CONCLUSION INCOMPLETE<br><br>The evidence does not fully support this reconstruction.
+        </div>
+
+        <button id="deduction-submit" class="btn-primary modal-continue" style="width: 100%;">SUBMIT FINDINGS</button>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal failure-overlay">
+      <div class="modal-content"
+        style="border-top: 2px solid var(--color-cyan); text-align: left; padding: 3rem 2.5rem;">
+        <p class="modal-eyebrow" style="color: var(--color-cyan); margin-bottom: 1rem;">
+          <svg class="modal-eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 12l2 2 4-4" />
+          </svg>
+          CASE CONCLUSION
+        </p>
+
+        <div
+          style="font-family: var(--font-typewriter); color: var(--color-text); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">
+          <p style="margin-bottom: 1rem;">Marcus Reyes sabotaged The Halcyon and shot the Captain when the deeper
+            operation was discovered.</p>
+          <p style="margin-bottom: 1rem;">But Marcus was not the final threat.</p>
+          <p style="margin-bottom: 1rem;">Someone else had been living aboard in VE-22, moving through service routes
+            hidden from normal passenger and crew access.</p>
+          <p style="margin-bottom: 1rem;">After the Captain was shot, that unknown occupant killed Marcus with the
+            missing fire axe and disappeared through the restricted service network.</p>
+          <p style="margin-bottom: 1rem;">The sabotage was only one part of a larger operation.</p>
+          <p style="margin-top: 2rem; color: var(--color-cyan); font-weight: bold; letter-spacing: 0.1em;">IDENTITY:
+            UNKNOWN</p>
+        </div>
+
+        <div
+          style="text-align: center; border-top: 1px solid var(--color-border); padding-top: 2rem; margin-top: 2rem;">
+          <h2 style="color: var(--color-gold-bright); letter-spacing: 0.2em; font-size: 1.2rem; margin: 0;">HALCYON:
+            AFTER HOURS</h2>
+          <p
+            style="font-family: var(--font-typewriter); color: var(--color-cyan-dim); margin-top: 0.5rem; letter-spacing: 0.2em;">
+            CASE CLOSED</p>
+        </div>
       </div>
     </div>
   </section>
