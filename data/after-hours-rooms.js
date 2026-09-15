@@ -1078,7 +1078,7 @@ export const ROOMS = [
         isReal: true,
 
         clueText:
-          "A service jacket hangs beside the bunk. Its badge holder is still attached, but the identification card has been deliberately removed.",
+          "A Halcyon service jacket hangs beside the makeshift living area. Its identification badge has been deliberately removed, but the jacket shows signs of repeated use.",
 
         pointsToSuspectId: null,
 
@@ -1086,7 +1086,7 @@ export const ROOMS = [
           "Unknown occupant",
 
         whyItMatters:
-          "The occupant may have boarded the yacht disguised as legitimate service personnel. Removing the identification suggests that remaining anonymous was intentional."
+          "VE-22 was not simply an unused service compartment. Someone outside the known passenger and crew record had been living aboard and moving through the ship's restricted service areas."
       },
 
       {

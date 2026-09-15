@@ -26,6 +26,7 @@ const state = {
   foundHotspotIds: new Set(),
   timerRemaining: TIMER_CONFIG.durationSeconds,
   revealedUnknownSuspect: false,
+  ve22Entered: false,
 };
 
 let timerInterval = null;
@@ -111,6 +112,11 @@ function updateTimerDisplay(el, seconds) {
   el.textContent = `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
 }
 
+function setObjective(text) {
+  const el = document.getElementById("objective-text");
+  if (el) el.textContent = text;
+}
+
 // --- Room navigation -----------------------------------------------------
 function renderRoomNav() {
   const nav = document.getElementById("room-nav");
@@ -144,6 +150,13 @@ function renderRoomNav() {
 function goToRoom(roomId) {
   state.currentRoomId = roomId;
   const room = ROOMS.find((r) => r.id === roomId);
+
+  if (roomId === "ve-22" && !state.ve22Entered) {
+    state.ve22Entered = true;
+    if (!state.revealedUnknownSuspect) {
+      setObjective("Investigate VE-22.");
+    }
+  }
 
   document.querySelectorAll(".room-nav-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.roomId === roomId);
@@ -185,6 +198,7 @@ function handleHotspotClick(room, hotspot) {
 
   if (hotspot.id === "ve22-03-service-jacket") {
     state.revealedUnknownSuspect = true;
+    setObjective("Identify who else was aboard.");
   }
 
   // Unlock VE-22 only after first discovering the blueprint
@@ -195,6 +209,7 @@ function handleHotspotClick(room, hotspot) {
       ve22.isHidden = false;
       renderRoomNav();
       showUnlockToast();
+      setObjective("Trace the hidden service route.");
     }
   }
 
@@ -336,6 +351,7 @@ function handlePasscodeSubmit() {
     if (lowerDecksRoom) lowerDecksRoom.isLocked = false;
     renderRoomNav();
     closeAccessDeniedModal();
+    setObjective("Examine the scene in the Lower Decks.");
     goToRoom("lower-decks");
   } else {
     if (errorMsg) errorMsg.style.display = "block";
