@@ -335,3 +335,52 @@ body {
   pointer-events: auto !important; /* Catch all clicks */
   background: rgba(0, 0, 0, 0.95); /* Deepen the blackout */
 }
+
+/* ===== AFTER HOURS: INTRO OVERLAY ===== */
+.after-hours-intro {
+  position: fixed;
+  inset: 0;
+  background-color: #000;
+  z-index: 9999999;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 2s ease, visibility 2s ease;
+}
+
+.after-hours-intro.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.after-hours-title {
+  text-align: center;
+  opacity: 0;
+  transition: opacity 3s ease;
+}
+
+.after-hours-intro.active.show-title .after-hours-title {
+  opacity: 1;
+}
+
+.after-hours-title-main {
+  font-family: var(--font-heading, 'Cinzel', serif);
+  color: var(--color-gold, #b3945a);
+  font-size: 4rem;
+  letter-spacing: 0.3em;
+  margin-right: -0.3em; /* Offset for center alignment with tracking */
+  line-height: 1;
+}
+
+.after-hours-title-sub {
+  font-family: var(--font-heading, 'Cinzel', serif);
+  color: var(--color-cyan, #4dc3e5);
+  font-size: 1.5rem;
+  letter-spacing: 0.6em;
+  margin-right: -0.6em; /* Offset for center alignment with tracking */
+  margin-top: 1rem;
+}
