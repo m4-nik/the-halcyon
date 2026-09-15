@@ -87,10 +87,31 @@ function initTimer() {
     }, 1000);
   };
 
+  const handleIntroComplete = () => {
+    const introEl = document.getElementById("after-hours-intro");
+    if (!introEl) {
+      startCountdown();
+      return;
+    }
+
+    introEl.classList.add("show-title");
+
+    setTimeout(() => {
+      introEl.addEventListener("transitionend", function onEnd(e) {
+        if (e.propertyName === "opacity") {
+          introEl.removeEventListener("transitionend", onEnd);
+          introEl.classList.remove("show-title");
+          startCountdown();
+        }
+      });
+      introEl.classList.remove("active");
+    }, 2500);
+  };
+
   if (captainEmergencyAudio.ended) {
-    startCountdown();
+    handleIntroComplete();
   } else {
-    captainEmergencyAudio.addEventListener("ended", startCountdown, { once: true });
+    captainEmergencyAudio.addEventListener("ended", handleIntroComplete, { once: true });
   }
 }
 
