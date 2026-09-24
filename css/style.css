@@ -370,6 +370,33 @@ button {
   margin-bottom: 1.5rem;
 }
 
+/* The puzzle: the case file code isn't handed over, it has to be worked
+   out from this note. Styled like a typed slip of paper. */
+.gate-note {
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1rem;
+  background: rgba(212, 175, 106, 0.06);
+  border: 1px dashed var(--color-gold-dim);
+  border-radius: 4px;
+}
+.gate-note-label {
+  display: block;
+  font-family: var(--font-typewriter);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-gold-dim);
+  margin-bottom: 0.45rem;
+}
+.gate-note-text {
+  display: block;
+  font-family: var(--font-typewriter);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  color: var(--color-gold-bright);
+}
+
 #gate-input {
   width: 100%;
   padding: 0.85rem;
